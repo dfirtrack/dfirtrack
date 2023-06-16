@@ -11,9 +11,10 @@
 <meta charset="utf-8" />
 
 {% load static %}
+{% load dfirtrack_main_tags %}
 
 <!-- bootstrap CSS -->
-<link rel="stylesheet" href="{% static 'dfirtrack_main/bootstrap-5.0.1/css/bootstrap.min.css' %}" type = "text/css"/>
+<link rel="stylesheet" href="{% get_static_prefix %}dfirtrack_main/{% dep_bootstrap_version %}/css/bootstrap.min.css" type = "text/css"/>
 
 <meta name="viewport" content = "width=device-width, initial-scale=1.0">
 
@@ -48,8 +49,8 @@
 </div>
 
 <!-- bootstrap relevant javascript -->
-<script src="{% static 'dfirtrack_main/jquery-3.5.1/jquery-3.5.1.min.js' %}"></script>
-<script src="{% static 'dfirtrack_main/bootstrap-5.0.1/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_jquery_version %}/{% dep_jquery_version %}.min.js"></script>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_bootstrap_version %}/js/bootstrap.bundle.min.js"></script>
 
 <!-- HTML body -->
 </body>

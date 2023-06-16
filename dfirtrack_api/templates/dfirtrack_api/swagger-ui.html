@@ -2,14 +2,15 @@
 <html>
   <head>
     {% load static %}
+    {% load dfirtrack_main_tags %}
     <title>DFIRTrack API - Documentation</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_api/swagger-ui-3.51.0/swagger-ui.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}dfirtrack_api/{% dep_swagger_ui_version %}/swagger-ui.css" />
   </head>
   <body>
     <div id="swagger-ui"></div>
-    <script src="{% static 'dfirtrack_api/swagger-ui-3.51.0/swagger-ui-bundle.js' %}"></script>
+    <script src="{% get_static_prefix %}dfirtrack_api/{% dep_swagger_ui_version %}/swagger-ui-bundle.js"></script>
     <script>
     const ui = SwaggerUIBundle({
         url: "{% url schema_url %}",

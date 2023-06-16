@@ -8,7 +8,6 @@ class IpModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Ip.objects.create(ip_ip='127.0.0.1')
 

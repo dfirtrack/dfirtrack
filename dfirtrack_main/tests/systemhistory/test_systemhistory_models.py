@@ -10,7 +10,6 @@ class SystemhistoryModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_systemhistory', password='J8yfJRg6ydiEb5dXVHVZ'
@@ -148,7 +147,7 @@ class SystemhistoryModelTestCase(TestCase):
         # get max length
         max_length = systemhistory_1._meta.get_field('systemhistory_type').max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)
 
     def test_systemhistory_old_value_length(self):
         """test for max length"""
@@ -164,7 +163,7 @@ class SystemhistoryModelTestCase(TestCase):
             'systemhistory_old_value'
         ).max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)
 
     def test_systemhistory_new_value_length(self):
         """test for max length"""
@@ -180,4 +179,4 @@ class SystemhistoryModelTestCase(TestCase):
             'systemhistory_new_value'
         ).max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)

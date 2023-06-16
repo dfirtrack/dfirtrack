@@ -44,7 +44,6 @@ def insert_default_config(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_config', '0018_add_defaults'),
     ]

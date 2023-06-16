@@ -29,10 +29,15 @@ class SystemFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_system', password='zU7LnCr4vW9C8HwQ9gGl'
+        )
+        User.objects.create_user(
+            username='testuser_system_fullname',
+            password='zU7LnCr4vW9C8HwQ9gGl',
+            first_name='Testuser',
+            last_name='System',
         )
 
         # create object
@@ -337,6 +342,45 @@ class SystemFormTestCase(TestCase):
         form = SystemForm()
         # compare
         self.assertEqual(form.fields['case'].label, 'Cases')
+
+    def test_system_assigned_to_user_id_form_label(self):
+        """test form label"""
+
+        # get object
+        form = SystemForm()
+        # compare
+        self.assertEqual(
+            form.fields['system_assigned_to_user_id'].label, 'Assigned to user'
+        )
+
+    def test_system_assigned_to_user_id_form_empty_label(self):
+        """test form label"""
+
+        # get object
+        form = SystemForm()
+        # compare
+        self.assertEqual(
+            form.fields['system_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
+        )
+
+    def test_system_assigned_to_user_id_form_first_value(self):
+        """test form value"""
+
+        # get users
+        test_user = User.objects.get(username='testuser_system')
+        test_user_fullname = User.objects.get(username='testuser_system_fullname')
+
+        # get object
+        form = SystemForm()
+        # compare
+        # form.fields['system_assigned_to_user_id'].choices.queryset.first()
+        queryset = form.fields['system_assigned_to_user_id']._get_queryset()
+        self.assertEqual(str(queryset.first()), test_user.get_username())
+        self.assertEqual(
+            str(queryset.last()),
+            f'{test_user_fullname.get_full_name()} ({test_user_fullname.get_username()})',
+        )
 
     def test_system_form_empty(self):
         """test minimum form requirements / INVALID"""
@@ -768,7 +812,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemForm(
             data={
-                'system_name': 'n' * 50,
+                'system_name': 'n' * 255,
                 'systemstatus': systemstatus_id,
             }
         )
@@ -785,7 +829,7 @@ class SystemFormTestCase(TestCase):
         # get object
         form = SystemNameForm(
             data={
-                'system_name': 'n' * 51,
+                'system_name': 'n' * 256,
                 'systemstatus': systemstatus_id,
             }
         )

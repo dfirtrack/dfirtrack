@@ -9,7 +9,6 @@ class OsimportnameFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Os.objects.create(os_name='os_1')
 
@@ -91,7 +90,7 @@ class OsimportnameFormTestCase(TestCase):
         # get object
         form = OsimportnameForm(
             data={
-                'osimportname_name': 'o' * 30,
+                'osimportname_name': 'o' * 255,
                 'osimportname_importer': 'osimportname_importer_1',
                 'os': os_id,
             }
@@ -107,7 +106,7 @@ class OsimportnameFormTestCase(TestCase):
         # get object
         form = OsimportnameForm(
             data={
-                'osimportname_name': 'o' * 31,
+                'osimportname_name': 'o' * 256,
                 'osimportname_importer': 'osimportname_importer_1',
                 'os': os_id,
             }
@@ -124,7 +123,7 @@ class OsimportnameFormTestCase(TestCase):
         form = OsimportnameForm(
             data={
                 'osimportname_name': 'osimportname_1',
-                'osimportname_importer': 'o' * 30,
+                'osimportname_importer': 'o' * 255,
                 'os': os_id,
             }
         )
@@ -140,7 +139,7 @@ class OsimportnameFormTestCase(TestCase):
         form = OsimportnameForm(
             data={
                 'osimportname_name': 'osimportname_1',
-                'osimportname_importer': 'o' * 31,
+                'osimportname_importer': 'o' * 256,
                 'os': os_id,
             }
         )

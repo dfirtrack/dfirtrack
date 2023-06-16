@@ -19,7 +19,6 @@ class WorkflowViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create objects
         test_user = User.objects.create_user(
             username='testuser_workflow', password='QVe1EH1Z5MshOW2GHS4b'

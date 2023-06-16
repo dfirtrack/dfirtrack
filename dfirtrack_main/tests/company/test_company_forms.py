@@ -9,7 +9,6 @@ class CompanyFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Division.objects.create(division_name='division_1')
 
@@ -91,7 +90,7 @@ class CompanyFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = CompanyForm(data={'company_name': 'c' * 50})
+        form = CompanyForm(data={'company_name': 'c' * 255})
         # compare
         self.assertTrue(form.is_valid())
 
@@ -99,6 +98,6 @@ class CompanyFormTestCase(TestCase):
         """test for max length"""
 
         # get object
-        form = CompanyForm(data={'company_name': 'c' * 51})
+        form = CompanyForm(data={'company_name': 'c' * 256})
         # compare
         self.assertFalse(form.is_valid())

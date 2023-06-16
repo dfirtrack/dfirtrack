@@ -8,7 +8,6 @@ class RecommendationModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Recommendation.objects.create(recommendation_name='recommendation_1')
 
@@ -72,4 +71,4 @@ class RecommendationModelTestCase(TestCase):
         # get max length
         max_length = recommendation_1._meta.get_field('recommendation_name').max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)

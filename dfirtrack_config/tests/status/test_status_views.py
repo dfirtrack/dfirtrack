@@ -32,7 +32,6 @@ class StatusViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE'
@@ -145,7 +144,6 @@ class StatusViewTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # create empty object (for simple testing get request for empty detail view this should be sufficient)
             Statushistory.objects.create()
 

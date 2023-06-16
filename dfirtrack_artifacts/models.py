@@ -30,6 +30,7 @@ class Artifact(models.Model):
         'Artifactstatus', on_delete=models.PROTECT, default=1
     )
     artifacttype = models.ForeignKey('Artifacttype', on_delete=models.PROTECT)
+
     case = models.ForeignKey(
         'dfirtrack_main.Case',
         related_name='artifact_case',
@@ -47,21 +48,33 @@ class Artifact(models.Model):
     )
 
     # main entity information
-    artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
-    artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
     artifact_name = models.CharField(max_length=4096)
+
     artifact_note_analysisresult = models.TextField(blank=True, null=True)
     artifact_note_external = models.TextField(blank=True, null=True)
     artifact_note_internal = models.TextField(blank=True, null=True)
-    artifact_requested_time = models.DateTimeField(blank=True, null=True)
+
+    artifact_md5 = models.CharField(max_length=32, blank=True, null=True)
     artifact_sha1 = models.CharField(max_length=40, blank=True, null=True)
     artifact_sha256 = models.CharField(max_length=64, blank=True, null=True)
-    artifact_slug = models.CharField(max_length=4096)
+
     artifact_source_path = models.CharField(max_length=4096, blank=True, null=True)
     artifact_storage_path = models.CharField(max_length=4096, unique=True)
+
+    artifact_acquisition_time = models.DateTimeField(blank=True, null=True)
+    artifact_requested_time = models.DateTimeField(blank=True, null=True)
+
+    artifact_slug = models.CharField(max_length=4096)
     artifact_uuid = models.UUIDField(editable=False)
 
     # meta information
+    artifact_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='artifact_assigned_to',
+    )
     artifact_create_time = models.DateTimeField(auto_now_add=True)
     artifact_modify_time = models.DateTimeField(auto_now=True)
     artifact_created_by_user_id = models.ForeignKey(
@@ -81,7 +94,6 @@ class Artifact(models.Model):
 
     # define logger
     def logger(artifact, request_user, log_text):  # coverage: ignore branch
-
         if artifact.artifact_requested_time != None:
             # cast datetime object to string
             requestedtime = artifact.artifact_requested_time.strftime(
@@ -156,10 +168,11 @@ class Artifact(models.Model):
             + str(artifact.artifact_storage_path)
             + "|artifact_uuid:"
             + str(artifact.artifact_uuid)
+            + "|artifact_assigned_to_user_id:"
+            + str(artifact.artifact_assigned_to_user_id)
         )
 
     def save(self, *args, **kwargs):
-
         # generate slug
         self.artifact_slug = slugify(self.artifact_name)
 
@@ -288,6 +301,12 @@ class Artifact(models.Model):
             # throw warning if there are any matches
             if artifacts:
                 messages.warning(request, 'SHA256 already exists for other artifact(s)')
+
+    def get_set_user_url(self):
+        return reverse('artifact_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('artifact_unset_user', args=(self.pk,))
 
 
 class Artifactpriority(models.Model):

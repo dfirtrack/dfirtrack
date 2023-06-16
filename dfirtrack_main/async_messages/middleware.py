@@ -5,7 +5,6 @@ from dfirtrack_main.async_messages import get_messages
 
 def async_messages_middleware(get_response):
     def middleware(request):
-
         """add code here to be executed for each request before the view (and later middleware) are called"""
 
         # call the view
@@ -19,7 +18,6 @@ def async_messages_middleware(get_response):
             and hasattr(request, 'user')
             and request.user.is_authenticated
         ):
-
             # get messages from cache
             msgs = get_messages(request.user)
 

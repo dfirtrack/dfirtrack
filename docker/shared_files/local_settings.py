@@ -9,6 +9,8 @@ import os
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+SESSION_COOKIE_SECURE = True
+
 ALLOWED_HOSTS = [os.getenv('FQDN'), 'localhost']
 
 DATABASES = {

@@ -32,7 +32,6 @@ class SystemAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_system_api', password='Pqtg7fic7FfB2ESEwaPc'
@@ -214,6 +213,7 @@ class SystemAPIViewTestCase(TestCase):
             "system_is_vm": True,
             "system_created_by_user_id": test_user_id,
             "system_modified_by_user_id": test_user_id,
+            "system_assigned_to_user_id": test_user_id,
             "system_export_markdown": False,
             "system_export_spreadsheet": False,
         }
@@ -455,6 +455,7 @@ class SystemAPIViewTestCase(TestCase):
             "system_is_vm": True,
             "system_created_by_user_id": test_user_id,
             "system_modified_by_user_id": test_user_id,
+            "system_assigned_to_user_id": test_user_id,
             "system_export_markdown": False,
             "system_export_spreadsheet": False,
         }

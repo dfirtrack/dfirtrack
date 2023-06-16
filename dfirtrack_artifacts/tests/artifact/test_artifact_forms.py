@@ -12,7 +12,6 @@ class ArtifactFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_artifact', password='zpdfNMmo3vYrkHrrL6EU'
@@ -163,6 +162,27 @@ class ArtifactFormTestCase(TestCase):
         form = ArtifactForm()
         # compare
         self.assertEqual(form.fields['artifact_note_internal'].label, 'Internal note')
+
+    def test_artifact_assigned_to_user_id_form_label(self):
+        """test form label"""
+
+        # get object
+        form = ArtifactForm()
+        # compare
+        self.assertEqual(
+            form.fields['artifact_assigned_to_user_id'].label, 'Assigned to user'
+        )
+
+    def test_artifact_assigned_to_user_id_form_empty_label(self):
+        """test form label"""
+
+        # get object
+        form = ArtifactForm()
+        # compare
+        self.assertEqual(
+            form.fields['artifact_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
+        )
 
     def test_artifact_form_empty(self):
         """test minimum form requirements / INVALID"""

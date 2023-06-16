@@ -1,5 +1,5 @@
 coverage
-django==3.2.13
+django
 django_q
 djangorestframework
 gitpython

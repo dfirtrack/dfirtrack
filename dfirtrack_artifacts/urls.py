@@ -18,18 +18,23 @@ urlpatterns = (
     ),
     path(
         r'artifact/closed/',
-        artifact_view.ArtifactClosedView.as_view(),
+        artifact_view.ArtifactListView.as_view(),
         name='artifacts_artifact_closed',
     ),
     path(
         r'artifact/all/',
-        artifact_view.ArtifactAllView.as_view(),
+        artifact_view.ArtifactListView.as_view(),
         name='artifacts_artifact_all',
     ),
     path(
         r'artifact/create/',
         artifact_view.ArtifactCreateView.as_view(),
         name='artifacts_artifact_create',
+    ),
+    path(
+        r'artifact/clear_filter/',
+        artifact_view.clear_artifact_list_filter,
+        name='clear_artifact_list_filter',
     ),
     path(
         r'artifact/detail/<int:pk>/',
@@ -40,6 +45,16 @@ urlpatterns = (
         r'artifact/update/<int:pk>/',
         artifact_view.ArtifactUpdateView.as_view(),
         name='artifacts_artifact_update',
+    ),
+    path(
+        r'artifact/<int:pk>/set_user/',
+        artifact_view.ArtifactSetUser.as_view(),
+        name='artifact_set_user',
+    ),
+    path(
+        r'artifact/<int:pk>/unset_user/',
+        artifact_view.ArtifactUnsetUser.as_view(),
+        name='artifact_unset_user',
     ),
     path(
         r'artifact/creator/', artifact_creator.artifact_creator, name='artifact_creator'

@@ -324,7 +324,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2021, 3, 6, 17, 28, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -442,7 +441,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_2 = datetime(2021, 3, 6, 17, 55, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -565,7 +563,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_3 = datetime(2021, 3, 6, 18, 7, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_3):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -688,7 +685,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_5 = datetime(2021, 3, 7, 21, 12, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_5):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -817,7 +813,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_6 = datetime(2021, 3, 7, 21, 17, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_6):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -946,7 +941,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_7 = datetime(2021, 3, 21, 19, 35, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_7):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -1075,7 +1069,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_8 = datetime(2021, 3, 21, 19, 40, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_8):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -1204,7 +1197,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_9 = datetime(2021, 3, 21, 19, 45, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_9):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -1333,7 +1325,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_10 = datetime(2021, 3, 22, 18, 35, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_10):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -1462,7 +1453,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_8 = datetime(2021, 3, 22, 18, 40, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_8):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -1591,7 +1581,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_9 = datetime(2021, 3, 22, 18, 45, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_9):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -1720,7 +1709,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_10 = datetime(2021, 3, 22, 19, 10, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_10):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -1849,7 +1837,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_8 = datetime(2021, 3, 22, 19, 15, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_8):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -1978,7 +1965,6 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         # mock timezone.now()
         t_9 = datetime(2021, 3, 22, 19, 20, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_9):
-
             # execute cron job / scheduled task
             system_cron()
 

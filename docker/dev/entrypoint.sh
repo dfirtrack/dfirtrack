@@ -6,7 +6,7 @@ export PGPASSWORD=${DB_PASSWORD:-'dfirtrack'}
 export PGHOST=${DB_HOST:-'db'}
 export PGUSER=${DB_USER:-'dfirtrack'}
 export PGNAME=${DB_NAME:-'dfirtrack'}
-export DISABLE_HTTPS=${DISABLE_HTTPS:-'true'}
+export DISABLE_HTTPS=${DISABLE_HTTPS:-'false'}
 
 # wait for psql docker container to come up
 until psql -h $PGHOST -U $PGUSER -d $PGNAME -c '\q'
@@ -23,7 +23,6 @@ fi
 
 # we copy the files that were modified during the docker build process to the "dynamic" directory
 cp /dfirtrack-static/dfirtrack/local_settings.py /dfirtrack/dfirtrack/local_settings.py
-cp /dfirtrack-static/dfirtrack/settings.py /dfirtrack/dfirtrack/settings.py
 cp -r /dfirtrack-static/markdown/ /dfirtrack/markdown/
 
 service nginx start

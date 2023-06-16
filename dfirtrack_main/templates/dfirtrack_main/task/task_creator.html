@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <!-- taskstatus / taskpriority / user headline -->
+        <!-- taskstatus / taskpriority headline -->
         <div class="row">
 
             <!-- taskstatus headline -->
@@ -130,18 +130,10 @@
                 </div>
             </div>
 
-            <!-- user headline -->
-            <div class="col-3">
-                <div class="font-weight-bold">
-                    <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                    {{ form.task_assigned_to_user_id.label }}
-                </div>
-            </div>
-
-        <!-- taskstatus / taskpriority / user headline -->
+        <!-- taskstatus / taskpriority headline -->
         </div>
 
-        <!-- taskstatus / taskpriority / user -->
+        <!-- taskstatus / taskpriority -->
         <div class="row">
 
             <!-- taskstatus -->
@@ -170,6 +162,26 @@
                 </div>
             </div>
 
+        <!-- taskstatus / taskpriority -->
+        </div>
+
+        <!-- user headline -->
+        <div class="row top-distance">
+
+            <!-- user headline -->
+            <div class="col-3">
+                <div class="font-weight-bold">
+                    <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                    {{ form.task_assigned_to_user_id.label }}
+                </div>
+            </div>
+
+        <!-- user headline -->
+        </div>
+
+        <!-- user -->
+        <div class="row">
+
             <!-- user -->
             <div class="col-3">
                 <div class="card card-body bg-dark border-light top-distance">
@@ -180,7 +192,7 @@
                 </div>
             </div>
 
-        <!-- taskstatus / taskpriority / user -->
+        <!-- user -->
         </div>
 
         <!-- system headline -->

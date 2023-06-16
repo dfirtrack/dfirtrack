@@ -11,7 +11,6 @@ class CasepriorityViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Casepriority.objects.create(casepriority_name='casepriority_1')
         # create user

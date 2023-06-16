@@ -8,7 +8,6 @@ class OsimportnameModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         os_1 = Os.objects.create(os_name='os_1')
         # create object
@@ -78,7 +77,7 @@ class OsimportnameModelTestCase(TestCase):
         # get max length
         max_length = osimportname_1._meta.get_field('osimportname_name').max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)
 
     def test_osimportname_importer_length(self):
         """test for max length"""
@@ -90,4 +89,4 @@ class OsimportnameModelTestCase(TestCase):
         # get max length
         max_length = osimportname_1._meta.get_field('osimportname_importer').max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)

@@ -20,7 +20,6 @@ class ReportitemAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_reportitem_api', password='8tFw47zfEbIdrAtyrOGg'
@@ -180,6 +179,7 @@ class ReportitemAPIViewTestCase(TestCase):
             ],
             "reportitem_created_by_user_id": test_user_id,
             "reportitem_modified_by_user_id": test_user_id,
+            "reportitem_assigned_to_user_id": test_user_id,
         }
         # check for existence of object
         reportitem_api_3_none = Reportitem.objects.filter(
@@ -370,6 +370,7 @@ class ReportitemAPIViewTestCase(TestCase):
             ],
             "reportitem_created_by_user_id": test_user_id,
             "reportitem_modified_by_user_id": test_user_id,
+            "reportitem_assigned_to_user_id": test_user_id,
         }
         # get response
         response = self.client.put(

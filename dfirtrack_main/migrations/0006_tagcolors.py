@@ -18,7 +18,6 @@ def insert_tagcolors(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_main', '0005_added_tag_note_and_user'),
     ]

@@ -2,9 +2,10 @@ import os
 
 from django import forms
 from django.contrib.auth.models import User
+from django.forms.models import ModelMultipleChoiceField
 from django.utils.translation import gettext_lazy
 
-from dfirtrack_artifacts.models import Artifactstatus
+from dfirtrack_artifacts.models import Artifactpriority, Artifactstatus
 from dfirtrack_config.models import (
     ArtifactExporterSpreadsheetXlsConfigModel,
     MainConfigModel,
@@ -31,14 +32,23 @@ from dfirtrack_main.models import (
     Systemstatus,
     Systemtype,
     Tag,
+    Taskpriority,
+    Taskstatus,
 )
 
 
 class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """artifact exporter spreadsheet xls config form"""
 
-    class Meta:
+    # reorder field choices
+    artifactlist_xls_choice_artifactstatus = forms.ModelMultipleChoiceField(
+        queryset=Artifactstatus.objects.order_by('artifactstatus_name'),
+        label='Export only artifacts with this artifactstatus',
+        required=True,
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
+    class Meta:
         # model
         model = ArtifactExporterSpreadsheetXlsConfigModel
 
@@ -46,49 +56,56 @@ class ArtifactExporterSpreadsheetXlsConfigForm(forms.ModelForm):
         fields = (
             'artifactlist_xls_choice_artifactstatus',
             'artifactlist_xls_artifact_id',
+            'artifactlist_xls_artifactpriority',
+            'artifactlist_xls_artifactstatus',
+            'artifactlist_xls_artifacttype',
+            'artifactlist_xls_case_id',
+            'artifactlist_xls_case_name',
             'artifactlist_xls_system_id',
             'artifactlist_xls_system_name',
-            'artifactlist_xls_artifactstatus',
-            'artifactlist_xls_artifactpriority',
-            'artifactlist_xls_artifacttype',
-            'artifactlist_xls_artifact_source_path',
-            'artifactlist_xls_artifact_storage_path',
-            'artifactlist_xls_artifact_note_internal',
-            'artifactlist_xls_artifact_note_external',
+            'artifactlist_xls_tag_all',
             'artifactlist_xls_artifact_note_analysisresult',
+            'artifactlist_xls_artifact_note_external',
+            'artifactlist_xls_artifact_note_internal',
             'artifactlist_xls_artifact_md5',
             'artifactlist_xls_artifact_sha1',
             'artifactlist_xls_artifact_sha256',
+            'artifactlist_xls_artifact_source_path',
+            'artifactlist_xls_artifact_storage_path',
+            'artifactlist_xls_artifact_assigned_to_user_id',
             'artifactlist_xls_artifact_create_time',
+            'artifactlist_xls_artifact_created_by_user_id',
             'artifactlist_xls_artifact_modify_time',
+            'artifactlist_xls_artifact_modified_by_user_id',
             'artifactlist_xls_worksheet_artifactstatus',
             'artifactlist_xls_worksheet_artifacttype',
         )
 
         labels = {
-            'artifactlist_xls_choice_artifactstatus': 'Export only artifacts with this artifactstatus',
             'artifactlist_xls_artifact_id': 'Export artifact ID',
+            'artifactlist_xls_artifactpriority': 'Export artifactpriority',
+            'artifactlist_xls_artifactstatus': 'Export artifactstatus',
+            'artifactlist_xls_artifacttype': 'Export artifacttype',
+            'artifactlist_xls_case_id': 'Export case ID',
+            'artifactlist_xls_case_name': 'Export case name',
             'artifactlist_xls_system_id': 'Export system ID',
             'artifactlist_xls_system_name': 'Export system name',
-            'artifactlist_xls_artifactstatus': 'Export artifactstatus',
-            'artifactlist_xls_artifactpriority': 'Export artifactpriority',
-            'artifactlist_xls_artifacttype': 'Export artifacttype',
-            'artifactlist_xls_artifact_source_path': 'Export source path',
-            'artifactlist_xls_artifact_storage_path': 'Export storage path',
-            'artifactlist_xls_artifact_note_internal': 'Export internal note',
-            'artifactlist_xls_artifact_note_external': 'Export external note',
+            'artifactlist_xls_tag_all': 'Export tags',
             'artifactlist_xls_artifact_note_analysisresult': 'Export analysis result',
+            'artifactlist_xls_artifact_note_external': 'Export external note',
+            'artifactlist_xls_artifact_note_internal': 'Export internal note',
             'artifactlist_xls_artifact_md5': 'Export MD5',
             'artifactlist_xls_artifact_sha1': 'Export SHA1',
             'artifactlist_xls_artifact_sha256': 'Export SHA256',
+            'artifactlist_xls_artifact_source_path': 'Export source path',
+            'artifactlist_xls_artifact_storage_path': 'Export storage path',
+            'artifactlist_xls_artifact_assigned_to_user_id': 'Export assigned to user',
             'artifactlist_xls_artifact_create_time': 'Export create time',
+            'artifactlist_xls_artifact_created_by_user_id': 'Export created by user',
             'artifactlist_xls_artifact_modify_time': 'Export modify time',
+            'artifactlist_xls_artifact_modified_by_user_id': 'Export modified by user',
             'artifactlist_xls_worksheet_artifactstatus': 'Export worksheet to explain artifactstatus',
             'artifactlist_xls_worksheet_artifacttype': 'Export worksheet to explain artifacttype',
-        }
-
-        widgets = {
-            'artifactlist_xls_choice_artifactstatus': forms.CheckboxSelectMultiple(),
         }
 
 
@@ -146,13 +163,13 @@ class MainConfigForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = MainConfigModel
 
         # this HTML forms are shown
         fields = (
             'system_name_editable',
+            'capitalization',
             'main_overview',
             'artifactstatus_open',
             'artifactstatus_requested',
@@ -167,6 +184,7 @@ class MainConfigForm(forms.ModelForm):
 
         labels = {
             'system_name_editable': 'Make system name editable (may require service restart)',
+            'capitalization': 'Capitalization of system names',
             'main_overview': 'Main overview page',
             'statushistory_entry_numbers': 'Show only this number of last statushistory entries',
             'cron_export_path': 'Export files created by scheduled tasks to this path',
@@ -269,7 +287,6 @@ class SystemExporterMarkdownConfigForm(forms.ModelForm):
     """system exporter markdown config form"""
 
     class Meta:
-
         # model
         model = SystemExporterMarkdownConfigModel
 
@@ -330,7 +347,6 @@ class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
     """system exporter spreadsheet CSV config form"""
 
     class Meta:
-
         # model
         model = SystemExporterSpreadsheetCsvConfigModel
 
@@ -351,8 +367,11 @@ class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
             'spread_csv_serviceprovider',
             'spread_csv_tag',
             'spread_csv_case',
+            'spread_csv_system_assigned_to_user_id',
             'spread_csv_system_create_time',
+            'spread_csv_system_created_by_user_id',
             'spread_csv_system_modify_time',
+            'spread_csv_system_modified_by_user_id',
         )
 
         labels = {
@@ -371,8 +390,11 @@ class SystemExporterSpreadsheetCsvConfigForm(forms.ModelForm):
             'spread_csv_serviceprovider': 'Export serviceprovider',
             'spread_csv_tag': 'Export tag',
             'spread_csv_case': 'Export case',
+            'spread_csv_system_assigned_to_user_id': 'Export system assigned to user',
             'spread_csv_system_create_time': 'Export system create time',
+            'spread_csv_system_created_by_user_id': 'Export system created by user',
             'spread_csv_system_modify_time': 'Export system modify time',
+            'spread_csv_system_modified_by_user_id': 'Export system modified by user',
         }
 
 
@@ -380,7 +402,6 @@ class SystemExporterSpreadsheetXlsConfigForm(forms.ModelForm):
     """system exporter spreadsheet XLS config form"""
 
     class Meta:
-
         # model
         model = SystemExporterSpreadsheetXlsConfigModel
 
@@ -401,8 +422,11 @@ class SystemExporterSpreadsheetXlsConfigForm(forms.ModelForm):
             'spread_xls_serviceprovider',
             'spread_xls_tag',
             'spread_xls_case',
+            'spread_xls_system_assigned_to_user_id',
             'spread_xls_system_create_time',
+            'spread_xls_system_created_by_user_id',
             'spread_xls_system_modify_time',
+            'spread_xls_system_modified_by_user_id',
             'spread_xls_worksheet_systemstatus',
             'spread_xls_worksheet_analysisstatus',
             'spread_xls_worksheet_reason',
@@ -426,8 +450,11 @@ class SystemExporterSpreadsheetXlsConfigForm(forms.ModelForm):
             'spread_xls_serviceprovider': 'Export serviceprovider',
             'spread_xls_tag': 'Export tag',
             'spread_xls_case': 'Export case',
+            'spread_xls_system_assigned_to_user_id': 'Export system assigned to user',
             'spread_xls_system_create_time': 'Export system create time',
+            'spread_xls_system_created_by_user_id': 'Export system created by user',
             'spread_xls_system_modify_time': 'Export system modify time',
+            'spread_xls_system_modified_by_user_id': 'Export system modified by user',
             'spread_xls_worksheet_systemstatus': 'Export worksheet to explain systemstatus',
             'spread_xls_worksheet_analysisstatus': 'Export worksheet to explain analysisstatus',
             'spread_xls_worksheet_reason': 'Export worksheet to explain reason',
@@ -556,7 +583,6 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = SystemImporterFileCsvConfigModel
 
@@ -1219,7 +1245,6 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
 
         # check all column values against each other
         for column in all_columns_dict:
-
             # explicitly copy dict
             pruned_columns_dict = dict(all_columns_dict)
             # remove column from copied dict
@@ -1462,39 +1487,71 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
     to add more than one extra WorkflowDefaultArtifactname, refer to template javascript
 '''
 
+
+class WorkflowDefaultArtifactAttributesForm(forms.ModelForm):
+    artifact_default_status = forms.ModelChoiceField(
+        label='Default artifactstatus',
+        required=True,
+        queryset=Artifactstatus.objects.order_by('artifactstatus_name'),
+    )
+
+    artifact_default_priority = forms.ModelChoiceField(
+        label='Default artifactpriority',
+        required=True,
+        queryset=Artifactpriority.objects.order_by('artifactpriority_name'),
+    )
+
+    class Meta:
+        model = WorkflowDefaultArtifactAttributes
+
+        fields = [
+            'artifacttype',
+            'artifact_default_name',
+            'artifact_default_status',
+            'artifact_default_priority',
+        ]
+
+        widgets = {
+            'artifact_default_name': forms.TextInput(
+                attrs={'placeholder': 'Enter default artifact name'}
+            ),
+        }
+
+
 WorkflowDefaultArtifactAttributesFormSet = forms.modelformset_factory(
     WorkflowDefaultArtifactAttributes,
-    fields=[
-        'artifacttype',
-        'artifact_default_name',
-        'artifact_default_status',
-        'artifact_default_priority',
-    ],
-    labels={
-        'artifact_default_status': 'Default artifactstatus',
-        'artifact_default_priority': 'Default artifactpriority',
-    },
-    widgets={
-        'artifact_default_name': forms.TextInput(
-            attrs={'placeholder': 'Enter default artifact name'}
-        )
-    },
+    form=WorkflowDefaultArtifactAttributesForm,
     extra=1,
 )
 
+
+class WorkflowDefaultTasknameAttributesForm(forms.ModelForm):
+    task_default_status = forms.ModelChoiceField(
+        label='Default taskstatus',
+        required=True,
+        queryset=Taskstatus.objects.order_by('taskstatus_name'),
+    )
+
+    task_default_priority = forms.ModelChoiceField(
+        label='Default taskpriority',
+        required=True,
+        queryset=Taskpriority.objects.order_by('taskpriority_name'),
+    )
+
+    class Meta:
+        model = WorkflowDefaultTasknameAttributes
+
+        fields = ['taskname', 'task_default_status', 'task_default_priority']
+
+
 WorkflowDefaultTasknameAttributesFormSet = forms.modelformset_factory(
     WorkflowDefaultTasknameAttributes,
-    fields=['taskname', 'task_default_status', 'task_default_priority'],
-    labels={
-        'task_default_status': 'Default taskstatus',
-        'task_default_priority': 'Default taskpriority',
-    },
+    form=WorkflowDefaultTasknameAttributesForm,
     extra=1,
 )
 
 
 class WorkflowForm(forms.ModelForm):
-
     # reorder field choices
     workflow_name = forms.CharField(
         max_length=50,

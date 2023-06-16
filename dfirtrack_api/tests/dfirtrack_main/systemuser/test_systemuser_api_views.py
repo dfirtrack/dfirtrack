@@ -12,7 +12,6 @@ class SystemuserAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_systemuser_api', password='Yij2up4yTV2BU6x9xKZV'

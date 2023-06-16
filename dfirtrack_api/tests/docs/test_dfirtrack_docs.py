@@ -9,7 +9,6 @@ class DFIRTrackDocsViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_docs_api_1', password='HjN6UbLPpdhIrMXXknd9'

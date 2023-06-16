@@ -10,11 +10,12 @@
 </title>
 
 {% load static %}
+{% load dfirtrack_main_tags %}
 {% load martortags %}
 
 <!-- javascript and CSS for datatables -->
-<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.css"/>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.js"></script>
 
 <!-- martor -->
 {% include "dfirtrack_main/includes/martor_css.html" %}
@@ -65,45 +66,7 @@
 
 <!-- ############################################ -->
 
-<!-- filter form -->
-<form method="POST" class="post-form">
-
-    {% csrf_token %}
-
-    <!-- show form related errors -->
-    {% include "dfirtrack_main/includes/form_errors.html" %}
-
-    <!-- filter row -->
-    <div class"row top-distance bottom-distance">
-
-        <!-- form fields -->
-        {{ form.case }}
-        {{ form.notestatus }}
-        {{ form.tag }}
-
-        <!-- apply button -->
-        {% include "dfirtrack_main/includes/button_apply_filter.html" %}
-
-        <!-- clear button -->
-        {% with clear_url='clear_documentation_list_filter' %}
-            {% include "dfirtrack_main/includes/button_clear_filter.html" %}
-        {% endwith %}
-
-    <!-- filter row -->
-    </div>
-
-    <!-- persistence settings row -->
-    <div class"row bottom-distance">
-
-        <!-- keep filter settings -->
-        {{ form.filter_documentation_list_keep }}
-        {{ form.filter_documentation_list_keep.label }}
-
-    <!-- persistence settings row -->
-    </div>
-
-<!-- filter form -->
-</form>
+{% include "dfirtrack_main/includes/filter_row.html" with clear_url='clear_documentation_list_filter' %}
 
 <!-- ############################################ -->
 
@@ -169,15 +132,57 @@
 
         <!-- note create time / user -->
         <div class="col-3">
-            Created {{ note.note_create_time|date:"Y-m-d H:i" }} by {{ note.note_created_by_user_id }}
+            Created {{ note.note_create_time|date:"Y-m-d H:i" }} by
+            {% include "dfirtrack_main/includes/username.html" with user=note.note_created_by_user_id %}
         </div>
 
         <!-- note modify time / user -->
         <div class="col-3">
-            Modified {{ note.note_modify_time|date:"Y-m-d H:i" }} by {{ note.note_modified_by_user_id }}
+            Modified {{ note.note_modify_time|date:"Y-m-d H:i" }} by
+            {% include "dfirtrack_main/includes/username.html" with user=note.note_modified_by_user_id %}
         </div>
 
     <!-- note metadata row -->
+    </div>
+
+    <!-- user row -->
+    <div class="row bottom-distance">
+
+        <!-- assigned user -->
+        <div class="col-2">
+            <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Assigned to user:
+            </div>
+            {% if note.note_assigned_to_user_id %}
+                {% include "dfirtrack_main/includes/username.html" with user=note.note_assigned_to_user_id %}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- grab / free user assignment button -->
+        <div class="col-3">
+
+            <!-- grab button -->
+            {% if not note.note_assigned_to_user_id %}
+                <a href="{{ note.get_set_user_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Grab
+                </a>
+
+            <!-- free button -->
+            {% else %}
+                <a href="{{ note.get_unset_user_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Free
+                </a>
+            {% endif %}
+
+        <!-- grab / free user assignment button -->
+        </div>
+
+    <!-- user row -->
     </div>
 
     <!-- tags / case row -->
@@ -264,15 +269,57 @@
 
         <!-- reportitem create time -->
         <div class="col-3">
-            Created {{ reportitem.reportitem_create_time|date:"Y-m-d H:i" }} by {{ reportitem.reportitem_created_by_user_id }}
+            Created {{ reportitem.reportitem_create_time|date:"Y-m-d H:i" }} by
+            {% include "dfirtrack_main/includes/username.html" with user=reportitem.reportitem_created_by_user_id %}
         </div>
 
         <!-- reportitem modify time -->
         <div class="col-3">
-            Modified {{ reportitem.reportitem_modify_time|date:"Y-m-d H:i" }} by {{ reportitem.reportitem_modified_by_user_id }}
+            Modified {{ reportitem.reportitem_modify_time|date:"Y-m-d H:i" }} by
+            {% include "dfirtrack_main/includes/username.html" with user=reportitem.reportitem_modified_by_user_id %}
         </div>
 
     <!-- system reportitem metadata row -->
+    </div>
+
+    <!-- user row -->
+    <div class="row bottom-distance">
+
+        <!-- assigned user -->
+        <div class="col-2">
+            <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Assigned to user:
+            </div>
+            {% if reportitem.reportitem_assigned_to_user_id %}
+                {% include "dfirtrack_main/includes/username.html" with user=reportitem.reportitem_assigned_to_user_id %}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- grab / free user assignment button -->
+        <div class="col-3">
+
+            <!-- grab button -->
+            {% if not reportitem.reportitem_assigned_to_user_id %}
+                <a href="{{ reportitem.get_set_user_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Grab
+                </a>
+
+            <!-- free button -->
+            {% else %}
+                <a href="{{ reportitem.get_unset_user_url }}?documentation" type="button" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Free
+                </a>
+            {% endif %}
+
+        <!-- grab / free user assignment button -->
+        </div>
+
+    <!-- user row -->
     </div>
 
     <!-- tags / case row -->
@@ -375,7 +422,7 @@
 
 <!-- javascript for datatables -->
 {% block datatables %}
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.js"></script>
 {% endblock %}
 
 <!-- martor -->

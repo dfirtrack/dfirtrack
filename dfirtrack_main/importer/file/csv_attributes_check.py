@@ -22,7 +22,6 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
 
     # value is an IP
     try:
-
         # check ip column for IP(s)
         ipaddress.ip_address(ip_ip)
 
@@ -38,7 +37,6 @@ def check_and_create_ip(ip_ip, model, row_counter, request=None):
 
     # value is not an IP
     except ValueError:
-
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # call message
@@ -115,7 +113,7 @@ def check_system_name(model, row, row_counter, request=None):
         stop_system_importer_file_csv = True
 
     # check system column for length of string
-    if len(system_name) > 50:
+    if len(system_name) > 255:
         # if function was called from 'system_instant' and 'system_upload'
         if request:
             # call message

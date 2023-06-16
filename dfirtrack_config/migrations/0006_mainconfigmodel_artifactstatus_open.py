@@ -2,7 +2,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_artifacts', '0003_new_artifact_note_fields'),
         ('dfirtrack_config', '0005_new_artifact_note_fields'),

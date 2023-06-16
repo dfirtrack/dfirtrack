@@ -8,7 +8,6 @@ class DomainuserModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         domain_1 = Domain.objects.create(
             domain_name='domain_1',
@@ -88,4 +87,4 @@ class DomainuserModelTestCase(TestCase):
         # get max length
         max_length = domainuser_1._meta.get_field('domainuser_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

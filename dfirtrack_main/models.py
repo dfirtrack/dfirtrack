@@ -1,3 +1,4 @@
+import hashlib
 import logging
 import uuid
 from time import strftime
@@ -5,19 +6,21 @@ from time import strftime
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.text import slugify
+
+from dfirtrack_config.models import MainConfigModel
 
 # initialize logger
 stdlogger = logging.getLogger(__name__)
 
 
 class Analysisstatus(models.Model):
-
     # primary key
     analysisstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    analysisstatus_name = models.CharField(max_length=30, unique=True)
+    analysisstatus_name = models.CharField(max_length=255, unique=True)
     analysisstatus_note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -45,7 +48,6 @@ class Analysisstatus(models.Model):
 
 
 class Analystmemo(models.Model):
-
     # primary key
     analystmemo_id = models.AutoField(primary_key=True)
 
@@ -90,7 +92,6 @@ class Analystmemo(models.Model):
 
 
 class Case(models.Model):
-
     # primary key
     case_id = models.AutoField(primary_key=True)
 
@@ -103,12 +104,19 @@ class Case(models.Model):
         'Casetype', on_delete=models.PROTECT, blank=True, null=True
     )
     tag = models.ManyToManyField('Tag', blank=True)
+    case_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='case_assigned_to',
+    )
 
     # main entity information
     case_id_external = models.CharField(
-        max_length=50, blank=True, null=True, unique=True
+        max_length=255, blank=True, null=True, unique=True
     )
-    case_name = models.CharField(max_length=50, unique=True)
+    case_name = models.CharField(max_length=255, unique=True)
     case_is_incident = models.BooleanField()
     case_note_analysisresult = models.TextField(blank=True, null=True)
     case_note_external = models.TextField(blank=True, null=True)
@@ -132,7 +140,6 @@ class Case(models.Model):
 
     # define logger
     def logger(case, request_user, log_text):  # coverage: ignore branch
-
         if case.case_start_time != None:
             # cast datetime object to string
             starttime = case.case_start_time.strftime('%Y-%m-%d %H:%M:%S')
@@ -189,6 +196,8 @@ class Case(models.Model):
             + str(case.casestatus)
             + "|casetype:"
             + str(case.casetype)
+            + "|case_assigned_to_user_id:"
+            + str(case.case_assigned_to_user_id)
         )
 
     def get_absolute_url(self):
@@ -197,9 +206,14 @@ class Case(models.Model):
     def get_update_url(self):
         return reverse('case_update', args=(self.pk,))
 
+    def get_set_user_url(self):
+        return reverse('case_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('case_unset_user', args=(self.pk,))
+
 
 class Casepriority(models.Model):
-
     # primary key
     casepriority_id = models.AutoField(primary_key=True)
 
@@ -241,7 +255,6 @@ class Casepriority(models.Model):
 
 
 class Casestatus(models.Model):
-
     # primary key
     casestatus_id = models.AutoField(primary_key=True)
 
@@ -283,7 +296,6 @@ class Casestatus(models.Model):
 
 
 class Casetype(models.Model):
-
     # primary key
     casetype_id = models.AutoField(primary_key=True)
 
@@ -327,7 +339,6 @@ class Casetype(models.Model):
 
 
 class Company(models.Model):
-
     # primary key
     company_id = models.AutoField(primary_key=True)
 
@@ -337,7 +348,7 @@ class Company(models.Model):
     )
 
     # main entity information
-    company_name = models.CharField(max_length=50, unique=True)
+    company_name = models.CharField(max_length=255, unique=True)
     company_note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -370,14 +381,13 @@ class Company(models.Model):
 
 
 class Contact(models.Model):
-
     # primary key
     contact_id = models.AutoField(primary_key=True)
 
     # main entity information
-    contact_name = models.CharField(max_length=100)
-    contact_phone = models.CharField(max_length=50, blank=True, null=True)
-    contact_email = models.CharField(max_length=100, unique=True)
+    contact_name = models.CharField(max_length=255)
+    contact_phone = models.CharField(max_length=255, blank=True, null=True)
+    contact_email = models.CharField(max_length=255, unique=True)
     contact_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -409,12 +419,11 @@ class Contact(models.Model):
 
 
 class Division(models.Model):
-
     # primary key
     division_id = models.AutoField(primary_key=True)
 
     # main entity information
-    division_name = models.CharField(max_length=50, unique=True)
+    division_name = models.CharField(max_length=255, unique=True)
     division_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -442,7 +451,6 @@ class Division(models.Model):
 
 
 class Dnsname(models.Model):
-
     # primary key
     dnsname_id = models.AutoField(primary_key=True)
 
@@ -452,7 +460,7 @@ class Dnsname(models.Model):
     )
 
     # main entity information
-    dnsname_name = models.CharField(max_length=100, unique=True)
+    dnsname_name = models.CharField(max_length=255, unique=True)
     dnsname_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -482,12 +490,11 @@ class Dnsname(models.Model):
 
 
 class Domain(models.Model):
-
     # primary key
     domain_id = models.AutoField(primary_key=True)
 
     # main entity information
-    domain_name = models.CharField(max_length=100, unique=True)
+    domain_name = models.CharField(max_length=255, unique=True)
     domain_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -515,7 +522,6 @@ class Domain(models.Model):
 
 
 class Domainuser(models.Model):
-
     # primary key
     domainuser_id = models.AutoField(primary_key=True)
 
@@ -524,7 +530,7 @@ class Domainuser(models.Model):
     system_was_logged_on = models.ManyToManyField('System', blank=True)
 
     # main entity information
-    domainuser_name = models.CharField(max_length=50)
+    domainuser_name = models.CharField(max_length=255)
     domainuser_is_domainadmin = models.BooleanField(blank=True, null=True)
 
     # define unique together
@@ -537,7 +543,6 @@ class Domainuser(models.Model):
 
     # define logger
     def logger(domainuser, request_user, log_text):  # coverage: ignore branch
-
         """
         ManyToMany-Relationsship don't get the default 'None' string if they are empty.
         So the default string is set to 'None'.
@@ -580,7 +585,6 @@ class Domainuser(models.Model):
 
 
 class Entry(models.Model):
-
     # primary key
     entry_id = models.AutoField(primary_key=True)
 
@@ -592,7 +596,7 @@ class Entry(models.Model):
     # main entity information
     entry_time = models.DateTimeField()
     entry_sha1 = models.CharField(max_length=40, blank=True, null=True)
-    entry_type = models.CharField(max_length=30, blank=True, null=True)
+    entry_type = models.CharField(max_length=255, blank=True, null=True)
     entry_content = models.TextField(blank=True, null=True)
     entry_note = models.TextField(blank=True, null=True)
 
@@ -606,8 +610,30 @@ class Entry(models.Model):
         User, on_delete=models.PROTECT, related_name='entry_modified_by'
     )
 
-    # property fields
+    # entry SHA1 calculation
+    def calculate_sha1(self):
+        m = hashlib.sha1()  # nosec
+        # system
+        m.update(str(self.system.system_id).encode())
+        # time
+        if isinstance(self.entry_time, str):
+            m.update(self.entry_time.encode())
+        else:
+            m.update(self.entry_time.isoformat().encode())
+        # type (optional)
+        if self.entry_type:
+            m.update(self.entry_type.encode())
+        # content (optional)
+        if self.entry_content:
+            m.update(self.entry_content.encode())
+        self.entry_sha1 = m.hexdigest()
 
+    # custom save method to calculate and save the hash
+    def save(self, *args, **kwargs):
+        self.calculate_sha1()
+        return super().save(*args, **kwargs)
+
+    # property fields
     @property
     def entry_date(self):
         return self.entry_time.strftime('%Y-%m-%d')
@@ -631,18 +657,9 @@ class Entry(models.Model):
     # define logger
     def logger(entry, request_user, log_text):
         stdlogger.info(
-            request_user
-            + log_text
-            + " entry_id:"
-            + str(entry.entry_id)
-            + "|system:"
-            + str(entry.system)
-            + "|entry_sha1:"
-            + str(entry.entry_sha1)
-            + "|entry_note:"
-            + str(entry.entry_note)
-            + "|case:"
-            + str(entry.case)
+            f'{request_user}{log_text} entry_id:{str(entry.entry_id)}|'
+            f'system{str(entry.system)}|entry_sha1:{str(entry.entry_sha1)}|'
+            f'entry_note:{str(entry.entry_note)}|case:{str(entry.case)}'
         )
 
     def get_absolute_url(self):
@@ -653,12 +670,11 @@ class Entry(models.Model):
 
 
 class Headline(models.Model):
-
     # primary key
     headline_id = models.AutoField(primary_key=True)
 
     # main entity information
-    headline_name = models.CharField(max_length=100, unique=True)
+    headline_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -683,7 +699,6 @@ class Headline(models.Model):
 
 
 class Ip(models.Model):
-
     # primary key
     ip_id = models.AutoField(primary_key=True)
 
@@ -710,12 +725,11 @@ class Ip(models.Model):
 
 
 class Location(models.Model):
-
     # primary key
     location_id = models.AutoField(primary_key=True)
 
     # main entity information
-    location_name = models.CharField(max_length=50, unique=True)
+    location_name = models.CharField(max_length=255, unique=True)
     location_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -743,12 +757,11 @@ class Location(models.Model):
 
 
 class Note(models.Model):
-
     # primary key
     note_id = models.AutoField(primary_key=True)
 
     # main entity information
-    note_title = models.CharField(max_length=250, unique=True)
+    note_title = models.CharField(max_length=255, unique=True)
     note_content = models.TextField()
     note_version = models.IntegerField()
     note_is_abandoned = models.BooleanField(blank=True, default=True)
@@ -757,6 +770,13 @@ class Note(models.Model):
     case = models.ForeignKey('Case', on_delete=models.SET_NULL, blank=True, null=True)
     notestatus = models.ForeignKey('Notestatus', on_delete=models.PROTECT, default=1)
     tag = models.ManyToManyField('Tag', blank=True)
+    note_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='note_assigned_to',
+    )
 
     # meta information
     note_create_time = models.DateTimeField(auto_now_add=True)
@@ -774,7 +794,6 @@ class Note(models.Model):
 
     # define logger
     def logger(note, request_user, log_text):
-
         # get objects
         tags = note.tag.all()
         # create empty list
@@ -804,11 +823,12 @@ class Note(models.Model):
             + str(note.case)
             + "|tag:"
             + tagstring
+            + "|note_assigned_to_user_id:"
+            + str(note.note_assigned_to_user_id)
         )
 
     # custom save method
     def save(self, *args, **kwargs):
-
         """note_version"""
 
         if not self.pk:
@@ -834,14 +854,19 @@ class Note(models.Model):
     def get_update_url(self):
         return reverse('note_update', args=(self.pk,))
 
+    def get_set_user_url(self):
+        return reverse('note_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('note_unset_user', args=(self.pk,))
+
 
 class Notestatus(models.Model):
-
     # primary key
     notestatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    notestatus_name = models.CharField(max_length=30, unique=True)
+    notestatus_name = models.CharField(max_length=255, unique=True)
     notestatus_note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -869,12 +894,11 @@ class Notestatus(models.Model):
 
 
 class Os(models.Model):
-
     # primary key
     os_id = models.AutoField(primary_key=True)
 
     # main entity information
-    os_name = models.CharField(max_length=30, unique=True)
+    os_name = models.CharField(max_length=255, unique=True)
 
     class Meta:
         verbose_name_plural = 'os'
@@ -902,12 +926,11 @@ class Os(models.Model):
 
 
 class Osarch(models.Model):
-
     # primary key
     osarch_id = models.AutoField(primary_key=True)
 
     # main entity information
-    osarch_name = models.CharField(max_length=10, unique=True)
+    osarch_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -932,7 +955,6 @@ class Osarch(models.Model):
 
 
 class Osimportname(models.Model):
-
     # primary key
     osimportname_id = models.AutoField(primary_key=True)
 
@@ -940,8 +962,8 @@ class Osimportname(models.Model):
     os = models.ForeignKey('Os', on_delete=models.CASCADE)
 
     # main entity information
-    osimportname_name = models.CharField(max_length=30, unique=True)
-    osimportname_importer = models.CharField(max_length=30)
+    osimportname_name = models.CharField(max_length=255, unique=True)
+    osimportname_importer = models.CharField(max_length=255)
 
     # string representation
     def __str__(self):
@@ -967,12 +989,11 @@ class Osimportname(models.Model):
 
 
 class Reason(models.Model):
-
     # primary key
     reason_id = models.AutoField(primary_key=True)
 
     # main entity information
-    reason_name = models.CharField(max_length=30, unique=True)
+    reason_name = models.CharField(max_length=255, unique=True)
     reason_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -1000,12 +1021,11 @@ class Reason(models.Model):
 
 
 class Recommendation(models.Model):
-
     # primary key
     recommendation_id = models.AutoField(primary_key=True)
 
     # main entity information
-    recommendation_name = models.CharField(max_length=30, unique=True)
+    recommendation_name = models.CharField(max_length=255, unique=True)
     recommendation_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -1033,7 +1053,6 @@ class Recommendation(models.Model):
 
 
 class Reportitem(models.Model):
-
     # primary key
     reportitem_id = models.AutoField(primary_key=True)
 
@@ -1043,9 +1062,16 @@ class Reportitem(models.Model):
     notestatus = models.ForeignKey('Notestatus', on_delete=models.PROTECT, default=1)
     system = models.ForeignKey('System', on_delete=models.CASCADE)
     tag = models.ManyToManyField('Tag', blank=True)
+    reportitem_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='reportitem_assigned_to',
+    )
 
     # main entity information
-    reportitem_subheadline = models.CharField(max_length=100, blank=True, null=True)
+    reportitem_subheadline = models.CharField(max_length=255, blank=True, null=True)
     reportitem_note = models.TextField()
 
     # meta information
@@ -1068,7 +1094,6 @@ class Reportitem(models.Model):
 
     # define logger
     def logger(reportitem, request_user, log_text):
-
         # get objects
         tags = reportitem.tag.all()
         # create empty list
@@ -1100,6 +1125,8 @@ class Reportitem(models.Model):
             + str(reportitem.case)
             + "|tag:"
             + tagstring
+            + "|reportitem_assigned_to_user_id:"
+            + str(reportitem.reportitem_assigned_to_user_id)
         )
 
     def get_absolute_url(self):
@@ -1108,14 +1135,19 @@ class Reportitem(models.Model):
     def get_update_url(self):
         return reverse('reportitem_update', args=(self.pk,))
 
+    def get_set_user_url(self):
+        return reverse('reportitem_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('reportitem_unset_user', args=(self.pk,))
+
 
 class Serviceprovider(models.Model):
-
     # primary key
     serviceprovider_id = models.AutoField(primary_key=True)
 
     # main entity information
-    serviceprovider_name = models.CharField(max_length=50, unique=True)
+    serviceprovider_name = models.CharField(max_length=255, unique=True)
     serviceprovider_note = models.TextField(blank=True, null=True)
 
     # string representation
@@ -1143,7 +1175,6 @@ class Serviceprovider(models.Model):
 
 
 class System(models.Model):
-
     # primary key
     system_id = models.AutoField(primary_key=True)
 
@@ -1193,10 +1224,17 @@ class System(models.Model):
     )
     tag = models.ManyToManyField('Tag', blank=True)
     case = models.ManyToManyField('Case', blank=True)
+    system_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='system_assigned_to',
+    )
 
     # main entity information
     system_uuid = models.UUIDField(editable=False, null=True, unique=True)
-    system_name = models.CharField(max_length=50)
+    system_name = models.CharField(max_length=255)
     system_install_time = models.DateTimeField(blank=True, null=True)
     system_lastbooted_time = models.DateTimeField(blank=True, null=True)
     system_deprecated_time = models.DateTimeField(blank=True, null=True)
@@ -1243,10 +1281,26 @@ class System(models.Model):
 
     # extend save method
     def save(self, *args, **kwargs):
+        '''for all systems'''
+
+        # strip whitespaces
+        self.system_name = self.system_name.strip()
+
+        # get capitalization from config
+        capitalization = MainConfigModel.objects.get(
+            main_config_name='MainConfig'
+        ).capitalization
+
+        # change capitalization
+        if capitalization == 'capitalization_lower':
+            self.system_name = self.system_name.lower()
+        elif capitalization == 'capitalization_upper':
+            self.system_name = self.system_name.upper()
+
+        '''for old systems'''
 
         # check for existing system
         if self.pk:
-
             '''systemhistory'''
 
             ''' systemstatus (null = False) '''
@@ -1309,9 +1363,10 @@ class System(models.Model):
                 # set previous status to new value
                 self.previous_analysisstatus = self.analysisstatus
 
+        '''for new systems'''
+
         # check for new system
         if not self.pk:
-
             '''systemhistory'''
 
             # initial set previous status (null = False)
@@ -1330,7 +1385,6 @@ class System(models.Model):
 
     # define logger
     def logger(system, request_user, log_text):  # coverage: ignore branch
-
         """
         ManyToMany-Relationsship don't get the default 'None' string if they are empty.
         So the default string is set to 'None'.
@@ -1466,6 +1520,8 @@ class System(models.Model):
             + str(system.system_export_markdown)
             + "|system_export_spreadsheet:"
             + str(system.system_export_spreadsheet)
+            + "|system_assigned_to_user_id:"
+            + str(system.system_assigned_to_user_id)
         )
 
     def get_absolute_url(self):
@@ -1474,9 +1530,49 @@ class System(models.Model):
     def get_update_url(self):
         return reverse('system_update', args=(self.pk,))
 
+    def get_set_user_url(self):
+        return reverse('system_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('system_unset_user', args=(self.pk,))
+
+    def get_toggle_artifact_url(self):
+        return reverse('toggle_system_detail_artifact', args=(self.pk,))
+
+    def get_toggle_artifact_closed_url(self):
+        return reverse('toggle_system_detail_artifact_closed', args=(self.pk,))
+
+    def get_toggle_task_url(self):
+        return reverse('toggle_system_detail_task', args=(self.pk,))
+
+    def get_toggle_task_closed_url(self):
+        return reverse('toggle_system_detail_task_closed', args=(self.pk,))
+
+    def get_toggle_technical_information_url(self):
+        return reverse('toggle_system_detail_technical_information', args=(self.pk,))
+
+    def get_toggle_timeline_url(self):
+        return reverse('toggle_system_detail_timeline', args=(self.pk,))
+
+    def get_toggle_virtualization_information_url(self):
+        return reverse(
+            'toggle_system_detail_virtualization_information', args=(self.pk,)
+        )
+
+    def get_toggle_company_information_url(self):
+        return reverse('toggle_system_detail_company_information', args=(self.pk,))
+
+    def get_toggle_systemuser_url(self):
+        return reverse('toggle_system_detail_systemuser', args=(self.pk,))
+
+    def get_toggle_analystmemo_url(self):
+        return reverse('toggle_system_detail_analystmemo', args=(self.pk,))
+
+    def get_toggle_reportitem_url(self):
+        return reverse('toggle_system_detail_reportitem', args=(self.pk,))
+
 
 class Systemhistory(models.Model):
-
     # primary key
     systemhistory_id = models.AutoField(primary_key=True)
 
@@ -1484,9 +1580,9 @@ class Systemhistory(models.Model):
     system = models.ForeignKey('System', on_delete=models.CASCADE)
 
     # main entity information
-    systemhistory_type = models.CharField(max_length=30)
-    systemhistory_old_value = models.CharField(max_length=30)
-    systemhistory_new_value = models.CharField(max_length=30)
+    systemhistory_type = models.CharField(max_length=255)
+    systemhistory_old_value = models.CharField(max_length=255)
+    systemhistory_new_value = models.CharField(max_length=255)
 
     # meta information
     systemhistory_time = models.DateTimeField(auto_now_add=True)
@@ -1498,12 +1594,11 @@ class Systemhistory(models.Model):
 
 
 class Systemstatus(models.Model):
-
     # primary key
     systemstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    systemstatus_name = models.CharField(max_length=30, unique=True)
+    systemstatus_name = models.CharField(max_length=255, unique=True)
     systemstatus_note = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -1531,12 +1626,11 @@ class Systemstatus(models.Model):
 
 
 class Systemtype(models.Model):
-
     # primary key
     systemtype_id = models.AutoField(primary_key=True)
 
     # main entity information
-    systemtype_name = models.CharField(max_length=50, unique=True)
+    systemtype_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -1561,7 +1655,6 @@ class Systemtype(models.Model):
 
 
 class Systemuser(models.Model):
-
     # primary key
     systemuser_id = models.AutoField(primary_key=True)
 
@@ -1569,7 +1662,7 @@ class Systemuser(models.Model):
     system = models.ForeignKey('System', on_delete=models.CASCADE)
 
     # main entity information
-    systemuser_name = models.CharField(max_length=50)
+    systemuser_name = models.CharField(max_length=255)
     systemuser_lastlogon_time = models.DateTimeField(blank=True, null=True)
     systemuser_is_systemadmin = models.BooleanField(blank=True, null=True)
 
@@ -1606,7 +1699,6 @@ class Systemuser(models.Model):
 
 
 class Tag(models.Model):
-
     # primary key
     tag_id = models.AutoField(primary_key=True)
 
@@ -1614,8 +1706,15 @@ class Tag(models.Model):
     tagcolor = models.ForeignKey('Tagcolor', on_delete=models.PROTECT)
 
     # main entity information
-    tag_name = models.CharField(max_length=50, unique=True)
+    tag_name = models.CharField(max_length=255, unique=True)
     tag_note = models.TextField(blank=True, null=True)
+    tag_assigned_to_user_id = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name='tag_assigned_to',
+    )
 
     # meta information
     tag_modified_by_user_id = models.ForeignKey(
@@ -1643,6 +1742,8 @@ class Tag(models.Model):
             + str(tag.tag_note)
             + "|tagcolor:"
             + str(tag.tagcolor)
+            + "|tag_assigned_to_user_id:"
+            + str(tag.tag_assigned_to_user_id)
         )
 
     def get_absolute_url(self):
@@ -1654,9 +1755,14 @@ class Tag(models.Model):
     def get_delete_url(self):
         return reverse('tag_delete', args=(self.pk,))
 
+    def get_set_user_url(self):
+        return reverse('tag_set_user', args=(self.pk,))
+
+    def get_unset_user_url(self):
+        return reverse('tag_unset_user', args=(self.pk,))
+
 
 class Tagcolor(models.Model):
-
     # primary key
     tagcolor_id = models.AutoField(primary_key=True)
 
@@ -1680,7 +1786,6 @@ class Tagcolor(models.Model):
 
 
 class Task(models.Model):
-
     # primary key
     task_id = models.AutoField(primary_key=True)
 
@@ -1731,6 +1836,26 @@ class Task(models.Model):
 
     def save(self, *args, **kwargs):
         """extend save method"""
+
+        # adapt starting and finishing time corresponding to taskstatus
+        if self.taskstatus == Taskstatus.objects.get(taskstatus_name="00_blocked"):
+            self.task_started_time = None
+            self.task_finished_time = None
+        elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="10_pending"):
+            self.task_started_time = None
+            self.task_finished_time = None
+        elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="20_working"):
+            if self.task_started_time == None:
+                self.task_started_time = timezone.now()
+            self.task_finished_time = None
+        elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="30_done"):
+            if self.task_started_time == None:
+                self.task_started_time = timezone.now()
+            if self.task_finished_time == None:
+                self.task_finished_time = timezone.now()
+        elif self.taskstatus == Taskstatus.objects.get(taskstatus_name="40_skipped"):
+            self.task_started_time = None
+            self.task_finished_time = None
 
         # set abandoned if task has no artifact, case or system
         if not self.artifact and not self.case and not self.system:
@@ -1843,12 +1968,11 @@ class Task(models.Model):
 
 
 class Taskname(models.Model):
-
     # primary key
     taskname_id = models.AutoField(primary_key=True)
 
     # main entity information
-    taskname_name = models.CharField(max_length=50, unique=True)
+    taskname_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -1876,12 +2000,11 @@ class Taskname(models.Model):
 
 
 class Taskpriority(models.Model):
-
     # primary key
     taskpriority_id = models.AutoField(primary_key=True)
 
     # main entity information
-    taskpriority_name = models.CharField(max_length=50, unique=True)
+    taskpriority_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):
@@ -1903,12 +2026,11 @@ class Taskpriority(models.Model):
 
 
 class Taskstatus(models.Model):
-
     # primary key
     taskstatus_id = models.AutoField(primary_key=True)
 
     # main entity information
-    taskstatus_name = models.CharField(max_length=50, unique=True)
+    taskstatus_name = models.CharField(max_length=255, unique=True)
 
     # string representation
     def __str__(self):

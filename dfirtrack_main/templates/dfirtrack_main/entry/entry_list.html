@@ -10,10 +10,11 @@
 </title>
 
 {% load static %}
+{% load dfirtrack_main_tags %}
 
 <!-- javascript and CSS for datatables -->
-<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.css"/>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.js"></script>
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -105,7 +106,10 @@
 
                 <!-- entry system -->
                 <td>
-                    {{ i.entry_system }}
+                    <a href="{{ i.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm copy-true">
+                        <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                        {{ i.system.system_name }}
+                    </a>
                 </td>
 
                 <!-- entry type -->
@@ -139,7 +143,7 @@
 
     <div class="row">
         <div class="col"><h5>Create entry</h5></div>
-        <div class="col"><h5>Import entry via CSV</h5></div>
+        <div class="col"><h5>Import entries via CSV (for single system)</h5></div>
     </div>
 
     <!-- entry add button -->
@@ -164,7 +168,7 @@
 
 <!-- javascript for datatables -->
 {% block datatables %}
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.js"></script>
 {% endblock %}
 
 <!-- HTML body in maintemplate -->

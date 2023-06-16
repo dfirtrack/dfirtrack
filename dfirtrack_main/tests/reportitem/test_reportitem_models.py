@@ -17,7 +17,6 @@ class ReportitemModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_reportitem', password='n26RCEzVtmtmpAHa5g1M'
@@ -204,6 +203,18 @@ class ReportitemModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'reportitem modified by user id')
 
+    def test_reportitem_assigned_to_user_id_attribute_label(self):
+        """test attribute label"""
+
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # get label
+        field_label = reportitem_1._meta.get_field(
+            'reportitem_assigned_to_user_id'
+        ).verbose_name
+        # compare
+        self.assertEqual(field_label, 'reportitem assigned to user id')
+
     def test_reportitem_subheadline_length(self):
         """test for max length"""
 
@@ -212,7 +223,7 @@ class ReportitemModelTestCase(TestCase):
         # get max length
         max_length = reportitem_1._meta.get_field('reportitem_subheadline').max_length
         # compare
-        self.assertEqual(max_length, 100)
+        self.assertEqual(max_length, 255)
 
     def test_reportitem_post_save_signal(self):
         """test report item post save signal"""
@@ -236,4 +247,26 @@ class ReportitemModelTestCase(TestCase):
             [
                 case_1,
             ],
+        )
+
+    def test_reportitem_get_set_user_url(self):
+        """test URL method"""
+
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # compare
+        self.assertEqual(
+            reportitem_1.get_set_user_url(),
+            f'/reportitem/{reportitem_1.reportitem_id}/set_user/',
+        )
+
+    def test_reportitem_get_unset_user_url(self):
+        """test URL method"""
+
+        # get object
+        reportitem_1 = Reportitem.objects.get(reportitem_note='lorem ipsum')
+        # compare
+        self.assertEqual(
+            reportitem_1.get_unset_user_url(),
+            f'/reportitem/{reportitem_1.reportitem_id}/unset_user/',
         )

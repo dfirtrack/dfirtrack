@@ -20,12 +20,18 @@ from dfirtrack_main.models import System
 def write_csv(username, csv_file):
     """write spreadsheet"""
 
-    # create file object for writing lines
-    csv_writer = csv.writer(csv_file)
-
     # get config model
     model = SystemExporterSpreadsheetCsvConfigModel.objects.get(
         system_exporter_spreadsheet_csv_config_name='SystemExporterSpreadsheetCsvConfig'
+    )
+
+    # options for later config expansion
+    DELIMITER = ','
+    QUOTECHAR = '"'
+
+    # create file object for writing lines
+    csv_writer = csv.writer(
+        csv_file, delimiter=DELIMITER, quotechar=QUOTECHAR, quoting=csv.QUOTE_MINIMAL
     )
 
     """ start with headline """
@@ -56,23 +62,29 @@ def write_csv(username, csv_file):
     if model.spread_csv_systemtype:
         headline.append('Systemtype')
     if model.spread_csv_ip:
-        headline.append('IP')
+        headline.append('IPs')
     if model.spread_csv_os:
         headline.append('OS')
     if model.spread_csv_company:
-        headline.append('Company')
+        headline.append('Companies')
     if model.spread_csv_location:
         headline.append('Location')
     if model.spread_csv_serviceprovider:
         headline.append('Serviceprovider')
     if model.spread_csv_tag:
-        headline.append('Tag')
+        headline.append('Tags')
     if model.spread_csv_case:
-        headline.append('Case')
+        headline.append('Cases')
+    if model.spread_csv_system_assigned_to_user_id:
+        headline.append('Assigned to')
     if model.spread_csv_system_create_time:
         headline.append('Created')
+    if model.spread_csv_system_created_by_user_id:
+        headline.append('Created by')
     if model.spread_csv_system_modify_time:
         headline.append('Modified')
+    if model.spread_csv_system_modified_by_user_id:
+        headline.append('Modified by')
 
     # write headline
     csv_writer.writerow(headline)
@@ -84,7 +96,6 @@ def write_csv(username, csv_file):
 
     # iterate over systems
     for system in systems:
-
         # skip system depending on export variable
         if system.system_export_spreadsheet == False:
             continue
@@ -107,48 +118,48 @@ def write_csv(username, csv_file):
 
         # dnsname
         if model.spread_csv_dnsname:
-            if system.dnsname == None:
-                dnsname = ''
-            else:
+            if system.dnsname:
                 dnsname = system.dnsname.dnsname_name
+            else:
+                dnsname = ''
             entryline.append(dnsname)
         # domain
         if model.spread_csv_domain:
-            if system.domain == None:
-                domain = ''
-            else:
+            if system.domain:
                 domain = system.domain.domain_name
+            else:
+                domain = ''
             entryline.append(domain)
         # systemstatus
         if model.spread_csv_systemstatus:
             entryline.append(system.systemstatus.systemstatus_name)
         # analysisstatus
         if model.spread_csv_analysisstatus:
-            if system.analysisstatus == None:
-                analysisstatus = ''
-            else:
+            if system.analysisstatus:
                 analysisstatus = system.analysisstatus.analysisstatus_name
+            else:
+                analysisstatus = ''
             entryline.append(analysisstatus)
         # reason
         if model.spread_csv_reason:
-            if system.reason == None:
-                reason = ''
-            else:
+            if system.reason:
                 reason = system.reason.reason_name
+            else:
+                reason = ''
             entryline.append(reason)
         # recommendation
         if model.spread_csv_recommendation:
-            if system.recommendation == None:
-                recommendation = ''
-            else:
+            if system.recommendation:
                 recommendation = system.recommendation.recommendation_name
+            else:
+                recommendation = ''
             entryline.append(recommendation)
         # systemtype
         if model.spread_csv_systemtype:
-            if system.systemtype == None:
-                systemtype = ''
-            else:
+            if system.systemtype:
                 systemtype = system.systemtype.systemtype_name
+            else:
+                systemtype = ''
             entryline.append(systemtype)
         # ip
         if model.spread_csv_ip:
@@ -166,15 +177,15 @@ def write_csv(username, csv_file):
                 ip = ip + ip_obj.ip_ip
                 # add newline except for last ip
                 if i < n:
-                    ip = ip + ','
+                    ip = ip + ' '
                     i = i + 1
             entryline.append(ip)
         # os
         if model.spread_csv_os:
-            if system.os == None:
-                os = ''
-            else:
+            if system.os:
                 os = system.os.os_name
+            else:
+                os = ''
             entryline.append(os)
         # company
         if model.spread_csv_company:
@@ -192,22 +203,22 @@ def write_csv(username, csv_file):
                 company = company + company_obj.company_name
                 # add newline except for last company
                 if i < n:
-                    company = company + ','
+                    company = company + ' '
                     i = i + 1
             entryline.append(company)
         # location
         if model.spread_csv_location:
-            if system.location == None:
-                location = ''
-            else:
+            if system.location:
                 location = system.location.location_name
+            else:
+                location = ''
             entryline.append(location)
         # serviceprovider
         if model.spread_csv_serviceprovider:
-            if system.serviceprovider == None:
-                serviceprovider = ''
-            else:
+            if system.serviceprovider:
                 serviceprovider = system.serviceprovider.serviceprovider_name
+            else:
+                serviceprovider = ''
             entryline.append(serviceprovider)
         # tag
         if model.spread_csv_tag:
@@ -225,7 +236,7 @@ def write_csv(username, csv_file):
                 tag = tag + tag_obj.tag_name
                 # add newline except for last tag
                 if i < n:
-                    tag = tag + ','
+                    tag = tag + ' '
                     i = i + 1
             entryline.append(tag)
         # case
@@ -244,17 +255,32 @@ def write_csv(username, csv_file):
                 case = case + case_obj.case_name
                 # add newline except for last case
                 if i < n:
-                    case = case + ','
+                    case = case + ' '
                     i = i + 1
             entryline.append(case)
+        # system assigned to user
+        if model.spread_csv_system_assigned_to_user_id:
+            if system.system_assigned_to_user_id:
+                system_assigned_to_user_id = str(system.system_assigned_to_user_id)
+            else:
+                system_assigned_to_user_id = ''
+            entryline.append(system_assigned_to_user_id)
         # system create time
         if model.spread_csv_system_create_time:
             system_create_time = system.system_create_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_create_time)
+        # system created by user
+        if model.spread_csv_system_created_by_user_id:
+            system_created_by_user_id = str(system.system_created_by_user_id)
+            entryline.append(system_created_by_user_id)
         # system modify time
         if model.spread_csv_system_modify_time:
             system_modify_time = system.system_modify_time.strftime('%Y-%m-%d %H:%M')
             entryline.append(system_modify_time)
+        # system modified by user
+        if model.spread_csv_system_modified_by_user_id:
+            system_modified_by_user_id = str(system.system_modified_by_user_id)
+            entryline.append(system_modified_by_user_id)
 
         # write entryline
         csv_writer.writerow(entryline)
@@ -304,7 +330,6 @@ def system_create_cron(request):
         # return to 'system_list'
         return redirect(reverse('system_list'))
     else:
-
         # create parameter dict
         params = {}
 

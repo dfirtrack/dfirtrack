@@ -8,7 +8,6 @@ class OsModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Os.objects.create(os_name='os_1')
 
@@ -56,4 +55,4 @@ class OsModelTestCase(TestCase):
         # get max length
         max_length = os_1._meta.get_field('os_name').max_length
         # compare
-        self.assertEqual(max_length, 30)
+        self.assertEqual(max_length, 255)

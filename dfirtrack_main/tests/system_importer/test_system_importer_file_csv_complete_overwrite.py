@@ -511,7 +511,6 @@ class SystemImporterFileCsvCompleteOverwriteViewTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2021, 3, 17, 19, 30, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # execute cron job / scheduled task
             system_cron()
 

@@ -40,7 +40,6 @@ class NoteCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/note/note_generic_form.html'
 
     def get(self, request, *args, **kwargs):
-
         # get id of first status objects sorted by name
         notestatus = Notestatus.objects.order_by('notestatus_name')[0].notestatus_id
 
@@ -133,3 +132,39 @@ class NoteUpdate(LoginRequiredMixin, UpdateView):
                     'note': note,
                 },
             )
+
+
+class NoteSetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Note
+
+    def get(self, request, *args, **kwargs):
+        note = self.get_object()
+        note.note_assigned_to_user_id = request.user
+        note.save()
+        note.logger(str(request.user), " NOTE_SET_USER_EXECUTED")
+        messages.success(request, 'Note assigned to you')
+
+        # redirect
+        if 'documentation' in request.GET:
+            return redirect(reverse('documentation_list') + f'#note_id_{note.note_id}')
+        else:
+            return redirect(reverse('note_detail', args=(note.note_id,)))
+
+
+class NoteUnsetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Note
+
+    def get(self, request, *args, **kwargs):
+        note = self.get_object()
+        note.note_assigned_to_user_id = None
+        note.save()
+        note.logger(str(request.user), " NOTE_UNSET_USER_EXECUTED")
+        messages.warning(request, 'User assignment for note deleted')
+
+        # redirect
+        if 'documentation' in request.GET:
+            return redirect(reverse('documentation_list') + f'#note_id_{note.note_id}')
+        else:
+            return redirect(reverse('note_detail', args=(note.note_id,)))

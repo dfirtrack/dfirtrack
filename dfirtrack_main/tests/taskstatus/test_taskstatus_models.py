@@ -8,7 +8,6 @@ class TaskstatusModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Taskstatus.objects.create(taskstatus_name='taskstatus_1')
 
@@ -48,4 +47,4 @@ class TaskstatusModelTestCase(TestCase):
         # get max length
         max_length = taskstatus_1._meta.get_field('taskstatus_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

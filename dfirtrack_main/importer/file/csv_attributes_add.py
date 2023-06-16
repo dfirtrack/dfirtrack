@@ -20,7 +20,6 @@ from dfirtrack_main.models import (
 
 
 def create_lock_tags(model):
-
     # get tagcolor
     tagcolor_white = Tagcolor.objects.get(tagcolor_name='white')
 
@@ -83,7 +82,6 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
 
     # set systemstatus for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_systemstatus):
-
         # set default systemstatus for new system
         if system_created:
             # set systemstatus for new system
@@ -103,7 +101,6 @@ def add_fk_attributes(system, system_created, model, row, row_counter, request=N
 
     # set analysisstatus for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_analysisstatus):
-
         # set default analysisstatus for new system
         if system_created:
             # set analysisstatus for new system
@@ -698,7 +695,6 @@ def add_many2many_attributes(
 
     # add IPs for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_ip):
-
         # remove IPs if not new system
         if not system_created:
             # remove all IPs
@@ -753,7 +749,6 @@ def add_many2many_attributes(
 
     # set case for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_case):
-
         # remove cases if not new system
         if not system_created:
             # remove all cases
@@ -833,7 +828,6 @@ def add_many2many_attributes(
 
     # set company for new system or change if remove old is set
     if system_created or (not system_created and model.csv_remove_company):
-
         # remove companies if not new system
         if not system_created:
             # remove all companies
@@ -907,7 +901,6 @@ def add_many2many_attributes(
     if system_created or (
         not system_created and model.csv_remove_tag != 'tag_remove_none'
     ):
-
         """prepare tag prefix"""
 
         # get tag delimiter from config
@@ -944,16 +937,13 @@ def add_many2many_attributes(
 
         # get tags from CSV
         if model.csv_choice_tag:
-
             # check for index error
             try:
-
                 # get tagstring from CSV column
                 tag_string = row[model.csv_column_tag - 1]
 
                 # check for empty string
                 if tag_string:
-
                     # get tag delimiter from config
                     if model.csv_tag_delimiter == 'tag_comma':
                         tag_delimiter = ','
@@ -1035,26 +1025,21 @@ def add_many2many_attributes(
 
         # if tag from CSV are enabled
         if model.csv_choice_tag:
-
             # check for index error
             try:
-
                 # get tagstring from CSV column
                 tag_string = row[model.csv_column_tag - 1]
 
                 # no tags for this system
                 if not tag_string:
-
                     """systemstatus"""
 
                     # tagfree systemstatus is set
                     if model.csv_choice_tagfree_systemstatus:
-
                         # set tagfree systemstatus for new system or change tagfree systemsstatus if remove old is set
                         if system_created or (
                             not system_created and model.csv_remove_systemstatus
                         ):
-
                             # set tagfree systemstatus for new system
                             if system_created:
                                 # set systemstatus for new system
@@ -1081,12 +1066,10 @@ def add_many2many_attributes(
 
                     # tagfree analysisstatus is set
                     if model.csv_choice_tagfree_analysisstatus:
-
                         # set tagfree status for new system or change to tagfree status if remove old is set
                         if system_created or (
                             not system_created and model.csv_remove_analysisstatus
                         ):
-
                             # set tagfree analysisstatus for new system
                             if system_created:
                                 # set analysisstatus for new system

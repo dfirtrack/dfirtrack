@@ -13,7 +13,7 @@
 
 DFIRTrack (Digital Forensics and Incident Response Tracking application) is an open source web application mainly based on [Django](https://www.djangoproject.com/) using a [PostgreSQL](https://www.postgresql.org/) database back end.
 
-In contrast to other great incident response tools, which are mainly case-based and support the work of CERTs, SOCs etc. in their daily business, DFIRTrack is focused on handling one ore more major incidents with a lot of affected systems as it is often observed in APT cases.
+In contrast to other great incident response tools, which are mainly case-based and support the work of CERTs, SOCs etc. in their daily business, DFIRTrack is focused on handling one or more major incidents with a lot of affected systems as it is often observed in APT cases.
 It is meant to be used as a tool for dedicated incident response teams in large cases.
 So, of course, CERTs and SOCs may use DFIRTrack as well, but they may feel it will be more appropriate in special cases instead of every day work.
 
@@ -53,15 +53,14 @@ The following functions are implemented for now:
 ## Installation
 
 DFIRTrack is developed for deploying on **Ubuntu**.
-Other distributions may work but were not tested.
-At the moment the project will be focused on Ubuntu LTS releases.
+Other distributions may work as well but are not tested and are not supported.
 
 For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role were written (available in `ansible`).
 For information about deployment with Ansible look at the  [Wiki - Ansible](https://github.com/stuhli/dfirtrack/wiki/Ansible).
 
-For development and production two docker environment were prepared (see [Wiki - Docker](https://github.com/stuhli/dfirtrack/wiki/Docker) and [README - Docker](https://github.com/dfirtrack/dfirtrack/tree/master/docker)).
+For development and production two docker environments were prepared as well as pre-build docker images on docker hub (see [Wiki - Docker](https://github.com/stuhli/dfirtrack/wiki/Docker).
 
-For installation with your own setup or for testing look at the [Wiki - Installation](https://github.com/stuhli/dfirtrack/wiki/Installation).
+For installation with your own setup or for quick testing look at the [Wiki - Installation](https://github.com/stuhli/dfirtrack/wiki/Installation).
 
 ## Built-in software
 

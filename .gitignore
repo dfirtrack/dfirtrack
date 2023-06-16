@@ -261,7 +261,8 @@ ipython_config.py
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
 #   having no cross-platform support, pipenv may install dependencies that don’t work, or not
 #   install all needed dependencies.
-#Pipfile.lock
+Pipfile
+Pipfile.lock
 
 # celery beat schedule file
 celerybeat-schedule
@@ -372,3 +373,6 @@ venv/
 
 # Vagrant
 .vagrant/
+
+# Markdown folder from Docker Dev Container
+markdown/

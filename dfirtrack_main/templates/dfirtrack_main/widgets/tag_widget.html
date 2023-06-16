@@ -1,8 +1,28 @@
 <!-- custom widget template -->
 {% load static %}
 
+<!-- tag dropdown list and add tag button -->
+<div class="row">
+    <div class="col-8">
+        <select id="tag_select" class="form-select form-select-sm">
+        {% for group_name, group_choices, group_index in widget.optgroups %}
+            {% for option in group_choices %}
+                <option value="{{ option.value|stringformat:'s' }}">{{ option.label }}</option>
+            {% endfor %}
+        {% endfor %}
+        </select>
+    </div>
+    <div class="col">
+        <button  id="add_tag" type="button" class="btn btn-light btn-sm copy-false">
+            <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+            Assign tag
+        </button>
+    </div>
+</div>
+<!-- tag dropdown list and add tag button -->
+
 <!-- display for selected tags -->
-<div id="selected_tags" class="bottom-distance"></div>
+<div id="selected_tags" class="top-distance"></div>
 <!-- display for selected tags -->
 
 <!-- hidden tag checkboxed, will be selected via javascript -->
@@ -22,25 +42,6 @@
     {% endfor %}
 </div>
 <!-- hidden tag checkboxed, will be selected via javascript -->
-
-<!-- tag dropdown list and add tag button -->
-<div class="row">
-    <div class="col">
-        <select id="tag_select">
-        {% for group_name, group_choices, group_index in widget.optgroups %}
-            {% for option in group_choices %}
-                <option value="{{ option.value|stringformat:'s' }}">{{ option.label }}</option>
-            {% endfor %}
-        {% endfor %}
-        </select>
-
-        <button  id="add_tag" type="button" class="btn btn-light btn-sm copy-false">
-            <img src="{% static 'dfirtrack_main/icons/share.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-            Assign tag
-        </button>
-    </div>
-</div>
-<!-- tag dropdown list and add tag button -->
 
 <!-- tag javascript array for custom javascript code in dfirtrack.js -->
 <script type="text/javascript">

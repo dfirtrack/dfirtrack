@@ -7,7 +7,6 @@ from dfirtrack_main.widgets import TagWidget
 class TagWidgetTestCase(TestCase):
     @classmethod
     def setUpTestData(self):
-
         # create object
         tag_color_1 = Tagcolor.objects.create(tagcolor_name="tag_color_1")
         Tag.objects.create(tag_name='tag_1', tagcolor=tag_color_1)

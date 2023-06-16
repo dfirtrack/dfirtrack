@@ -10,7 +10,6 @@ class MainConfigFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         pass
 
     def test_main_config_system_name_editable_form_label(self):
@@ -22,6 +21,16 @@ class MainConfigFormTestCase(TestCase):
         self.assertEqual(
             form.fields['system_name_editable'].label,
             'Make system name editable (may require service restart)',
+        )
+
+    def test_main_config_capitalization_form_label(self):
+        """test form label"""
+
+        # get object
+        form = MainConfigForm()
+        # compare
+        self.assertEqual(
+            form.fields['capitalization'].label, 'Capitalization of system names'
         )
 
     def test_main_config_main_overview_form_label(self):
@@ -146,6 +155,21 @@ class MainConfigFormTestCase(TestCase):
         # compare
         self.assertFalse(form.is_valid())
 
+    def test_main_config_form_capitalization_filled(self):
+        """test minimum form requirements / INVALID"""
+
+        # get object
+        form = MainConfigForm(
+            data={
+                'statushistory_entry_numbers': 7,
+                'cron_export_path': '/tmp',
+                'cron_username': 'cron',
+                'capitalization': 'capitalization_keep',
+            }
+        )
+        # compare
+        self.assertFalse(form.is_valid())
+
     def test_main_config_form_main_overview_filled(self):
         """test minimum form requirements / VALID"""
 
@@ -155,6 +179,7 @@ class MainConfigFormTestCase(TestCase):
                 'statushistory_entry_numbers': 6,
                 'cron_export_path': '/tmp',
                 'cron_username': 'cron',
+                'capitalization': 'capitalization_keep',
                 'main_overview': 'main_overview_system',
             }
         )
@@ -189,6 +214,7 @@ class MainConfigFormTestCase(TestCase):
                 'statushistory_entry_numbers': 5,
                 'cron_export_path': '/tmp',
                 'cron_username': 'cron',
+                'capitalization': 'capitalization_keep',
                 'main_overview': 'main_overview_system',
                 'artifactstatus_requested': [
                     artifactstatus_1,
@@ -230,6 +256,7 @@ class MainConfigFormTestCase(TestCase):
                 'statushistory_entry_numbers': 4,
                 'cron_export_path': '/tmp',
                 'cron_username': 'cron',
+                'capitalization': 'capitalization_keep',
                 'main_overview': 'main_overview_system',
                 'artifactstatus_requested': [
                     artifactstatus_1,
@@ -282,6 +309,7 @@ class MainConfigFormTestCase(TestCase):
                 'statushistory_entry_numbers': 3,
                 'cron_export_path': '/tmp',
                 'cron_username': 'cron',
+                'capitalization': 'capitalization_keep',
                 'main_overview': 'main_overview_system',
                 'casestatus_start': [
                     casestatus_1,
@@ -323,6 +351,7 @@ class MainConfigFormTestCase(TestCase):
                 'statushistory_entry_numbers': 2,
                 'cron_export_path': '/tmp',
                 'cron_username': 'cron',
+                'capitalization': 'capitalization_keep',
                 'main_overview': 'main_overview_system',
                 'casestatus_start': [
                     casestatus_1,
@@ -356,6 +385,7 @@ class MainConfigFormTestCase(TestCase):
                 'statushistory_entry_numbers': 6,
                 'cron_export_path': '/this_path_does_not_exist',
                 'cron_username': 'cron',
+                'capitalization': 'capitalization_keep',
                 'main_overview': 'main_overview_system',
             }
         )
@@ -374,6 +404,7 @@ class MainConfigFormTestCase(TestCase):
                 'statushistory_entry_numbers': 6,
                 'cron_export_path': '/root',
                 'cron_username': 'cron',
+                'capitalization': 'capitalization_keep',
                 'main_overview': 'main_overview_system',
             }
         )

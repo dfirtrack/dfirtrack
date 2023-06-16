@@ -12,7 +12,6 @@ class SystemExporterMarkdownConfigViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_system_exporter_markdown_config',

@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import constants
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils import timezone
 from django_q.tasks import async_task
 
 from dfirtrack_main.async_messages import message_user
@@ -18,13 +17,11 @@ def task_creator(request):
 
     # form was valid to post
     if request.method == 'POST':
-
         # get form
         form = TaskCreatorForm(request.POST)
 
         # form was valid
         if form.is_valid():
-
             # get objects from request object
             request_post = request.POST
             request_user = request.user
@@ -44,7 +41,6 @@ def task_creator(request):
 
     # show empty form
     else:
-
         # get id of first status objects sorted by name
         taskpriority = Taskpriority.objects.order_by('taskpriority_name')[
             0
@@ -84,19 +80,16 @@ def task_creator_async(request_post, request_user):
 
     # iterate over systems
     for system in systems:
-
         # autoincrement counter
         system_tasks_created_counter += 1
 
         # iterate over tasknames
         for taskname in tasknames:
-
             # create form with request data
             form = TaskCreatorForm(request_post)
 
             # create task
             if form.is_valid():
-
                 """object creation"""
 
                 # don't save form yet
@@ -109,19 +102,6 @@ def task_creator_async(request_post, request_user):
                 # set auto values
                 task.task_created_by_user_id = request_user
                 task.task_modified_by_user_id = request_user
-
-                # get taskstatus objects for comparing
-                taskstatus_working = Taskstatus.objects.get(
-                    taskstatus_name='20_working'
-                )
-                taskstatus_done = Taskstatus.objects.get(taskstatus_name='30_done')
-
-                # set times depending on submitted taskstatus
-                if task.taskstatus == taskstatus_working:
-                    task.task_started_time = timezone.now()
-                if task.taskstatus == taskstatus_done:
-                    task.task_started_time = timezone.now()
-                    task.task_finished_time = timezone.now()
 
                 # save object
                 task.save()

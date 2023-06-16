@@ -10,11 +10,22 @@ from django.utils import timezone
 
 from dfirtrack_artifacts.exporter.spreadsheet.xls import artifact_cron
 from dfirtrack_artifacts.models import Artifact, Artifactstatus, Artifacttype
+from dfirtrack_artifacts.tests.artifact.artifact_exporter_spreadsheet_xls_shared_checks import (
+    artifact_exporter_spreadsheet_xls_complete_spreadsheet_check,
+)
 from dfirtrack_config.models import (
     ArtifactExporterSpreadsheetXlsConfigModel,
     MainConfigModel,
 )
-from dfirtrack_main.models import System, Systemstatus
+from dfirtrack_main.models import (
+    Case,
+    Casepriority,
+    Casestatus,
+    System,
+    Systemstatus,
+    Tag,
+    Tagcolor,
+)
 
 
 class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
@@ -22,7 +33,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_artifact_exporter_spreadsheet_xls',
@@ -52,6 +62,19 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             artifacttype_note='lorem ipsum',
         )
 
+        # create objects
+        casepriority_1 = Casepriority.objects.create(casepriority_name='casepriority_1')
+        casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1')
+
+        # create object
+        case_1 = Case.objects.create(
+            case_name='case_1',
+            case_is_incident=True,
+            case_created_by_user_id=test_user,
+            casepriority=casepriority_1,
+            casestatus=casestatus_1,
+        )
+
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
@@ -63,17 +86,23 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
             system_modified_by_user_id=test_user,
         )
 
+        # create object
+        tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
+        # create object
+        tag_1 = Tag.objects.create(tag_name='tag_1', tagcolor=tagcolor_1)
+        tag_2 = Tag.objects.create(tag_name='tag_2', tagcolor=tagcolor_1)
+
         """ create artifacts """
 
         # mock timezone.now()
         t_1 = datetime(2012, 11, 10, 12, 34, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # create object with maximum attributes
-            Artifact.objects.create(
+            artifact_1 = Artifact.objects.create(
                 artifact_name='artifact_exporter_spreadsheet_xls_artifact_1_all_attributes',
                 artifactstatus=artifactstatus_3,
                 artifacttype=artifacttype_1,
+                case=case_1,
                 system=system_1,
                 artifact_source_path=r'C:\Temp\malicious.exe',
                 artifact_note_internal='artifact note for internal usage',
@@ -82,14 +111,17 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
                 artifact_md5='d41d8cd98f00b204e9800998ecf8427e',
                 artifact_sha1='da39a3ee5e6b4b0d3255bfef95601890afd80709',
                 artifact_sha256='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+                artifact_assigned_to_user_id=test_user,
                 artifact_created_by_user_id=test_user,
                 artifact_modified_by_user_id=test_user,
             )
 
+        artifact_1.tag.add(tag_1)
+        artifact_1.tag.add(tag_2)
+
         # mock timezone.now()
         t_2 = datetime(2009, 8, 7, 23, 45, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # create object with minimum attributes
             Artifact.objects.create(
                 artifact_name='artifact_exporter_spreadsheet_xls_artifact_2_no_attributes',
@@ -246,7 +278,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # mock timezone.now()
         t1_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t1_now):
-
             # get response
             response = self.client.get(
                 '/artifacts/artifact/exporter/spreadsheet/xls/artifact/'
@@ -352,10 +383,22 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_sha256 = (
             True
         )
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_case_id = True
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_case_name = True
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_tag_all = True
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_assigned_to_user_id = (
+            True
+        )
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_create_time = (
             True
         )
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_created_by_user_id = (
+            True
+        )
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_modify_time = (
+            True
+        )
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_modified_by_user_id = (
             True
         )
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_worksheet_artifactstatus = (
@@ -385,7 +428,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # mock timezone.now()
         t2_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t2_now):
-
             # get response
             response = self.client.get(
                 '/artifacts/artifact/exporter/spreadsheet/xls/artifact/'
@@ -398,190 +440,11 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # open artifactlist directly from byte stream
         artifactlist = xlrd.open_workbook(file_contents=workbook)
 
-        """ prepare objects section """
+        """ test section """
 
-        # get objects
-        artifact_1 = Artifact.objects.get(
-            artifact_name='artifact_exporter_spreadsheet_xls_artifact_1_all_attributes'
-        )
-        artifact_2 = Artifact.objects.get(
-            artifact_name='artifact_exporter_spreadsheet_xls_artifact_2_no_attributes'
-        )
-
-        # create lists for easier comparison with whole columns - artifactstatus
-        artifactstatus_id_list = ['ID']
-        artifactstatus_name_list = ['Artifactstatus']
-        artifactstatus_note_list = ['Note']
-        all_artifactstatus = Artifactstatus.objects.all().order_by(
-            'artifactstatus_name'
-        )
-        for artifactstatus_object in all_artifactstatus:
-            '''
-            the conversion to float was carried out,
-            because otherwise the return values from the spreadsheet would have had to be converted to int,
-            which would have been more time-consuming
-            '''
-            artifactstatus_id_list.append(
-                float(artifactstatus_object.artifactstatus_id)
-            )
-            artifactstatus_name_list.append(artifactstatus_object.artifactstatus_name)
-            if artifactstatus_object.artifactstatus_note:
-                artifactstatus_note_list.append(
-                    artifactstatus_object.artifactstatus_note
-                )
-            else:
-                artifactstatus_note_list.append('---')
-
-        # create lists for easier comparison with whole columns - artifacttype
-        artifacttype_id_list = ['ID']
-        artifacttype_name_list = ['Artifacttype']
-        artifacttype_note_list = ['Note']
-        all_artifacttype = Artifacttype.objects.all().order_by('artifacttype_name')
-        for artifacttype_object in all_artifacttype:
-            '''
-            the conversion to float was carried out,
-            because otherwise the return values from the spreadsheet would have had to be converted to int,
-            which would have been more time-consuming
-            '''
-            artifacttype_id_list.append(float(artifacttype_object.artifacttype_id))
-            artifacttype_name_list.append(artifacttype_object.artifacttype_name)
-            if artifacttype_object.artifacttype_note:
-                artifacttype_note_list.append(artifacttype_object.artifacttype_note)
-            else:
-                artifacttype_note_list.append('---')
-
-        # get sheets
-        sheet_artifacts = artifactlist.sheet_by_name('artifacts')
-        sheet_artifactstatus = artifactlist.sheet_by_name('artifactstatus')
-        sheet_artifacttype = artifactlist.sheet_by_name('artifacttype')
-
-        """ compare values section """
-
-        # compare number of rows and columns
-        self.assertEqual(sheet_artifacts.nrows, 6)
-        self.assertEqual(sheet_artifacts.ncols, 17)
-        self.assertEqual(sheet_artifactstatus.nrows, 14)
-        self.assertEqual(sheet_artifactstatus.ncols, 3)
-        self.assertEqual(sheet_artifacttype.nrows, 7)
-        self.assertEqual(sheet_artifacttype.ncols, 3)
-        # compare headlines
-        self.assertEqual(
-            sheet_artifacts.row_values(0),
-            [
-                'Artifact ID',
-                'Artifact',
-                'System ID',
-                'System',
-                'Artifactstatus',
-                'Artifactpriority',
-                'Artifacttype',
-                'Source path',
-                'Storage path',
-                'Internal note',
-                'External note',
-                'Analysis result',
-                'MD5',
-                'SHA1',
-                'SHA256',
-                'Created',
-                'Modified',
-            ],
-        )
-        self.assertEqual(
-            sheet_artifactstatus.row_values(0), ['ID', 'Artifactstatus', 'Note']
-        )
-        self.assertEqual(
-            sheet_artifacttype.row_values(0), ['ID', 'Artifacttype', 'Note']
-        )
-        # compare content - artifact 1
-        self.assertEqual(int(sheet_artifacts.cell(1, 0).value), artifact_1.artifact_id)
-        self.assertEqual(sheet_artifacts.cell(1, 1).value, artifact_1.artifact_name)
-        self.assertEqual(
-            int(sheet_artifacts.cell(1, 2).value), artifact_1.system.system_id
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 3).value, artifact_1.system.system_name
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 4).value,
-            artifact_1.artifactstatus.artifactstatus_name,
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 5).value,
-            artifact_1.artifactpriority.artifactpriority_name,
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 6).value, artifact_1.artifacttype.artifacttype_name
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 7).value, artifact_1.artifact_source_path
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 8).value, artifact_1.artifact_storage_path
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 9).value, 'artifact note for internal usage'
-        )  # artifact_note_internal
-        self.assertEqual(
-            sheet_artifacts.cell(1, 10).value, 'artifact note for external usage'
-        )  # artifact_note_external
-        self.assertEqual(
-            sheet_artifacts.cell(1, 11).value, 'artifact note for analysis result'
-        )  # artifact_note_analysisresult
-        self.assertEqual(sheet_artifacts.cell(1, 12).value, artifact_1.artifact_md5)
-        self.assertEqual(sheet_artifacts.cell(1, 13).value, artifact_1.artifact_sha1)
-        self.assertEqual(sheet_artifacts.cell(1, 14).value, artifact_1.artifact_sha256)
-        self.assertEqual(sheet_artifacts.cell(1, 15).value, '2012-11-10 12:34')
-        self.assertEqual(sheet_artifacts.cell(1, 16).value, '2012-11-10 12:34')
-        # compare content - artifact 2
-        self.assertEqual(int(sheet_artifacts.cell(2, 0).value), artifact_2.artifact_id)
-        self.assertEqual(sheet_artifacts.cell(2, 1).value, artifact_2.artifact_name)
-        self.assertEqual(
-            int(sheet_artifacts.cell(2, 2).value), artifact_2.system.system_id
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(2, 3).value, artifact_2.system.system_name
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(2, 4).value,
-            artifact_2.artifactstatus.artifactstatus_name,
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(2, 5).value,
-            artifact_2.artifactpriority.artifactpriority_name,
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(2, 6).value, artifact_2.artifacttype.artifacttype_name
-        )
-        self.assertEqual(sheet_artifacts.cell(2, 7).value, '')
-        self.assertEqual(
-            sheet_artifacts.cell(2, 8).value, artifact_2.artifact_storage_path
-        )
-        self.assertEqual(sheet_artifacts.cell(2, 9).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 10).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 11).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 12).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 13).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 14).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 15).value, '2009-08-07 23:45')
-        self.assertEqual(sheet_artifacts.cell(2, 16).value, '2009-08-07 23:45')
-        # compare content - artifactstatus worksheet (whole columns)
-        self.assertEqual(sheet_artifactstatus.col_values(0), artifactstatus_id_list)
-        self.assertEqual(sheet_artifactstatus.col_values(1), artifactstatus_name_list)
-        self.assertEqual(sheet_artifactstatus.col_values(2), artifactstatus_note_list)
-        # compare content - artifacttype worksheet (whole columns)
-        self.assertEqual(sheet_artifacttype.col_values(0), artifacttype_id_list)
-        self.assertEqual(sheet_artifacttype.col_values(1), artifacttype_name_list)
-        self.assertEqual(sheet_artifacttype.col_values(2), artifacttype_note_list)
-        # compare content - metadata
-        self.assertEqual(sheet_artifacts.cell(4, 0).value, 'Created:')
-        self.assertEqual(
-            sheet_artifacts.cell(4, 1).value, t2_now.strftime('%Y-%m-%d %H:%M')
-        )
-        self.assertEqual(sheet_artifacts.cell(5, 0).value, 'Created by:')
-        self.assertEqual(
-            sheet_artifacts.cell(5, 1).value,
-            'testuser_artifact_exporter_spreadsheet_xls',
+        # test for complete spreadsheet content
+        artifact_exporter_spreadsheet_xls_complete_spreadsheet_check(
+            self, artifactlist, t2_now, 'testuser_artifact_exporter_spreadsheet_xls'
         )
 
     def test_artifact_exporter_spreadsheet_xls_cron_path_not_existent(self):
@@ -729,10 +592,22 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_sha256 = (
             True
         )
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_case_id = True
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_case_name = True
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_tag_all = True
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_assigned_to_user_id = (
+            True
+        )
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_create_time = (
             True
         )
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_created_by_user_id = (
+            True
+        )
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_modify_time = (
+            True
+        )
+        artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_artifact_modified_by_user_id = (
             True
         )
         artifact_exporter_spreadsheet_xls_config_model.artifactlist_xls_worksheet_artifactstatus = (
@@ -762,7 +637,6 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # mock timezone.now()
         t3_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t3_now):
-
             # create spreadsheet without GET by directly calling the function
             artifact_cron()
 
@@ -779,188 +653,12 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         # open file from temp folder
         xls_disk = xlrd.open_workbook(output_file_path)
 
-        """ prepare objects section """
+        """ test section """
 
-        # get objects
-        artifact_1 = Artifact.objects.get(
-            artifact_name='artifact_exporter_spreadsheet_xls_artifact_1_all_attributes'
+        # test for complete spreadsheet content
+        artifact_exporter_spreadsheet_xls_complete_spreadsheet_check(
+            self, xls_disk, t3_now, 'cron'
         )
-        artifact_2 = Artifact.objects.get(
-            artifact_name='artifact_exporter_spreadsheet_xls_artifact_2_no_attributes'
-        )
-
-        # create lists for easier comparison with whole columns - artifactstatus
-        artifactstatus_id_list = ['ID']
-        artifactstatus_name_list = ['Artifactstatus']
-        artifactstatus_note_list = ['Note']
-        all_artifactstatus = Artifactstatus.objects.all().order_by(
-            'artifactstatus_name'
-        )
-        for artifactstatus_object in all_artifactstatus:
-            '''
-            the conversion to float was carried out,
-            because otherwise the return values from the spreadsheet would have had to be converted to int,
-            which would have been more time-consuming
-            '''
-            artifactstatus_id_list.append(
-                float(artifactstatus_object.artifactstatus_id)
-            )
-            artifactstatus_name_list.append(artifactstatus_object.artifactstatus_name)
-            if artifactstatus_object.artifactstatus_note:
-                artifactstatus_note_list.append(
-                    artifactstatus_object.artifactstatus_note
-                )
-            else:
-                artifactstatus_note_list.append('---')
-
-        # create lists for easier comparison with whole columns - artifacttype
-        artifacttype_id_list = ['ID']
-        artifacttype_name_list = ['Artifacttype']
-        artifacttype_note_list = ['Note']
-        all_artifacttype = Artifacttype.objects.all().order_by('artifacttype_name')
-        for artifacttype_object in all_artifacttype:
-            '''
-            the conversion to float was carried out,
-            because otherwise the return values from the spreadsheet would have had to be converted to int,
-            which would have been more time-consuming
-            '''
-            artifacttype_id_list.append(float(artifacttype_object.artifacttype_id))
-            artifacttype_name_list.append(artifacttype_object.artifacttype_name)
-            if artifacttype_object.artifacttype_note:
-                artifacttype_note_list.append(artifacttype_object.artifacttype_note)
-            else:
-                artifacttype_note_list.append('---')
-
-        # get sheets
-        sheet_artifacts = xls_disk.sheet_by_name('artifacts')
-        sheet_artifactstatus = xls_disk.sheet_by_name('artifactstatus')
-        sheet_artifacttype = xls_disk.sheet_by_name('artifacttype')
-
-        """ compare values section """
-
-        # compare number of rows and columns
-        self.assertEqual(sheet_artifacts.nrows, 6)
-        self.assertEqual(sheet_artifacts.ncols, 17)
-        self.assertEqual(sheet_artifactstatus.nrows, 14)
-        self.assertEqual(sheet_artifactstatus.ncols, 3)
-        self.assertEqual(sheet_artifacttype.nrows, 7)
-        self.assertEqual(sheet_artifacttype.ncols, 3)
-        # compare headlines
-        self.assertEqual(
-            sheet_artifacts.row_values(0),
-            [
-                'Artifact ID',
-                'Artifact',
-                'System ID',
-                'System',
-                'Artifactstatus',
-                'Artifactpriority',
-                'Artifacttype',
-                'Source path',
-                'Storage path',
-                'Internal note',
-                'External note',
-                'Analysis result',
-                'MD5',
-                'SHA1',
-                'SHA256',
-                'Created',
-                'Modified',
-            ],
-        )
-        self.assertEqual(
-            sheet_artifactstatus.row_values(0), ['ID', 'Artifactstatus', 'Note']
-        )
-        self.assertEqual(
-            sheet_artifacttype.row_values(0), ['ID', 'Artifacttype', 'Note']
-        )
-        # compare content - artifact 1
-        self.assertEqual(int(sheet_artifacts.cell(1, 0).value), artifact_1.artifact_id)
-        self.assertEqual(sheet_artifacts.cell(1, 1).value, artifact_1.artifact_name)
-        self.assertEqual(
-            int(sheet_artifacts.cell(1, 2).value), artifact_1.system.system_id
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 3).value, artifact_1.system.system_name
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 4).value,
-            artifact_1.artifactstatus.artifactstatus_name,
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 5).value,
-            artifact_1.artifactpriority.artifactpriority_name,
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 6).value, artifact_1.artifacttype.artifacttype_name
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 7).value, artifact_1.artifact_source_path
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 8).value, artifact_1.artifact_storage_path
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(1, 9).value, 'artifact note for internal usage'
-        )  # artifact_note_internal
-        self.assertEqual(
-            sheet_artifacts.cell(1, 10).value, 'artifact note for external usage'
-        )  # artifact_note_external
-        self.assertEqual(
-            sheet_artifacts.cell(1, 11).value, 'artifact note for analysis result'
-        )  # artifact_note_analysisresult
-        self.assertEqual(sheet_artifacts.cell(1, 12).value, artifact_1.artifact_md5)
-        self.assertEqual(sheet_artifacts.cell(1, 13).value, artifact_1.artifact_sha1)
-        self.assertEqual(sheet_artifacts.cell(1, 14).value, artifact_1.artifact_sha256)
-        self.assertEqual(sheet_artifacts.cell(1, 15).value, '2012-11-10 12:34')
-        self.assertEqual(sheet_artifacts.cell(1, 16).value, '2012-11-10 12:34')
-        # compare content - artifact 2
-        self.assertEqual(int(sheet_artifacts.cell(2, 0).value), artifact_2.artifact_id)
-        self.assertEqual(sheet_artifacts.cell(2, 1).value, artifact_2.artifact_name)
-        self.assertEqual(
-            int(sheet_artifacts.cell(2, 2).value), artifact_2.system.system_id
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(2, 3).value, artifact_2.system.system_name
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(2, 4).value,
-            artifact_2.artifactstatus.artifactstatus_name,
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(2, 5).value,
-            artifact_2.artifactpriority.artifactpriority_name,
-        )
-        self.assertEqual(
-            sheet_artifacts.cell(2, 6).value, artifact_2.artifacttype.artifacttype_name
-        )
-        self.assertEqual(sheet_artifacts.cell(2, 7).value, '')
-        self.assertEqual(
-            sheet_artifacts.cell(2, 8).value, artifact_2.artifact_storage_path
-        )
-        self.assertEqual(sheet_artifacts.cell(2, 9).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 10).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 11).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 12).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 13).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 14).value, '')
-        self.assertEqual(sheet_artifacts.cell(2, 15).value, '2009-08-07 23:45')
-        self.assertEqual(sheet_artifacts.cell(2, 16).value, '2009-08-07 23:45')
-        # compare content - artifactstatus worksheet (whole columns)
-        self.assertEqual(sheet_artifactstatus.col_values(0), artifactstatus_id_list)
-        self.assertEqual(sheet_artifactstatus.col_values(1), artifactstatus_name_list)
-        self.assertEqual(sheet_artifactstatus.col_values(2), artifactstatus_note_list)
-        # compare content - artifacttype worksheet (whole columns)
-        self.assertEqual(sheet_artifacttype.col_values(0), artifacttype_id_list)
-        self.assertEqual(sheet_artifacttype.col_values(1), artifacttype_name_list)
-        self.assertEqual(sheet_artifacttype.col_values(2), artifacttype_note_list)
-        # compare content - metadata
-        self.assertEqual(sheet_artifacts.cell(4, 0).value, 'Created:')
-        self.assertEqual(
-            sheet_artifacts.cell(4, 1).value, t3_now.strftime('%Y-%m-%d %H:%M')
-        )
-        self.assertEqual(sheet_artifacts.cell(5, 0).value, 'Created by:')
-        self.assertEqual(sheet_artifacts.cell(5, 1).value, 'cron')
 
     def test_artifact_exporter_spreadsheet_xls_create_cron_not_logged_in(self):
         """test helper function to check config before creating scheduled task"""

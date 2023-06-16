@@ -1,6 +1,5 @@
 from django import views as django_views
-from django.conf.urls import re_path
-from django.urls import path
+from django.urls import path, re_path
 
 from dfirtrack_main.creator import (
     case_creator,
@@ -30,6 +29,7 @@ from dfirtrack_main.views import (
     entry_views,
     headline_views,
     ip_views,
+    json_provider_views,
     location_views,
     note_views,
     notestatus_views,
@@ -48,6 +48,7 @@ from dfirtrack_main.views import (
     taskname_views,
     taskpriority_views,
     taskstatus_views,
+    toggle_views,
 )
 
 urlpatterns = [
@@ -88,6 +89,16 @@ urlpatterns = [
     path(r'case/add/', case_views.CaseCreate.as_view(), name='case_create'),
     path(r'case/<int:pk>/edit/', case_views.CaseUpdate.as_view(), name='case_update'),
     path(r'case/creator/', case_creator.case_creator, name='case_creator'),
+    path(
+        r'case/<int:pk>/set_user/',
+        case_views.CaseSetUser.as_view(),
+        name='case_set_user',
+    ),
+    path(
+        r'case/<int:pk>/unset_user/',
+        case_views.CaseUnsetUser.as_view(),
+        name='case_unset_user',
+    ),
     path(
         r'casepriority/',
         casepriority_views.CasepriorityList.as_view(),
@@ -253,6 +264,12 @@ urlpatterns = [
     path(
         r'entry/import/step2/', entry_views.import_csv_step2, name='entry_import_step2'
     ),
+    path(r'filter/system/', json_provider_views.filter_system, name='filter_system'),
+    path(
+        r'filter/artifact/',
+        json_provider_views.filter_artifacts,
+        name='filter_artifact',
+    ),
     path(r'headline/', headline_views.HeadlineList.as_view(), name='headline_list'),
     path(
         r'headline/<int:pk>/',
@@ -301,6 +318,16 @@ urlpatterns = [
     path(r'note/<int:pk>/', note_views.NoteDetail.as_view(), name='note_detail'),
     path(r'note/add/', note_views.NoteCreate.as_view(), name='note_create'),
     path(r'note/<int:pk>/edit/', note_views.NoteUpdate.as_view(), name='note_update'),
+    path(
+        r'note/<int:pk>/set_user/',
+        note_views.NoteSetUser.as_view(),
+        name='note_set_user',
+    ),
+    path(
+        r'note/<int:pk>/unset_user/',
+        note_views.NoteUnsetUser.as_view(),
+        name='note_unset_user',
+    ),
     path(
         r'notestatus/',
         notestatus_views.NotestatusList.as_view(),
@@ -392,6 +419,16 @@ urlpatterns = [
         name='reportitem_update',
     ),
     path(
+        r'reportitem/<int:pk>/set_user/',
+        reportitem_views.ReportitemSetUser.as_view(),
+        name='reportitem_set_user',
+    ),
+    path(
+        r'reportitem/<int:pk>/unset_user/',
+        reportitem_views.ReportitemUnsetUser.as_view(),
+        name='reportitem_unset_user',
+    ),
+    path(
         r'serviceprovider/',
         serviceprovider_views.ServiceproviderList.as_view(),
         name='serviceprovider_list',
@@ -426,13 +463,22 @@ urlpatterns = [
         system_views.SystemUpdate.as_view(),
         name='system_update',
     ),
-    path(r'system/json/', system_views.get_systems_json, name='system_json'),
     path(
         r'system/clear_filter/',
         system_views.clear_system_list_filter,
         name='clear_system_list_filter',
     ),
     path(r'system/creator/', system_creator.system_creator, name='system_creator'),
+    path(
+        r'system/<int:pk>/set_user/',
+        system_views.SystemSetUser.as_view(),
+        name='system_set_user',
+    ),
+    path(
+        r'system/<int:pk>/unset_user/',
+        system_views.SystemUnsetUser.as_view(),
+        name='system_unset_user',
+    ),
     path(
         r'system/exporter/markdown/system/',
         markdown.system,
@@ -482,6 +528,61 @@ urlpatterns = [
         r'system/modificator/',
         system_modificator.system_modificator,
         name='system_modificator',
+    ),
+    path(
+        r'system/<int:pk>/toggle_artifact/',
+        toggle_views.ToggleSystemDetailArtifact.as_view(),
+        name='toggle_system_detail_artifact',
+    ),
+    path(
+        r'system/<int:pk>/toggle_artifact_closed/',
+        toggle_views.ToggleSystemDetailArtifactClosed.as_view(),
+        name='toggle_system_detail_artifact_closed',
+    ),
+    path(
+        r'system/<int:pk>/toggle_task/',
+        toggle_views.ToggleSystemDetailTask.as_view(),
+        name='toggle_system_detail_task',
+    ),
+    path(
+        r'system/<int:pk>/toggle_task_closed/',
+        toggle_views.ToggleSystemDetailTaskClosed.as_view(),
+        name='toggle_system_detail_task_closed',
+    ),
+    path(
+        r'system/<int:pk>/toggle_technical_information/',
+        toggle_views.ToggleSystemDetailTechnicalInformation.as_view(),
+        name='toggle_system_detail_technical_information',
+    ),
+    path(
+        r'system/<int:pk>/toggle_timeline/',
+        toggle_views.ToggleSystemDetailTimeline.as_view(),
+        name='toggle_system_detail_timeline',
+    ),
+    path(
+        r'system/<int:pk>/toggle_virtualization_information/',
+        toggle_views.ToggleSystemDetailVirtualizationInformation.as_view(),
+        name='toggle_system_detail_virtualization_information',
+    ),
+    path(
+        r'system/<int:pk>/toggle_company_information/',
+        toggle_views.ToggleSystemDetailCompanyInformation.as_view(),
+        name='toggle_system_detail_company_information',
+    ),
+    path(
+        r'system/<int:pk>/toggle_systemuser/',
+        toggle_views.ToggleSystemDetailSystemuser.as_view(),
+        name='toggle_system_detail_systemuser',
+    ),
+    path(
+        r'system/<int:pk>/toggle_analystmemo/',
+        toggle_views.ToggleSystemDetailAnalystmemo.as_view(),
+        name='toggle_system_detail_analystmemo',
+    ),
+    path(
+        r'system/<int:pk>/toggle_reportitem/',
+        toggle_views.ToggleSystemDetailReportitem.as_view(),
+        name='toggle_system_detail_reportitem',
     ),
     path(
         r'systemstatus/',
@@ -544,6 +645,16 @@ urlpatterns = [
     path(r'tag/<int:pk>/edit/', tag_views.TagUpdate.as_view(), name='tag_update'),
     path(r'tag/<int:pk>/delete/', tag_views.TagDelete.as_view(), name='tag_delete'),
     path(r'tag/creator/', tag_creator.tag_creator, name='tag_creator'),
+    path(
+        r'tag/<int:pk>/set_user/',
+        tag_views.TagSetUser.as_view(),
+        name='tag_set_user',
+    ),
+    path(
+        r'tag/<int:pk>/unset_user/',
+        tag_views.TagUnsetUser.as_view(),
+        name='tag_unset_user',
+    ),
     path(r'task/', task_views.TaskList.as_view(), name='task_list'),
     path(r'task/closed/', task_views.TaskClosed.as_view(), name='task_closed'),
     path(r'task/all/', task_views.TaskAll.as_view(), name='task_all'),

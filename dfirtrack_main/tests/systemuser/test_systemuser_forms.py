@@ -11,7 +11,6 @@ class SystemuserFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_systemuser', password='u6YexpBiCjk1fdx68uHY'
@@ -121,7 +120,7 @@ class SystemuserFormTestCase(TestCase):
         # get object
         form = SystemuserForm(
             data={
-                'systemuser_name': 's' * 50,
+                'systemuser_name': 's' * 255,
                 'system': system_id,
             }
         )
@@ -136,7 +135,7 @@ class SystemuserFormTestCase(TestCase):
         # get object
         form = SystemuserForm(
             data={
-                'systemuser_name': 's' * 51,
+                'systemuser_name': 's' * 256,
                 'system': system_id,
             }
         )

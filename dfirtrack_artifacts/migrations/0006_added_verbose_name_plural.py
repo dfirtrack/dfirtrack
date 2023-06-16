@@ -2,7 +2,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_artifacts', '0005_values_artifactpriority'),
     ]

@@ -3,7 +3,7 @@
     margin-bottom: 10px;
 }
 
-/* font color */ 
+/* font color */
 
 .martor-preview {
     color: black;
@@ -180,19 +180,66 @@ a:hover {
 }
 
 /* sticky navbar */
+@media(min-width: 1650px) {
+    .navbar-toggler {
+        display: none!important;
+    }
+
+    .navbar {
+        position: sticky;
+        top: 0px;
+        height: 100%;
+        align-items: normal;
+    }
+
+    #dfirtrack-navbar {
+        top: 10px;
+        right: 0;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    #dfirtrack-navbar ul {
+        width: 100%;
+    }
+
+    .navbar {
+        min-height: calc(95vh - 50px);
+    }
+
+    #mainrow {
+        flex-wrap: nowrap !important;
+    }
+}
+
+@media(max-width: 1650px) {
+    .navbar-toggler {
+        margin-top: 8px;
+    }
+
+    .collapse:not(.show) {
+        display: none!important;
+    }
+
+    .navbar {
+        width: 100%;
+    }
+
+    #dfirtrack-navbar.collapse.show {
+        display: block!important;
+        width: 100%;
+    }
+
+    #dfirtrack-navbar.collapsing {
+        display: block!important;
+        width: 100%;
+    }
+}
 
 .toc {
     position: sticky;
     top: 10px;
     right: 0;
-    height: 100%;
-    overflow-y: auto;
-}
-
-#dfirtrack-navbar {
-    position: sticky;
-    top: 10px;
-    left: 0;
     height: 100%;
     overflow-y: auto;
 }
@@ -209,6 +256,25 @@ a:hover {
 
 #tableOfContents .nav-link {
     padding: .1rem 0rem;
+}
+
+/* card design */
+.tab-card {
+    border: 1px solid #343a40;
+}
+
+.card-header {
+    background-color: #343a40;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #212529;
+    color: #fff;
+    border-color: #212529;
+}
+
+.nav-tabs .nav-link {
+    color: #fff;
 }
 
 /* go to top of page button */

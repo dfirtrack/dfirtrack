@@ -8,7 +8,6 @@ class LocationModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Location.objects.create(location_name='location_1')
 
@@ -58,4 +57,4 @@ class LocationModelTestCase(TestCase):
         # get max length
         max_length = location_1._meta.get_field('location_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

@@ -21,7 +21,6 @@ def system_creator(request):
 
     # form was valid to post
     if request.method == "POST":
-
         # get objects from request object
         request_post = request.POST
         request_user = request.user
@@ -41,7 +40,6 @@ def system_creator(request):
 
     # show empty form
     else:
-
         # get id of first status objects sorted by name
         systemstatus = Systemstatus.objects.order_by('systemstatus_name')[
             0
@@ -107,7 +105,6 @@ def system_creator_async(request_post, request_user):
 
     # iterate over lines
     for line in lines:
-
         # skip empty lines
         if line == '':
             # autoincrement counter
@@ -117,7 +114,7 @@ def system_creator_async(request_post, request_user):
             continue
 
         # check line for length of string
-        if len(line) > 50:
+        if len(line) > 255:
             # autoincrement counter
             lines_faulty_counter += 1
             # call logger
@@ -125,7 +122,7 @@ def system_creator_async(request_post, request_user):
             continue
 
         # check for existence of system
-        system = System.objects.filter(system_name=line)
+        system = System.objects.filter(system_name=line.strip())
 
         """ already existing system """
 
@@ -134,7 +131,7 @@ def system_creator_async(request_post, request_user):
             # autoincrement counter
             systems_skipped_counter += 1
             # add system name to list of skipped systems
-            skipped_systems.append(line)
+            skipped_systems.append(line.strip())
             # call logger
             warning_logger(
                 str(request_user), f' SYSTEM_CREATOR_SYSTEM_EXISTS system_name:{line}'
@@ -149,7 +146,6 @@ def system_creator_async(request_post, request_user):
 
         # create system
         if form.is_valid():
-
             """object creation"""
 
             # don't save form yet

@@ -31,6 +31,9 @@ from dfirtrack_main.models import (
     Tag,
     Tagcolor,
 )
+from dfirtrack_main.tests.system.system_exporter_spreadsheet_csv_shared_checks import (
+    system_exporter_spreadsheet_csv_complete_spreadsheet_check,
+)
 
 
 class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
@@ -38,7 +41,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_system_exporter_spreadsheet_csv',
@@ -107,7 +109,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2011, 12, 13, 14, 15, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # create object with maximum attributes
             system_1 = System.objects.create(
                 system_name='system_1_all_attributes',
@@ -121,6 +122,7 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
                 os=os_1,
                 location=location_1,
                 serviceprovider=serviceprovider_1,
+                system_assigned_to_user_id=test_user,
                 system_created_by_user_id=test_user,
                 system_modified_by_user_id=test_user,
             )
@@ -142,7 +144,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t_2 = datetime(2009, 8, 17, 16, 15, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # create object with minimum attributes
             System.objects.create(
                 system_name='system_2_no_attributes',
@@ -253,7 +254,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t1_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t1_now):
-
             # get response
             response = self.client.get('/system/exporter/spreadsheet/csv/system/')
 
@@ -320,10 +320,19 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         system_exporter_spreadsheet_csv_config_model.spread_csv_serviceprovider = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_tag = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_case = True
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_assigned_to_user_id = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = (
             True
         )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_created_by_user_id = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = (
+            True
+        )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modified_by_user_id = (
             True
         )
         system_exporter_spreadsheet_csv_config_model.save()
@@ -339,7 +348,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t2_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t2_now):
-
             # get response
             response = self.client.get('/system/exporter/spreadsheet/csv/system/')
 
@@ -348,96 +356,14 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # get bytes object from response content
         csv_browser = response.content
         # decode and split at linebreaks
-        csv_browser_decoded = csv_browser.decode('utf-8').split('\n')
-        # open systemlist as csv object
-        csv_reader = csv.reader(csv_browser_decoded, delimiter=',')
+        csv_decoded = csv_browser.decode('utf-8').split('\n')
 
-        """ prepare objects section """
+        """ test section """
 
-        # get objects
-        system_1 = System.objects.get(system_name='system_1_all_attributes')
-        system_2 = System.objects.get(system_name='system_2_no_attributes')
-
-        """ compare values section """
-
-        # compare number of rows
-        self.assertEqual(
-            len(csv_browser_decoded), 7
-        )  # last linebreak leads to additional line because of split
-        # TODO: there must be a more convenient way to random access csv cells directly than iterating over lines and switch for line numbers
-        # TODO: like with 'xlrd' for xls files for example
-        # set counter
-        i = 1
-        # compare lines
-        for csv_line in csv_reader:
-            if csv_line:
-                if i == 1:
-                    self.assertEqual(csv_line[0], 'ID')
-                    self.assertEqual(csv_line[1], 'System')
-                    self.assertEqual(csv_line[2], 'DNS name')
-                    self.assertEqual(csv_line[3], 'Domain')
-                    self.assertEqual(csv_line[4], 'Systemstatus')
-                    self.assertEqual(csv_line[5], 'Analysisstatus')
-                    self.assertEqual(csv_line[6], 'Reason')
-                    self.assertEqual(csv_line[7], 'Recommendation')
-                    self.assertEqual(csv_line[8], 'Systemtype')
-                    self.assertEqual(csv_line[9], 'IP')
-                    self.assertEqual(csv_line[10], 'OS')
-                    self.assertEqual(csv_line[11], 'Company')
-                    self.assertEqual(csv_line[12], 'Location')
-                    self.assertEqual(csv_line[13], 'Serviceprovider')
-                    self.assertEqual(csv_line[14], 'Tag')
-                    self.assertEqual(csv_line[15], 'Case')
-                    self.assertEqual(csv_line[16], 'Created')
-                    self.assertEqual(csv_line[17], 'Modified')
-                elif i == 2:
-                    self.assertEqual(csv_line[0], str(system_1.system_id))
-                    self.assertEqual(csv_line[1], 'system_1_all_attributes')
-                    self.assertEqual(csv_line[2], 'dnsname_1')
-                    self.assertEqual(csv_line[3], 'domain_1')
-                    self.assertEqual(csv_line[4], 'systemstatus_1')
-                    self.assertEqual(csv_line[5], 'analysisstatus_1')
-                    self.assertEqual(csv_line[6], 'reason_1')
-                    self.assertEqual(csv_line[7], 'recommendation_1')
-                    self.assertEqual(csv_line[8], 'systemtype_1')
-                    self.assertEqual(csv_line[9], '127.0.0.1,127.0.0.2,127.0.0.3')
-                    self.assertEqual(csv_line[10], 'os_1')
-                    self.assertEqual(csv_line[11], 'company_1,company_2,company_3')
-                    self.assertEqual(csv_line[12], 'location_1')
-                    self.assertEqual(csv_line[13], 'serviceprovider_1')
-                    self.assertEqual(csv_line[14], 'tag_1,tag_2,tag_3')
-                    self.assertEqual(csv_line[15], 'case_1,case_2,case_3')
-                    self.assertEqual(csv_line[16], '2011-12-13 14:15')
-                    self.assertEqual(csv_line[17], '2011-12-13 14:15')
-                elif i == 3:
-                    self.assertEqual(csv_line[0], str(system_2.system_id))
-                    self.assertEqual(csv_line[1], 'system_2_no_attributes')
-                    self.assertEqual(csv_line[2], '')
-                    self.assertEqual(csv_line[3], '')
-                    self.assertEqual(csv_line[4], 'systemstatus_1')
-                    self.assertEqual(csv_line[5], '')
-                    self.assertEqual(csv_line[6], '')
-                    self.assertEqual(csv_line[7], '')
-                    self.assertEqual(csv_line[8], '')
-                    self.assertEqual(csv_line[9], '')
-                    self.assertEqual(csv_line[10], '')
-                    self.assertEqual(csv_line[11], '')
-                    self.assertEqual(csv_line[12], '')
-                    self.assertEqual(csv_line[13], '')
-                    self.assertEqual(csv_line[14], '')
-                    self.assertEqual(csv_line[15], '')
-                    self.assertEqual(csv_line[16], '2009-08-17 16:15')
-                    self.assertEqual(csv_line[17], '2009-08-17 16:15')
-                elif i == 5:
-                    self.assertEqual(csv_line[0], 'Created:')
-                    self.assertEqual(csv_line[1], t2_now.strftime('%Y-%m-%d %H:%M'))
-                elif i == 6:
-                    self.assertEqual(csv_line[0], 'Created by:')
-                    self.assertEqual(
-                        csv_line[1], 'testuser_system_exporter_spreadsheet_csv'
-                    )
-            # increase counter
-            i += 1
+        # test for complete spreadsheet content
+        system_exporter_spreadsheet_csv_complete_spreadsheet_check(
+            self, csv_decoded, t2_now, 'testuser_system_exporter_spreadsheet_csv', True
+        )
 
     def test_system_exporter_spreadsheet_csv_cron_path_not_existent(self):
         """test spreadsheet export via scheduled task to server file system"""
@@ -559,10 +485,19 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         system_exporter_spreadsheet_csv_config_model.spread_csv_serviceprovider = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_tag = True
         system_exporter_spreadsheet_csv_config_model.spread_csv_case = True
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_assigned_to_user_id = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_create_time = (
             True
         )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_created_by_user_id = (
+            True
+        )
         system_exporter_spreadsheet_csv_config_model.spread_csv_system_modify_time = (
+            True
+        )
+        system_exporter_spreadsheet_csv_config_model.spread_csv_system_modified_by_user_id = (
             True
         )
         system_exporter_spreadsheet_csv_config_model.save()
@@ -572,7 +507,6 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         # mock timezone.now()
         t3_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t3_now):
-
             # create spreadsheet without GET by directly calling the function
             system_cron()
 
@@ -588,91 +522,13 @@ class SystemExporterSpreadsheetCsvViewTestCase(TestCase):
         )
         # open file from temp folder
         csv_disk = open(output_file_path)
-        # open file as csv object
-        csv_reader = csv.reader(csv_disk, delimiter=',')
 
-        """ prepare objects section """
+        """ test section """
 
-        # get objects
-        system_1 = System.objects.get(system_name='system_1_all_attributes')
-        system_2 = System.objects.get(system_name='system_2_no_attributes')
-
-        """ compare values section """
-
-        # TODO: there must be a more convenient way to random access csv cells directly than iterating over lines and switch for line numbers
-        # TODO: like with 'xlrd' for xls files for example
-        # set counter
-        i = 1
-        # compare lines
-        for csv_line in csv_reader:
-            if csv_line:
-                if i == 1:
-                    self.assertEqual(csv_line[0], 'ID')
-                    self.assertEqual(csv_line[1], 'System')
-                    self.assertEqual(csv_line[2], 'DNS name')
-                    self.assertEqual(csv_line[3], 'Domain')
-                    self.assertEqual(csv_line[4], 'Systemstatus')
-                    self.assertEqual(csv_line[5], 'Analysisstatus')
-                    self.assertEqual(csv_line[6], 'Reason')
-                    self.assertEqual(csv_line[7], 'Recommendation')
-                    self.assertEqual(csv_line[8], 'Systemtype')
-                    self.assertEqual(csv_line[9], 'IP')
-                    self.assertEqual(csv_line[10], 'OS')
-                    self.assertEqual(csv_line[11], 'Company')
-                    self.assertEqual(csv_line[12], 'Location')
-                    self.assertEqual(csv_line[13], 'Serviceprovider')
-                    self.assertEqual(csv_line[14], 'Tag')
-                    self.assertEqual(csv_line[15], 'Case')
-                    self.assertEqual(csv_line[16], 'Created')
-                    self.assertEqual(csv_line[17], 'Modified')
-                elif i == 2:
-                    self.assertEqual(csv_line[0], str(system_1.system_id))
-                    self.assertEqual(csv_line[1], 'system_1_all_attributes')
-                    self.assertEqual(csv_line[2], 'dnsname_1')
-                    self.assertEqual(csv_line[3], 'domain_1')
-                    self.assertEqual(csv_line[4], 'systemstatus_1')
-                    self.assertEqual(csv_line[5], 'analysisstatus_1')
-                    self.assertEqual(csv_line[6], 'reason_1')
-                    self.assertEqual(csv_line[7], 'recommendation_1')
-                    self.assertEqual(csv_line[8], 'systemtype_1')
-                    self.assertEqual(csv_line[9], '127.0.0.1,127.0.0.2,127.0.0.3')
-                    self.assertEqual(csv_line[10], 'os_1')
-                    self.assertEqual(csv_line[11], 'company_1,company_2,company_3')
-                    self.assertEqual(csv_line[12], 'location_1')
-                    self.assertEqual(csv_line[13], 'serviceprovider_1')
-                    self.assertEqual(csv_line[14], 'tag_1,tag_2,tag_3')
-                    self.assertEqual(csv_line[15], 'case_1,case_2,case_3')
-                    self.assertEqual(csv_line[16], '2011-12-13 14:15')
-                    self.assertEqual(csv_line[17], '2011-12-13 14:15')
-                elif i == 3:
-                    self.assertEqual(csv_line[0], str(system_2.system_id))
-                    self.assertEqual(csv_line[1], 'system_2_no_attributes')
-                    self.assertEqual(csv_line[2], '')
-                    self.assertEqual(csv_line[3], '')
-                    self.assertEqual(csv_line[4], 'systemstatus_1')
-                    self.assertEqual(csv_line[5], '')
-                    self.assertEqual(csv_line[6], '')
-                    self.assertEqual(csv_line[7], '')
-                    self.assertEqual(csv_line[8], '')
-                    self.assertEqual(csv_line[9], '')
-                    self.assertEqual(csv_line[10], '')
-                    self.assertEqual(csv_line[11], '')
-                    self.assertEqual(csv_line[12], '')
-                    self.assertEqual(csv_line[13], '')
-                    self.assertEqual(csv_line[14], '')
-                    self.assertEqual(csv_line[15], '')
-                    self.assertEqual(csv_line[16], '2009-08-17 16:15')
-                    self.assertEqual(csv_line[17], '2009-08-17 16:15')
-                elif i == 5:
-                    self.assertEqual(csv_line[0], 'Created:')
-                    self.assertEqual(csv_line[1], t3_now.strftime('%Y-%m-%d %H:%M'))
-                elif i == 6:
-                    self.assertEqual(csv_line[0], 'Created by:')
-                    self.assertEqual(csv_line[1], 'cron')
-            # increase counter
-            i += 1
-        # compare number of rows (needs to be at the end because 'line_num' is some kind of pointer)
-        self.assertEqual(csv_reader.line_num, 6)
+        # test for complete spreadsheet content
+        system_exporter_spreadsheet_csv_complete_spreadsheet_check(
+            self, csv_disk, t3_now, 'cron'
+        )
 
         # close file
         csv_disk.close()

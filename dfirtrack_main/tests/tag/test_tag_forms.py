@@ -9,7 +9,6 @@ class TagFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Tagcolor.objects.create(tagcolor_name='tagcolor_1')
 
@@ -37,6 +36,26 @@ class TagFormTestCase(TestCase):
         form = TagForm()
         # compare
         self.assertEqual(form.fields['tag_note'].label, 'Tag note')
+
+    def test_tag_assigned_to_user_id_form_label(self):
+        """test form label"""
+
+        # get object
+        form = TagForm()
+        # compare
+        self.assertEqual(
+            form.fields['tag_assigned_to_user_id'].label, 'Assigned to user'
+        )
+
+    def test_tag_assigned_to_user_id_form_empty_label(self):
+        """test form label"""
+
+        # get object
+        form = TagForm()
+        # compare
+        self.assertEqual(
+            form.fields['tag_assigned_to_user_id'].empty_label, 'Select user (optional)'
+        )
 
     def test_tag_form_empty(self):
         """test minimum form requirements / INVALID"""
@@ -97,7 +116,7 @@ class TagFormTestCase(TestCase):
         # get object
         form = TagForm(
             data={
-                'tag_name': 't' * 50,
+                'tag_name': 't' * 255,
                 'tagcolor': tagcolor_id,
             }
         )
@@ -112,7 +131,7 @@ class TagFormTestCase(TestCase):
         # get object
         form = TagForm(
             data={
-                'tag_name': 't' * 51,
+                'tag_name': 't' * 256,
                 'tagcolor': tagcolor_id,
             }
         )

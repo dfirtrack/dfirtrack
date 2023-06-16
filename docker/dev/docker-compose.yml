@@ -23,9 +23,10 @@ services:
             - DB_PASSWORD=${pg_password}
             - FQDN=${fqdn}
             - SECRET_KEY=${django_secret_key}
-            - DISABLE_HTTPS=true
+            - DISABLE_HTTPS=false
         ports:
             - 80:80
+            - 443:443
         depends_on:
             - db
 # this is the volume where the dfirtrack repo from the host is mounted to

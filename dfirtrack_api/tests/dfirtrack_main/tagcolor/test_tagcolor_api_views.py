@@ -11,7 +11,6 @@ class TagcolorAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Tagcolor.objects.create(tagcolor_name='tagcolor_api_1')
         # create user

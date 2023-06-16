@@ -8,7 +8,6 @@ class CaseFormTestCase(TestCase):
     """case form tests"""
 
     def setUp(cls):
-
         # create objects
         Casepriority.objects.create(casepriority_name='casepriority_1')
         Casestatus.objects.create(casestatus_name='casestatus_1')
@@ -89,6 +88,27 @@ class CaseFormTestCase(TestCase):
             form.fields['casetype'].empty_label, 'Select casetype (optional)'
         )
 
+    def test_case_assigned_to_user_id_form_label(self):
+        """test form label"""
+
+        # get object
+        form = CaseForm()
+        # compare
+        self.assertEqual(
+            form.fields['case_assigned_to_user_id'].label, 'Assigned to user'
+        )
+
+    def test_case_assigned_to_user_id_form_empty_label(self):
+        """test form label"""
+
+        # get object
+        form = CaseForm()
+        # compare
+        self.assertEqual(
+            form.fields['case_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
+        )
+
     def test_tag_form_label(self):
         """test form label"""
 
@@ -161,7 +181,7 @@ class CaseFormTestCase(TestCase):
         # get object
         form = CaseForm(
             data={
-                'case_name': 'd' * 50,
+                'case_name': 'd' * 255,
                 'casepriority': casepriority_1,
                 'casestatus': casestatus_1,
             }
@@ -179,7 +199,7 @@ class CaseFormTestCase(TestCase):
         # get object
         form = CaseForm(
             data={
-                'case_name': 'd' * 51,
+                'case_name': 'd' * 256,
                 'casepriority': casepriority_1,
                 'casestatus': casestatus_1,
             }

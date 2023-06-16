@@ -17,13 +17,11 @@ def case_creator(request):
 
     # form was valid to post
     if request.method == 'POST':
-
         # get form
         form = CaseCreatorForm(request.POST)
 
         # form was valid
         if form.is_valid():
-
             # get objects from request object
             request_post = request.POST
             request_user = request.user
@@ -71,19 +69,16 @@ def case_creator_async(request_post, request_user):
 
     # iterate over systems
     for system_id in systems:
-
         # autoincrement counter
         systems_affected_counter += 1
 
         # iterate over cases
         for case_id in cases:
-
             # create form with request data
             form = CaseCreatorForm(request_post)
 
             # create relation
             if form.is_valid():
-
                 """object creation"""
 
                 # get objects

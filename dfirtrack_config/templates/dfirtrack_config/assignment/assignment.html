@@ -1,0 +1,517 @@
+<!-- extending maintemplate -->
+{% extends "dfirtrack_main/maintemplate.html" %}
+
+<!-- HTML head in maintemplate -->
+{% block head %}
+
+<!-- page title -->
+<title>
+    DFIRTrack - Assignments
+</title>
+
+{% load static %}
+{% load dfirtrack_main_tags %}
+
+<!-- javascript and CSS for datatables -->
+<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.css"/>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.js"></script>
+
+<!-- HTML head in maintemplate -->
+{% endblock %}
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% block content %}
+
+<!-- javascript for copy button -->
+<script>
+    var clipboard = new ClipboardJS('.btn');
+</script>
+
+<!-- headline row -->
+<div class="row">
+
+    <!-- headline -->
+    <div class="col-6">
+        <h5>
+            <img src="{% static 'dfirtrack_main/icons/people-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+            {% if assignment_user %}
+                Assignments for '{% include 'dfirtrack_main/includes/username.html' with user=assignment_user %}'
+            {% else %}
+                Unassigned entities
+            {% endif %}
+        </h5>
+    </div>
+
+<!-- headline row -->
+</div>
+
+<!-- ############################################ -->
+
+{% include 'dfirtrack_main/includes/filter_row.html' with clear_url='clear_assignment_view_filter' %}
+
+<!-- ############################################ -->
+
+<!-- system block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- system headline -->
+    <div class="row bottom-distance">
+        <div class="col-6">
+            <h5 id="system">
+                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                {% if assignment_user %}
+                    Systems assigned to '{{ assignment_user.get_username }}'{% if system_number %} ({{ system_number }}){% endif %}
+                {% else %}
+                    Unassigned systems{% if system_number %} ({{ system_number }}){% endif %}
+                {% endif %}
+                {% if show_system %}
+                    <a href="{% url 'toggle_assignment_view_system' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_system' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
+            </h5>
+        </div>
+    </div>
+
+    <!-- javascript for datatables -->
+    <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+
+    <!-- toggle visibility -->
+    {% if show_system %}
+
+        <!-- datatable system -->
+        <table id="table_system" class="display" width="100%">
+
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_main/includes/datatable_thead_table_system.html" %}
+            </thead>
+
+            <!-- table body -->
+            <tbody>
+            </tbody>
+
+        <!-- datatable system -->
+        </table>
+
+    <!-- toggle visibility -->
+    {% endif %}
+
+<!-- system block -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- artifact block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- artifact headline -->
+    <div class="row bottom-distance">
+        <div class="col-6">
+            <h5 id="artifact">
+                <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                {% if assignment_user %}
+                    Artifacts assigned to '{{ assignment_user.get_username }}'{% if artifact_number %} ({{ artifact_number }}){% endif %}
+                {% else %}
+                    Unassigned artifacts{% if artifact_number %} ({{ artifact_number }}){% endif %}
+                {% endif %}
+                {% if show_artifact %}
+                    <a href="{% url 'toggle_assignment_view_artifact' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_artifact' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
+            </h5>
+        </div>
+    </div>
+
+    <!-- toggle visibility -->
+    {% if show_artifact %}
+
+        <!-- artifacts -->
+
+        <!-- datatable artifact -->
+        <table id="table_artifact_details" class="display" width="100%">
+
+            <!-- table head -->
+            <thead>
+                {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
+            </thead>
+
+            <!-- table body -->
+            <tbody>
+            </tbody>
+
+        <!-- datatable artifact -->
+        </table>
+
+    <!-- toggle visibility -->
+    {% endif %}
+
+<!-- artifact block -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- case block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- case headline -->
+    <div class="row bottom-distance">
+        <div class="col-6">
+            <h5 id="case">
+                <img src="{% static 'dfirtrack_main/icons/list-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                {% if assignment_user %}
+                    Cases assigned to '{{ assignment_user.get_username }}'{% if case %} ({{ case|length }}){% endif %}
+                {% else %}
+                    Unassigned cases{% if case %} ({{ case|length }}){% endif %}
+                {% endif %}
+                {% if show_case %}
+                    <a href="{% url 'toggle_assignment_view_case' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_case' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
+            </h5>
+        </div>
+    </div>
+
+    <!-- toggle visibility -->
+    {% if show_case %}
+
+        <!-- cases -->
+        {% if case %}
+
+            <!-- datatable case -->
+            <table id="table_case" class="display" width="100%">
+
+                <!-- table head -->
+                <thead>
+                    {% include "dfirtrack_main/includes/datatable_thead_table_case.html" %}
+                </thead>
+
+                <!-- table body -->
+                <tbody>
+                    {% for i in case %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_case.html" %}
+                    {% endfor %}
+                </tbody>
+
+            <!-- datatable case -->
+            </table>
+
+        <!-- no cases -->
+        {% else %}
+            <div class="row top-distance">
+                <div class="col-3">
+                    ---
+                </div>
+            </div>
+
+        <!-- cases -->
+        {% endif %}
+
+    <!-- toggle visibility -->
+    {% endif %}
+
+<!-- case block -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- task block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- task headline -->
+    <div class="row bottom-distance">
+        <div class="col-6">
+            <h5 id="task">
+                <img src="{% static 'dfirtrack_main/icons/task-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                {% if assignment_user %}
+                    Tasks assigned to '{{ assignment_user.get_username }}'{% if task %} ({{ task|length }}){% endif %}
+                {% else %}
+                    Unassigned tasks{% if task %} ({{ task|length }}){% endif %}
+                {% endif %}
+                {% if show_task %}
+                    <a href="{% url 'toggle_assignment_view_task' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_task' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
+            </h5>
+        </div>
+    </div>
+
+    <!-- toggle visibility -->
+    {% if show_task %}
+
+        <!-- tasks -->
+        {% if task %}
+
+            <!-- datatable task -->
+            <table id="table_task" class="display" width="100%">
+
+                <!-- table head -->
+                <thead>
+                    {% include "dfirtrack_main/includes/datatable_thead_table_task.html" %}
+                </thead>
+
+                <!-- table body -->
+                <tbody>
+                    {% for i in task %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_task.html" %}
+                    {% endfor %}
+                </tbody>
+
+            <!-- datatable task -->
+            </table>
+
+        <!-- no tasks -->
+        {% else %}
+            <div class="row top-distance">
+                <div class="col-3">
+                    ---
+                </div>
+            </div>
+
+        <!-- tasks -->
+        {% endif %}
+
+    <!-- toggle visibility -->
+    {% endif %}
+
+<!-- task block -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- tag block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- tag headline -->
+    <div class="row bottom-distance">
+        <div class="col-6">
+            <h5 id="tag">
+                <img src="{% static 'dfirtrack_main/icons/tag-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                {% if assignment_user %}
+                    Tags assigned to '{{ assignment_user.get_username }}'{% if tag %} ({{ tag|length }}){% endif %}
+                {% else %}
+                    Unassigned tags{% if tag %} ({{ tag|length }}){% endif %}
+                {% endif %}
+                {% if show_tag %}
+                    <a href="{% url 'toggle_assignment_view_tag' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_tag' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
+            </h5>
+        </div>
+    </div>
+
+    <!-- toggle visibility -->
+    {% if show_tag %}
+
+        <!-- tags -->
+        {% if tag %}
+
+            <!-- datatable tag -->
+            <table id="table_tag" class="display" width="100%">
+
+                <!-- table head -->
+                <thead>
+                    {% include "dfirtrack_main/includes/datatable_thead_table_tag.html" %}
+                </thead>
+
+                <!-- table body -->
+                <tbody>
+                    {% for i in tag %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_tag.html" %}
+                    {% endfor %}
+                </tbody>
+
+            <!-- datatable tag -->
+            </table>
+
+        <!-- no tags -->
+        {% else %}
+            <div class="row top-distance">
+                <div class="col-3">
+                    ---
+                </div>
+            </div>
+
+        <!-- tags -->
+        {% endif %}
+
+    <!-- toggle visibility -->
+    {% endif %}
+
+<!-- tag block -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- note block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- note headline -->
+    <div class="row bottom-distance">
+        <div class="col-6">
+            <h5 id="note">
+                <img src="{% static 'dfirtrack_main/icons/paperclip-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                {% if assignment_user %}
+                    Notes assigned to '{{ assignment_user.get_username }}'{% if note %} ({{ note|length }}){% endif %}
+                {% else %}
+                    Unassigned notes{% if note %} ({{ note|length }}){% endif %}
+                {% endif %}
+                {% if show_note %}
+                    <a href="{% url 'toggle_assignment_view_note' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_note' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
+            </h5>
+        </div>
+    </div>
+
+    <!-- toggle visibility -->
+    {% if show_note %}
+
+        <!-- notes -->
+        {% if note %}
+
+            <!-- datatable note -->
+            <table id="table_note" class="display" width="100%">
+
+                <!-- table head -->
+                <thead>
+                    {% include "dfirtrack_main/includes/datatable_thead_table_note.html" %}
+                </thead>
+
+                <!-- table body -->
+                <tbody>
+                    {% for i in note %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_note.html" %}
+                    {% endfor %}
+                </tbody>
+
+            <!-- datatable note -->
+            </table>
+
+        <!-- no notes -->
+        {% else %}
+            <div class="row top-distance">
+                <div class="col-3">
+                    ---
+                </div>
+            </div>
+
+        <!-- notes -->
+        {% endif %}
+
+    <!-- toggle visibility -->
+    {% endif %}
+
+<!-- note block -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- reportitem block -->
+<div class="card bg-dark border-light card-body top-distance">
+
+    <!-- reportitem headline -->
+    <div class="row bottom-distance">
+        <div class="col-6">
+            <h5 id="reportitem">
+                <img src="{% static 'dfirtrack_main/icons/paperclip-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                {% if assignment_user %}
+                    Reportitems assigned to '{{ assignment_user.get_username }}'{% if reportitem %} ({{ reportitem|length }}){% endif %}
+                {% else %}
+                    Unassigned reportitems{% if reportitem %} ({{ reportitem|length }}){% endif %}
+                {% endif %}
+                {% if show_reportitem %}
+                    <a href="{% url 'toggle_assignment_view_reportitem' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-top-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% else %}
+                    <a href="{% url 'toggle_assignment_view_reportitem' %}" class="top-distance copy-false">
+                        <img src="{% static 'dfirtrack_main/icons/caret-bottom-light.svg' %}" class="icon left-distance copy-false" alt="icon">
+                    </a>
+                {% endif %}
+            </h5>
+        </div>
+    </div>
+
+    <!-- toggle visibility -->
+    {% if show_reportitem %}
+
+        <!-- reportitems -->
+        {% if reportitem %}
+
+            <!-- datatable reportitem -->
+            <table id="table_reportitem" class="display" width="100%">
+
+                <!-- table head -->
+                <thead>
+                    {% include "dfirtrack_main/includes/datatable_thead_table_reportitem.html" %}
+                </thead>
+
+                <!-- table body -->
+                <tbody>
+                    {% for i in reportitem %}
+                        {% include "dfirtrack_main/includes/datatable_tbody_table_reportitem.html" %}
+                    {% endfor %}
+                </tbody>
+
+            <!-- datatable reportitem -->
+            </table>
+
+        <!-- no reportitems -->
+        {% else %}
+            <div class="row top-distance">
+                <div class="col-3">
+                    ---
+                </div>
+            </div>
+
+        <!-- reportitems -->
+        {% endif %}
+
+    <!-- toggle visibility -->
+    {% endif %}
+
+<!-- reportitem block -->
+</div>
+
+<!-- ############################################ -->
+
+<!-- HTML body in maintemplate -->
+{% endblock %}
+
+<!-- javascript for datatables -->
+{% block datatables %}
+    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+    <script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.js"></script>
+{% endblock %}

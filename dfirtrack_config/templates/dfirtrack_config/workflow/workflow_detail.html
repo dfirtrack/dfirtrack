@@ -49,21 +49,9 @@
         </small>
     </div>
 
-    <!-- created -->
-    <div class="col-2">
-        <small class="text-muted">
-            Created by: {{ workflow.workflow_created_by_user_id }} <br>
-            {{ workflow.workflow_create_time|date:"Y-m-d H:i" }}
-        </small>
-    </div>
-
-    <!-- modified -->
-    <div class="col-3">
-        <small class="text-muted">
-            Modified by: {{ workflow.workflow_modified_by_user_id }} <br>
-            {{ workflow.workflow_modify_time|date:"Y-m-d H:i" }}
-        </small>
-    </div>
+    {% with create_time=workflow.workflow_create_time created_by_user_id=workflow.workflow_created_by_user_id modify_time=workflow.workflow_modify_time modified_by_user_id=workflow.workflow_modified_by_user_id %}
+        {% include "dfirtrack_main/includes/card_meta_information.html" %}
+    {% endwith %}
 
 <!-- metadata row -->
 </div>

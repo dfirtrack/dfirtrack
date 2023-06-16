@@ -4,6 +4,8 @@ import uuid
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
+from django.db.utils import IntegrityError
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
@@ -12,7 +14,7 @@ from django_q.tasks import async_task
 
 from dfirtrack_main.forms import EntryFileImport, EntryFileImportFields, EntryForm
 from dfirtrack_main.logger.default_logger import debug_logger
-from dfirtrack_main.models import Entry
+from dfirtrack_main.models import Entry, System
 
 
 class EntryList(LoginRequiredMixin, ListView):
@@ -71,11 +73,27 @@ class EntryCreate(LoginRequiredMixin, CreateView):
             entry = form.save(commit=False)
             entry.entry_created_by_user_id = request.user
             entry.entry_modified_by_user_id = request.user
-            entry.save()
-            form.save_m2m()
-            entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
-            messages.success(request, 'Entry added')
-            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
+            try:
+                with transaction.atomic():
+                    entry.save()
+                form.save_m2m()
+                entry.logger(str(request.user), " ENTRY_ADD_EXECUTED")
+                messages.success(request, 'Entry added')
+                return redirect(
+                    reverse('system_detail', args=(entry.system.system_id,))
+                )
+            except IntegrityError:
+                messages.warning(request, 'Entry with same content already exists')
+                # reload
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        'form': form,
+                        'title': 'Add',
+                        'object_type': 'entry',
+                    },
+                )
         else:
             return render(
                 request,
@@ -114,11 +132,27 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             entry = form.save(commit=False)
             entry.entry_modified_by_user_id = request.user
-            entry.save()
-            form.save_m2m()
-            entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
-            messages.success(request, 'Entry edited')
-            return redirect(reverse('system_detail', args=(entry.system.system_id,)))
+            try:
+                with transaction.atomic():
+                    entry.save()
+                form.save_m2m()
+                entry.logger(str(request.user), " ENTRY_EDIT_EXECUTED")
+                messages.success(request, 'Entry edited')
+                return redirect(
+                    reverse('system_detail', args=(entry.system.system_id,))
+                )
+            except IntegrityError:
+                messages.warning(request, 'Entry with same content already exists')
+                # reload
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        'form': form,
+                        'title': 'Edit',
+                        'object_type': 'entry',
+                    },
+                )
         else:
             return render(
                 request,
@@ -133,12 +167,13 @@ class EntryUpdate(LoginRequiredMixin, UpdateView):
 
 @login_required(login_url="/login")
 def import_csv_step1(request):
-
     if request.method == "POST":
         # POST request
         form = EntryFileImport(request.POST, request.FILES)
         if form.is_valid():
             f = request.FILES['entryfile']
+            delimiter = request.POST['delimiter']
+            quotechar = request.POST['quotechar']
 
             # write upload to random tmp file
             file_name = f'/tmp/{uuid.uuid4()}'
@@ -147,9 +182,19 @@ def import_csv_step1(request):
                     dest.write(chunk)
 
             # get first row of uploaded csv (fields)
-            with open(file_name, newline='') as csvfile:
-                spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
-                fields = next(spamreader)
+            try:
+                with open(file_name, newline='') as csvfile:
+                    spamreader = csv.reader(
+                        csvfile, delimiter=delimiter, quotechar=quotechar
+                    )
+                    fields = next(spamreader)
+            except UnicodeDecodeError:
+                messages.error(request, 'Uploaded CSV is not a valid unicode file.')
+                return render(
+                    request,
+                    'dfirtrack_main/entry/entry_import_step1.html',
+                    {'form': form},
+                )
 
             # save form for case and system info
             entry = form.save(commit=False)
@@ -160,9 +205,11 @@ def import_csv_step1(request):
                 'system': entry.system.system_id,
                 'case': entry.case.case_id if entry.case else None,
                 'file_name': file_name,
+                'delimiter': delimiter,
+                'quotechar': quotechar,
             }
 
-            messages.success(request, 'Uploaded csv to DFIRTrack.')
+            messages.success(request, 'Uploaded CSV to DFIRTrack.')
 
             # goto step 2
             return redirect(reverse('entry_import_step2'))
@@ -172,8 +219,16 @@ def import_csv_step1(request):
             )
     else:
         # GET request
+        if 'system' in request.GET:
+            system = request.GET['system']
+            form = EntryFileImport(
+                initial={
+                    'system': system,
+                }
+            )
+        else:
+            form = EntryFileImport()
         debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP1_ENTERED')
-        form = EntryFileImport()
         return render(
             request, 'dfirtrack_main/entry/entry_import_step1.html', {'form': form}
         )
@@ -207,12 +262,14 @@ def import_csv_step2(request):
                 request.session['entry_csv_import']['file_name'],
                 field_mapping,
                 request.user,
+                request.session['entry_csv_import']['delimiter'],
+                request.session['entry_csv_import']['quotechar'],
                 request.session['entry_csv_import']['case'],
             )
             # delete session information
             del request.session['entry_csv_import']
 
-            messages.success(request, 'Entry csv importer started')
+            messages.success(request, 'Entry CSV importer started')
 
             return redirect(reverse('entry_list'))
         else:
@@ -224,6 +281,11 @@ def import_csv_step2(request):
         debug_logger(str(request.user), ' ENTRY_CSV_IMPORTER_STEP2_ENTERED')
         # prepare dynamic form with csv field information
         form = EntryFileImportFields(request.session['entry_csv_import']['fields'])
+        # get system for template
+        system_id = request.session['entry_csv_import']['system']
+        system_name = System.objects.get(system_id=system_id).system_name
         return render(
-            request, 'dfirtrack_main/entry/entry_import_step2.html', {'form': form}
+            request,
+            'dfirtrack_main/entry/entry_import_step2.html',
+            {'form': form, 'system_name': system_name},
         )

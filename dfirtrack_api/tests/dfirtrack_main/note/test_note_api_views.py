@@ -11,7 +11,6 @@ class NoteAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_note_api', password='2to8VdHRHNUcNS7CXmDd'
@@ -127,6 +126,7 @@ class NoteAPIViewTestCase(TestCase):
             ],
             "note_created_by_user_id": test_user_id,
             "note_modified_by_user_id": test_user_id,
+            "note_assigned_to_user_id": test_user_id,
         }
         # check for existence of object
         note_api_3_none = Note.objects.filter(note_title='note_api_3')
@@ -264,6 +264,7 @@ class NoteAPIViewTestCase(TestCase):
             ],
             "note_created_by_user_id": test_user_id,
             "note_modified_by_user_id": test_user_id,
+            "note_assigned_to_user_id": test_user_id,
         }
         # get response
         response = self.client.put(

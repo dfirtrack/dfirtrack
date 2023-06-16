@@ -24,7 +24,6 @@ from dfirtrack_main.models import System
 
 
 def system_handler(request=None, uploadfile=False):
-
     # get config model
     model = SystemImporterFileCsvConfigModel.objects.get(
         system_importer_file_csv_config_name='SystemImporterFileCsvConfig'
@@ -131,7 +130,6 @@ def system_handler(request=None, uploadfile=False):
 
     # iterate over rows
     for row in rows:
-
         """skip headline if necessary"""
 
         # check for first row and headline condition
@@ -172,17 +170,15 @@ def system_handler(request=None, uploadfile=False):
 
         # get all systems
         systemquery = System.objects.filter(
-            system_name=system_name,
+            system_name=system_name.strip(),
         )
 
         """ check how many systems were returned """
 
         # if there is only one system -> modify system
         if len(systemquery) == 1:
-
             # skip if system already exists (depending on csv_skip_existing_system)
             if model.csv_skip_existing_system:
-
                 # autoincrement counter
                 systems_skipped_counter += 1
                 # autoincrement row counter
@@ -196,7 +192,7 @@ def system_handler(request=None, uploadfile=False):
 
             # get existing system object
             system = System.objects.get(
-                system_name=system_name,
+                system_name=system_name.strip(),
             )
 
             # change mandatory meta attributes
@@ -242,7 +238,6 @@ def system_handler(request=None, uploadfile=False):
 
         # if there is more than one system
         elif len(systemquery) > 1:
-
             # add system name to list
             systems_multiple_list.append(system_name)
 
@@ -257,7 +252,6 @@ def system_handler(request=None, uploadfile=False):
 
         # if there is no system -> create system
         else:
-
             # create new system object
             system = System()
 

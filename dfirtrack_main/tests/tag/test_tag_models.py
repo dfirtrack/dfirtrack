@@ -8,7 +8,6 @@ class TagModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         tagcolor_1 = Tagcolor.objects.create(tagcolor_name='tagcolor_1')
 
@@ -63,6 +62,16 @@ class TagModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'tag note')
 
+    def test_tag_assigned_to_user_id_attribute_label(self):
+        """test attribute label"""
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # get label
+        field_label = tag_1._meta.get_field('tag_assigned_to_user_id').verbose_name
+        # compare
+        self.assertEqual(field_label, 'tag assigned to user id')
+
     def test_tag_name_length(self):
         """test for max length"""
 
@@ -71,4 +80,20 @@ class TagModelTestCase(TestCase):
         # get max length
         max_length = tag_1._meta.get_field('tag_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)
+
+    def test_tag_get_set_user_url(self):
+        """test URL method"""
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # compare
+        self.assertEqual(tag_1.get_set_user_url(), f'/tag/{tag_1.tag_id}/set_user/')
+
+    def test_tag_get_unset_user_url(self):
+        """test URL method"""
+
+        # get object
+        tag_1 = Tag.objects.get(tag_name='tag_1')
+        # compare
+        self.assertEqual(tag_1.get_unset_user_url(), f'/tag/{tag_1.tag_id}/unset_user/')

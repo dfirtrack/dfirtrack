@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django_q.tasks import async_task
@@ -30,7 +31,6 @@ def system_modificator(request):
 
     # form was valid to post
     if request.method == "POST":
-
         try:
             request.POST['systemlist']
         except:
@@ -61,7 +61,6 @@ def system_modificator(request):
 
     # show empty form
     else:
-
         show_systemlist = bool(int(request.GET.get('systemlist', 0)))
 
         # workflows
@@ -74,6 +73,7 @@ def system_modificator(request):
                 'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
+                'assigned_to_user_id_delete': 'keep_existing',
                 'contact_delete': 'keep_existing',
                 'location_delete': 'keep_existing',
                 'serviceprovider_delete': 'keep_existing',
@@ -134,7 +134,6 @@ def system_modificator_async(request_post, request_user):
 
     # iterate over lines
     for line in lines:
-
         # skip empty lines
         if line == '':
             # autoincrement counter
@@ -152,7 +151,7 @@ def system_modificator_async(request_post, request_user):
             continue
 
         # check line for length of string
-        if len(line) > 50:
+        if len(line) > 255:
             # autoincrement counter
             lines_faulty_counter += 1
             # call logger
@@ -161,7 +160,7 @@ def system_modificator_async(request_post, request_user):
 
         # check for existence of system
         if system_char_field_used:
-            system = System.objects.filter(system_name=line)
+            system = System.objects.filter(system_name=line.strip())
         else:
             system = System.objects.filter(system_id=line)
 
@@ -169,7 +168,6 @@ def system_modificator_async(request_post, request_user):
 
         # system does not exist
         if system.count() == 0:
-
             # autoincrement counter
             systems_skipped_counter += 1
             # add system name to list of skipped systems
@@ -184,7 +182,6 @@ def system_modificator_async(request_post, request_user):
 
         # more than one system exists
         elif system.count() > 1:
-
             # autoincrement counter
             systems_skipped_counter += 1
             # add system name to list of skipped systems
@@ -201,7 +198,7 @@ def system_modificator_async(request_post, request_user):
 
         # get existing system
         if system_char_field_used:
-            system = System.objects.get(system_name=line)
+            system = System.objects.get(system_name=line.strip())
         else:
             system = System.objects.get(system_id=line)
 
@@ -220,7 +217,6 @@ def system_modificator_async(request_post, request_user):
 
         # modify system
         if form.is_valid():
-
             """object modification"""
 
             # don't save form yet
@@ -236,7 +232,6 @@ def system_modificator_async(request_post, request_user):
                 form['analysisstatus_choice'].value() == 'change_status'
                 and form['analysisstatus'].value()
             ):
-
                 # replace status
                 analysisstatus_id = form['analysisstatus'].value()
                 analysisstatus = Analysisstatus.objects.get(
@@ -249,7 +244,6 @@ def system_modificator_async(request_post, request_user):
                 form['systemstatus_choice'].value() == 'change_status'
                 and form['systemstatus'].value()
             ):
-
                 # replace status
                 systemstatus_id = form['systemstatus'].value()
                 systemstatus = Systemstatus.objects.get(systemstatus_id=systemstatus_id)
@@ -258,8 +252,18 @@ def system_modificator_async(request_post, request_user):
             """ fk non-model fields """
 
             # replace / delete, if 'switch_new / Switch to selected item or none' was selected
-            if form['contact_delete'].value() == 'switch_new':
+            if form['assigned_to_user_id_delete'].value() == 'switch_new':
+                # replace, if value was submitted via form
+                if form['system_assigned_to_user_id'].value():
+                    user_id = form['system_assigned_to_user_id'].value()
+                    assigned_to_user_id = User.objects.get(id=user_id)
+                    system.system_assigned_to_user_id = assigned_to_user_id
+                # delete, if form field was empty
+                else:
+                    system.system_assigned_to_user_id = None
 
+            # replace / delete, if 'switch_new / Switch to selected item or none' was selected
+            if form['contact_delete'].value() == 'switch_new':
                 # replace, if value was submitted via form
                 if form['contact'].value():
                     contact_id = form['contact'].value()
@@ -271,7 +275,6 @@ def system_modificator_async(request_post, request_user):
 
             # replace / delete, if 'switch_new / Switch to selected item or none' was selected
             if form['location_delete'].value() == 'switch_new':
-
                 # replace, if value was submitted via form
                 if form['location'].value():
                     location_id = form['location'].value()
@@ -283,7 +286,6 @@ def system_modificator_async(request_post, request_user):
 
             # replace / delete, if 'switch_new / Switch to selected item or none' was selected
             if form['serviceprovider_delete'].value() == 'switch_new':
-
                 # replace, if value was submitted via form
                 if form['serviceprovider'].value():
                     serviceprovider_id = form['serviceprovider'].value()
@@ -310,13 +312,11 @@ def system_modificator_async(request_post, request_user):
 
             # remove existing relations if 'remove_and_add / Delete existing and add new items' was selected
             if form['tag_delete'].value() == 'remove_and_add':
-
                 # remove all m2m
                 system.tag.clear()
 
             # add new relations if not 'keep_not_add / Do not change and keep existing' was selected
             if form['tag_delete'].value() != 'keep_not_add':
-
                 # add new tags (using save_m2m would replace existing tags it there were any)
                 for tag_id in tags:
                     # get object
@@ -326,13 +326,11 @@ def system_modificator_async(request_post, request_user):
 
             # remove existing relations if 'remove_and_add / Delete existing and add new items' was selected
             if form['company_delete'].value() == 'remove_and_add':
-
                 # remove all m2m
                 system.company.clear()
 
             # add new relations if not 'keep_not_add / Do not change and keep existing' was selected
             if form['company_delete'].value() != 'keep_not_add':
-
                 # add new companies (using save_m2m would replace existing companies it there were any)
                 for company_id in companies:
                     # get object

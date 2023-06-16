@@ -20,7 +20,6 @@ from dfirtrack_main.models import (
 
 
 def statushistory_save_objects(username):
-
     # create empty statushistory (just contains primary key and datetime field)
     statushistory = Statushistory.objects.create()
 
@@ -214,7 +213,6 @@ def statushistory_save_objects(username):
 
 @login_required(login_url="/login")
 def statushistory_save(request):
-
     # get username from request object
     username = str(request.user)
 
@@ -229,7 +227,6 @@ def statushistory_save(request):
 
 
 def statushistory_save_cron():
-
     # get config
     main_config_model = MainConfigModel.objects.get(main_config_name='MainConfig')
 

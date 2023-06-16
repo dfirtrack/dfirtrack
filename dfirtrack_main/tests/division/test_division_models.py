@@ -8,7 +8,6 @@ class DivisionModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Division.objects.create(division_name='division_1')
 
@@ -58,4 +57,4 @@ class DivisionModelTestCase(TestCase):
         # get max length
         max_length = division_1._meta.get_field('division_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

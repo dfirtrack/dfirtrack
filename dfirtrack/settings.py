@@ -9,9 +9,6 @@ from dfirtrack.config import LOGGING_PATH
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'CHANGEME')
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -163,6 +160,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M',
 }
 
 MARTOR_ENABLE_CONFIGS = {
@@ -198,12 +196,33 @@ use settings from this file in case of missing local settings
 try statements are split to avoid conflicts in case of missing values
 """
 
+# SECRET_KEY
+try:
+    from .local_settings import SECRET_KEY
+
+except ImportError:  # coverage: ignore branch
+    SECRET_KEY = os.getenv('SECRET_KEY', 'CHANGEME')
+
+# DEBUG
+try:
+    from .local_settings import DEBUG
+
+except ImportError:  # coverage: ignore branch
+    # change to True for debugging
+    DEBUG = False
+
+# SESSION_COOKIE_SECURE
+try:
+    from .local_settings import SESSION_COOKIE_SECURE
+
+except ImportError:  # coverage: ignore branch
+    SESSION_COOKIE_SECURE = True
+
 # ALLOWED_HOSTS
 try:
     from .local_settings import ALLOWED_HOSTS
 
 except ImportError:  # coverage: ignore branch
-
     # add IP or FQDN if relevant
     ALLOWED_HOSTS = ['localhost']
 
@@ -212,7 +231,6 @@ try:
     from .local_settings import DATABASES
 
 except ImportError:  # coverage: ignore branch
-
     # Database - check environment variables for context
     if "CI" in os.environ:
         # use PostgreSQL for GitHub action
@@ -235,27 +253,16 @@ except ImportError:  # coverage: ignore branch
             }
         }
 
-# DATA_UPLOAD_MAX_NUMBER_FIELDS
-try:
-    from .local_settings import DATA_UPLOAD_MAX_NUMBER_FIELDS
-
-except ImportError:  # coverage: ignore branch
-
-    DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
-
-# DEBUG
-try:
-    from .local_settings import DEBUG
-
-except ImportError:  # coverage: ignore branch
-
-    # change to True for debugging
-    DEBUG = False
-
 # STATIC_ROOT
 try:
     from .local_settings import STATIC_ROOT
 
 except ImportError:  # coverage: ignore branch
-
     STATIC_ROOT = '/var/www/html/static/'
+
+# DATA_UPLOAD_MAX_NUMBER_FIELDS
+try:
+    from .local_settings import DATA_UPLOAD_MAX_NUMBER_FIELDS
+
+except ImportError:  # coverage: ignore branch
+    DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000

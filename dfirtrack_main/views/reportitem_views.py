@@ -40,7 +40,6 @@ class ReportitemCreate(LoginRequiredMixin, CreateView):
     template_name = 'dfirtrack_main/reportitem/reportitem_generic_form.html'
 
     def get(self, request, *args, **kwargs):
-
         # get id of first status objects sorted by name
         notestatus = Notestatus.objects.order_by('notestatus_name')[0].notestatus_id
 
@@ -144,4 +143,50 @@ class ReportitemUpdate(LoginRequiredMixin, UpdateView):
                     'form': form,
                     'title': 'Edit',
                 },
+            )
+
+
+class ReportitemSetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Reportitem
+
+    def get(self, request, *args, **kwargs):
+        reportitem = self.get_object()
+        reportitem.reportitem_assigned_to_user_id = request.user
+        reportitem.save()
+        reportitem.logger(str(request.user), " REPORTITEM_SET_USER_EXECUTED")
+        messages.success(request, 'Reportitem assigned to you')
+
+        # redirect
+        if 'documentation' in request.GET:
+            return redirect(
+                reverse('documentation_list')
+                + f'#reportitem_id_{reportitem.reportitem_id}'
+            )
+        else:
+            return redirect(
+                reverse('reportitem_detail', args=(reportitem.reportitem_id,))
+            )
+
+
+class ReportitemUnsetUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login'
+    model = Reportitem
+
+    def get(self, request, *args, **kwargs):
+        reportitem = self.get_object()
+        reportitem.reportitem_assigned_to_user_id = None
+        reportitem.save()
+        reportitem.logger(str(request.user), " REPORTITEM_UNSET_USER_EXECUTED")
+        messages.warning(request, 'User assignment for reportitem deleted')
+
+        # redirect
+        if 'documentation' in request.GET:
+            return redirect(
+                reverse('documentation_list')
+                + f'#reportitem_id_{reportitem.reportitem_id}'
+            )
+        else:
+            return redirect(
+                reverse('reportitem_detail', args=(reportitem.reportitem_id,))
             )

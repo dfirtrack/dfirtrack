@@ -2,7 +2,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_config', '0003_dfirtrack_config'),
     ]

@@ -11,7 +11,6 @@ class ArtifacttypeViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Artifacttype.objects.create(artifacttype_name='artifacttype_1')
         # create user

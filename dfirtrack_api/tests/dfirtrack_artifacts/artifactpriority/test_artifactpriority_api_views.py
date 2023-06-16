@@ -11,7 +11,6 @@ class ArtifactpriorityAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Artifactpriority.objects.create(artifactpriority_name='artifactpriority_api_1')
         # create user

@@ -9,7 +9,6 @@ class NoteModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_note', password='hypEYjnw7Sr30jPmenUh'
@@ -162,6 +161,16 @@ class NoteModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'note modified by user id')
 
+    def test_note_assigned_to_user_id_attribute_label(self):
+        """test attribute label"""
+
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # get label
+        field_label = note_1._meta.get_field('note_assigned_to_user_id').verbose_name
+        # compare
+        self.assertEqual(field_label, 'note assigned to user id')
+
     def test_note_title_length(self):
         """test for max length"""
 
@@ -170,7 +179,7 @@ class NoteModelTestCase(TestCase):
         # get max length
         max_length = note_1._meta.get_field('note_title').max_length
         # compare
-        self.assertEqual(max_length, 250)
+        self.assertEqual(max_length, 255)
 
     def test_note_save_version(self):
         """test version inc of save"""
@@ -199,3 +208,21 @@ class NoteModelTestCase(TestCase):
 
         # check
         self.assertFalse(note_1.note_is_abandoned)
+
+    def test_note_get_set_user_url(self):
+        """test URL method"""
+
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # compare
+        self.assertEqual(note_1.get_set_user_url(), f'/note/{note_1.note_id}/set_user/')
+
+    def test_note_get_unset_user_url(self):
+        """test URL method"""
+
+        # get object
+        note_1 = Note.objects.get(note_title='note_1')
+        # compare
+        self.assertEqual(
+            note_1.get_unset_user_url(), f'/note/{note_1.note_id}/unset_user/'
+        )

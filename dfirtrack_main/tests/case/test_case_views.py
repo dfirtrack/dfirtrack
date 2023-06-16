@@ -6,8 +6,14 @@ from django.test import TestCase
 from django.utils import timezone
 
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    Artifactstatus,
+    Artifacttype,
+)
 from dfirtrack_config.models import MainConfigModel
-from dfirtrack_main.models import Case, Casepriority, Casestatus
+from dfirtrack_main.models import Case, Casepriority, Casestatus, System, Systemstatus
 
 
 class CaseViewTestCase(TestCase):
@@ -15,7 +21,6 @@ class CaseViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6'
@@ -26,12 +31,46 @@ class CaseViewTestCase(TestCase):
         casestatus_1 = Casestatus.objects.create(casestatus_name='casestatus_1')
 
         # create object
-        Case.objects.create(
+        case_1 = Case.objects.create(
             case_name='case_1',
             case_is_incident=True,
             case_created_by_user_id=test_user,
             casepriority=casepriority_1,
             casestatus=casestatus_1,
+        )
+
+        # create objects
+        systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
+        system_1 = System.objects.create(
+            system_name='system_1',
+            systemstatus=systemstatus_1,
+            system_created_by_user_id=test_user,
+            system_modified_by_user_id=test_user,
+        )
+
+        # create object
+        artifactpriority_1 = Artifactpriority.objects.create(
+            artifactpriority_name='artifactpriority_1'
+        )
+
+        # create objects
+        artifactstatus_1 = Artifactstatus.objects.create(
+            artifactstatus_name='artifactstatus_1'
+        )
+
+        # create object
+        artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_1')
+
+        # create objects
+        Artifact.objects.create(
+            artifact_name='artifact_system_1',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_1,
+            artifacttype=artifacttype_1,
+            case=case_1,
+            system=system_1,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
         )
 
     def test_case_list_not_logged_in(self):
@@ -299,6 +338,21 @@ class CaseViewTestCase(TestCase):
         response = self.client.get('/case/' + str(case_1.case_id) + '/')
         # compare
         self.assertFalse(response.context['dfirtrack_artifacts'])
+
+    def test_case_detail_context_artifact_number(self):
+        """test detail view"""
+
+        # add app to dfirtrack.settings
+        if 'dfirtrack_artifacts' not in installed_apps:
+            installed_apps.append('dfirtrack_artifacts')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get response
+        response = self.client.get('/case/' + str(case_1.case_id) + '/')
+        # compare
+        self.assertEqual(response.context['artifact_number'], 1)
 
     def test_case_add_not_logged_in(self):
         """test add view"""
@@ -585,7 +639,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t2_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t2_now):
-
             # get response
             self.client.post('/case/add/', data_dict)
 
@@ -628,7 +681,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t3_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t3_now):
-
             # get response
             self.client.post('/case/add/', data_dict)
 
@@ -688,7 +740,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t4_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t4_now):
-
             # get response
             self.client.post(
                 '/case/' + str(case_edit_post_set_start_time.case_id) + '/edit/',
@@ -749,7 +800,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t5_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t5_now):
-
             # get response
             self.client.post(
                 '/case/' + str(case_edit_post_set_end_time.case_id) + '/edit/',
@@ -793,7 +843,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t6_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t6_now):
-
             # get response
             self.client.post('/case/add/', data_dict)
 
@@ -824,7 +873,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t7_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t7_now):
-
             # get response
             self.client.post(
                 '/case/' + str(case_edit_post_retain_start_time.case_id) + '/edit/',
@@ -868,7 +916,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t8_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t8_now):
-
             # get response
             self.client.post('/case/add/', data_dict)
 
@@ -899,7 +946,6 @@ class CaseViewTestCase(TestCase):
         # mock timezone.now()
         t9_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t9_now):
-
             # get response
             self.client.post(
                 '/case/' + str(case_edit_post_retain_end_time.case_id) + '/edit/',
@@ -911,3 +957,121 @@ class CaseViewTestCase(TestCase):
         # compare (after update)
         self.assertEqual(case_edit_post_retain_end_time.case_start_time, t8_now)
         self.assertEqual(case_edit_post_retain_end_time.case_end_time, t8_now)
+
+    def test_case_set_user_redirect(self):
+        """test case set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # create url
+        destination = urllib.parse.quote('/case/' + str(case_1.case_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/case/' + str(case_1.case_id) + '/set_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_case_set_user_user(self):
+        """test case set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get user
+        test_user = User.objects.get(username='testuser_case')
+        # get object
+        casepriority_1 = Casepriority.objects.get(casepriority_name='casepriority_1')
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name='casestatus_1')
+        # create object
+        case_set_user = Case.objects.create(
+            case_name='case_unassigned',
+            case_is_incident=True,
+            casepriority=casepriority_1,
+            casestatus=casestatus_1,
+            case_created_by_user_id=test_user,
+            case_modified_by_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(None, case_set_user.case_assigned_to_user_id)
+        # get response
+        self.client.get('/case/' + str(case_set_user.case_id) + '/set_user/')
+        # refresh object
+        case_set_user.refresh_from_db()
+        # compare
+        self.assertEqual(test_user, case_set_user.case_assigned_to_user_id)
+
+    def test_case_unset_user_redirect(self):
+        """test case unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # create url
+        destination = urllib.parse.quote('/case/' + str(case_1.case_id) + '/', safe='/')
+        # get response
+        response = self.client.get(
+            '/case/' + str(case_1.case_id) + '/unset_user/', follow=True
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_case_unset_user_user(self):
+        """test case unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get user
+        test_user = User.objects.get(username='testuser_case')
+        # get object
+        casepriority_1 = Casepriority.objects.get(casepriority_name='casepriority_1')
+        # get object
+        casestatus_1 = Casestatus.objects.get(casestatus_name='casestatus_1')
+        # create object
+        case_unset_user = Case.objects.create(
+            case_name='case_assigned',
+            case_is_incident=True,
+            casepriority=casepriority_1,
+            casestatus=casestatus_1,
+            case_created_by_user_id=test_user,
+            case_modified_by_user_id=test_user,
+            case_assigned_to_user_id=test_user,
+        )
+        # compare
+        self.assertEqual(test_user, case_unset_user.case_assigned_to_user_id)
+        # get response
+        self.client.get('/case/' + str(case_unset_user.case_id) + '/unset_user/')
+        # refresh object
+        case_unset_user.refresh_from_db()
+        # compare
+        self.assertEqual(None, case_unset_user.case_assigned_to_user_id)
+
+    def test_case_detail_artifact_filter_json_provider(self):
+        """test artifact filter for case detail view in dfirtrack_main/views/json_provider_views.py"""
+
+        # login testuser
+        self.client.login(username='testuser_case', password='DcHJ6AJkPn0YzSOm8Um6')
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # get response
+        response = self.client.post(
+            f'/filter/artifact/?case={case_1.case_id}',
+            {
+                'order[0][column]': '1',
+                'order[0][dir]': 'asc',
+                'start': '0',
+                'length': '25',
+                'search[value]': '',
+                'columns[1][data]': 'artifact_name',
+                'draw': '1',
+            },
+        )
+        # compare
+        self.assertContains(response, 'artifact_system_1')

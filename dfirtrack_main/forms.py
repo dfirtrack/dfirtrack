@@ -45,6 +45,17 @@ from dfirtrack_main.models import (
 from dfirtrack_main.widgets import TagWidget
 
 
+# override User string representation
+def form_username_str(self):
+    if self.get_full_name():
+        return f'{self.get_full_name()} ({self.get_username()})'
+    else:
+        return self.get_username()
+
+
+User.__str__ = form_username_str
+
+
 class AdminStyleSelectorForm(forms.ModelForm):
     """inherit from this class if you want to use the ModelMultipleChoiceField with the FilteredSelectMultiple widget"""
 
@@ -67,7 +78,6 @@ class AnalystmemoForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Analystmemo
 
@@ -116,6 +126,14 @@ class CaseForm(forms.ModelForm):
     )
 
     # reorder field choices
+    case_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
+    # reorder field choices
     tag = forms.ModelMultipleChoiceField(
         label=gettext_lazy('Tags'),
         widget=TagWidget,
@@ -124,7 +142,6 @@ class CaseForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Case
 
@@ -139,6 +156,7 @@ class CaseForm(forms.ModelForm):
             'casepriority',
             'casestatus',
             'casetype',
+            'case_assigned_to_user_id',
             'tag',
         )
 
@@ -182,7 +200,6 @@ class CasetypeForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Casetype
 
@@ -215,7 +232,6 @@ class CompanyForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Company
 
@@ -241,7 +257,6 @@ class ContactForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Contact
 
@@ -269,7 +284,6 @@ class DivisionForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Division
 
@@ -302,7 +316,6 @@ class DnsnameForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Dnsname
 
@@ -329,7 +342,6 @@ class DomainForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Domain
 
@@ -369,7 +381,6 @@ class DomainuserForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Domainuser
 
@@ -419,7 +430,6 @@ class EntryForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Entry
 
@@ -427,7 +437,6 @@ class EntryForm(forms.ModelForm):
         fields = (
             'entry_time',
             'system',
-            'entry_sha1',
             'entry_type',
             'entry_content',
             'entry_note',
@@ -437,15 +446,15 @@ class EntryForm(forms.ModelForm):
 
         # non default form labeling
         labels = {
-            'entry_time': gettext_lazy(
-                'Entry time (for sorting) (YYYY-MM-DD HH:MM:SS) (*)'
-            ),
+            'entry_time': gettext_lazy('Entry time (YYYY-MM-DD HH:MM:SS) (*)'),
+            'entry_type': gettext_lazy('Type'),
+            'entry_content': gettext_lazy('Content'),
+            'entry_note': gettext_lazy('Note'),
         }
 
         # special form type or option
         widgets = {
             'entry_time': forms.DateTimeInput(attrs={'autofocus': 'autofocus'}),
-            'entry_sha1': forms.TextInput(),
             'entry_type': forms.TextInput(),
             'entry_content': forms.Textarea(attrs={'rows': 3}),
             'entry_note': forms.Textarea(attrs={'rows': 10}),
@@ -473,12 +482,31 @@ class EntryFileImport(forms.ModelForm):
     )
 
     # file upload field (variable is used in request object)
+    def checkFileContentType(self):
+        if 'text/' not in self.content_type:
+            raise ValidationError('Uploaded file is not a CSV file.')
+
     entryfile = forms.FileField(
-        label='CSV file (*)', widget=forms.FileInput(attrs={'class': 'form-control'})
+        label='CSV file (*)',
+        widget=forms.FileInput(attrs={'class': 'form-control'}),
+        validators=[checkFileContentType],
+    )
+
+    # delimiter field (variable is used in request object)
+    delimiter = forms.CharField(
+        label='Delimiter (*)',
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
+
+    # quotechar field (variable is used in request object)
+    quotechar = forms.CharField(
+        label='Quotechar (*)',
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
     )
 
     class Meta:
-
         # model
         model = Entry
         fields = ('system', 'case')
@@ -515,7 +543,6 @@ class EntryFileImportFields(forms.Form):
     )
 
     def clean(self):
-
         if (
             'entry_time' in self.cleaned_data
             and self.cleaned_data['entry_time'] == '-1'
@@ -540,9 +567,13 @@ class EntryFileImportFields(forms.Form):
         form_choices = sorted(set(zip(index, choices)))
 
         # set select choices dynamically, based on uploaded csv file
+        form_choices[0] = (-1, 'Select datetime field')
         self.fields['entry_time'].choices = form_choices
+        form_choices[0] = (-1, 'Select entry type field')
         self.fields['entry_type'].choices = form_choices
+        form_choices[0] = (-1, 'Select entry content field')
         self.fields['entry_content'].choices = form_choices
+        form_choices[0] = (-1, 'Select tag field (field)')
         self.fields['entry_tag'].choices = form_choices
 
 
@@ -550,7 +581,6 @@ class HeadlineForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Headline
 
@@ -572,7 +602,6 @@ class LocationForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Location
 
@@ -614,6 +643,14 @@ class NoteForm(forms.ModelForm):
     )
 
     # reorder field choices
+    note_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
+    # reorder field choices
     case = forms.ModelChoiceField(
         label=gettext_lazy('Corresponding case'),
         queryset=Case.objects.order_by('case_name'),
@@ -649,7 +686,6 @@ class NoteForm(forms.ModelForm):
         return note_version
 
     class Meta:
-
         # model
         model = Note
 
@@ -658,6 +694,7 @@ class NoteForm(forms.ModelForm):
             'note_id',
             'note_title',
             'note_content',
+            'note_assigned_to_user_id',
             'tag',
             'case',
             'note_version',
@@ -679,7 +716,6 @@ class OsForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Os
 
@@ -708,7 +744,6 @@ class OsimportnameForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Osimportname
 
@@ -735,7 +770,6 @@ class ReasonForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Reason
 
@@ -760,7 +794,6 @@ class RecommendationForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Recommendation
 
@@ -783,6 +816,14 @@ class RecommendationForm(forms.ModelForm):
 
 class ReportitemForm(forms.ModelForm):
     """default model form"""
+
+    # reorder field choices
+    reportitem_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
 
     # reorder field choices
     case = forms.ModelChoiceField(
@@ -827,7 +868,6 @@ class ReportitemForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Reportitem
 
@@ -840,6 +880,7 @@ class ReportitemForm(forms.ModelForm):
             'tag',
             'reportitem_subheadline',
             'reportitem_note',
+            'reportitem_assigned_to_user_id',
         )
 
         # non default form labeling
@@ -863,7 +904,6 @@ class ServiceproviderForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Serviceprovider
 
@@ -904,7 +944,6 @@ class SystemBaseForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = System
 
@@ -1015,7 +1054,6 @@ class SystemExtendedBaseForm(SystemBaseForm):
     )
 
     class Meta(SystemBaseForm.Meta):
-
         # this HTML forms are shown
         fields = SystemBaseForm.Meta.fields + (
             'analysisstatus',
@@ -1064,8 +1102,15 @@ class SystemForm(SystemExtendedBaseForm):
         required=False,
     )
 
-    class Meta(SystemExtendedBaseForm.Meta):
+    # reorder field choices
+    system_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
 
+    class Meta(SystemExtendedBaseForm.Meta):
         # this HTML forms are shown
         fields = SystemExtendedBaseForm.Meta.fields + (
             'host_system',
@@ -1076,6 +1121,7 @@ class SystemForm(SystemExtendedBaseForm):
             'system_install_time',
             'system_is_vm',
             'system_lastbooted_time',
+            'system_assigned_to_user_id',
         )
 
         # non default form labeling
@@ -1106,7 +1152,6 @@ class SystemNameForm(SystemForm):
     """this form allows editing of system_name, inherits from system form"""
 
     class Meta(SystemForm.Meta):
-
         # add system_name to shown HTML forms
         fields = SystemForm.Meta.fields + ('system_name',)
 
@@ -1137,6 +1182,18 @@ class SystemCreatorForm(SystemExtendedBaseForm):
         label='System list (*)',
     )
 
+    # reorder field choices
+    system_assigned_to_user_id = forms.ModelChoiceField(
+        empty_label='Select user (optional)',
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+    )
+
+    class Meta(SystemExtendedBaseForm.Meta):
+        # this HTML forms are shown
+        fields = SystemExtendedBaseForm.Meta.fields + ('system_assigned_to_user_id',)
+
 
 class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     """system modificator form, inherits from system base form"""
@@ -1149,6 +1206,14 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
         queryset=Analysisstatus.objects.order_by('analysisstatus_name'),
         required=False,
         widget=forms.RadioSelect(),
+    )
+
+    # no model field comes into question, because optional choice in combination with delete checkbox
+    system_assigned_to_user_id = forms.ModelChoiceField(
+        empty_label='Select user (optional)',
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
     )
 
     # no model field comes into question, because optional choice in combination with delete checkbox
@@ -1241,6 +1306,14 @@ class SystemModificatorForm(AdminStyleSelectorForm, SystemBaseForm):
     )
 
     # add checkbox
+    assigned_to_user_id_delete = forms.ChoiceField(
+        choices=FK_CHOICES,
+        label=gettext_lazy('How to deal with assigned users'),
+        required=True,
+        widget=forms.RadioSelect(),
+    )
+
+    # add checkbox
     contact_delete = forms.ChoiceField(
         choices=FK_CHOICES,
         label=gettext_lazy('How to deal with contacts'),
@@ -1296,7 +1369,6 @@ class SystemtypeForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Systemtype
 
@@ -1325,7 +1397,6 @@ class SystemuserForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Systemuser
 
@@ -1355,6 +1426,14 @@ class TagForm(forms.ModelForm):
     """default model form"""
 
     # reorder field choices
+    tag_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
+
+    # reorder field choices
     tagcolor = forms.ModelChoiceField(
         label=gettext_lazy('Tag color (*)'),
         empty_label='Select tag color',
@@ -1362,7 +1441,6 @@ class TagForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Tag
 
@@ -1371,6 +1449,7 @@ class TagForm(forms.ModelForm):
             'tag_name',
             'tagcolor',
             'tag_note',
+            'tag_assigned_to_user_id',
         )
 
         # non default form labeling
@@ -1441,7 +1520,6 @@ class TaskBaseForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Task
 
@@ -1503,7 +1581,6 @@ class TaskForm(TaskBaseForm):
     )
 
     class Meta(TaskBaseForm.Meta):
-
         # this HTML forms are shown
         fields = TaskBaseForm.Meta.fields + (
             'parent_task',
@@ -1553,7 +1630,6 @@ class TasknameForm(forms.ModelForm):
     """default model form"""
 
     class Meta:
-
         # model
         model = Taskname
 

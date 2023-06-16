@@ -16,7 +16,6 @@ def insert_notestatus(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_main', '0018_note_and_notestatus'),
     ]

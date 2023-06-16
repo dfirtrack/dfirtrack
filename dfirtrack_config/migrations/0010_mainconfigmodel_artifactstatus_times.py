@@ -2,7 +2,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('dfirtrack_artifacts', '0005_values_artifactpriority'),
         ('dfirtrack_config', '0009_mainconfigmodel_statushistory_entry_numbers'),

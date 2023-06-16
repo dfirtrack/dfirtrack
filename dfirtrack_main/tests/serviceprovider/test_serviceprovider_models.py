@@ -8,7 +8,6 @@ class ServiceproviderModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Serviceprovider.objects.create(serviceprovider_name='serviceprovider_1')
 
@@ -76,4 +75,4 @@ class ServiceproviderModelTestCase(TestCase):
             'serviceprovider_name'
         ).max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)

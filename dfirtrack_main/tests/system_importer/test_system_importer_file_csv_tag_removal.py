@@ -388,7 +388,6 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2021, 3, 26, 18, 35, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -504,7 +503,6 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
         # mock timezone.now()
         t_2 = datetime(2021, 3, 26, 18, 40, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # execute cron job / scheduled task
             system_cron()
 
@@ -620,7 +618,6 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
         # mock timezone.now()
         t_3 = datetime(2021, 3, 26, 18, 45, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_3):
-
             # execute cron job / scheduled task
             system_cron()
 

@@ -11,8 +11,9 @@
 
 <!-- javascript and CSS for datatables -->
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+{% load dfirtrack_main_tags %}
+<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.css"/>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.js"></script>
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -35,43 +36,7 @@
 <!-- ############################################ -->
 
 <!-- filter form -->
-<form method="POST" class="post-form">
-
-    {% csrf_token %}
-
-    <!-- show form related errors -->
-    {% include "dfirtrack_main/includes/form_errors.html" %}
-
-    <!-- filter row -->
-    <div class"row top-distance bottom-distance">
-
-        <!-- form fields -->
-        {{ form.case }}
-        {{ form.tag }}
-
-        <!-- apply button -->
-        {% include "dfirtrack_main/includes/button_apply_filter.html" %}
-
-        <!-- clear button -->
-        {% with clear_url='clear_system_list_filter' %}
-            {% include "dfirtrack_main/includes/button_clear_filter.html" %}
-        {% endwith %}
-
-    <!-- filter row -->
-    </div>
-
-    <!-- persistence settings row -->
-    <div class"row bottom-distance">
-
-        <!-- keep filter settings -->
-        {{ form.filter_system_list_keep }}
-        {{ form.filter_system_list_keep.label }}
-
-    <!-- persistence settings row -->
-    </div>
-
-<!-- filter form -->
-</form>
+{% include "dfirtrack_main/includes/filter_row.html" with clear_url='clear_system_list_filter' %}
 
 <!-- ############################################ -->
 
@@ -255,7 +220,7 @@
 
 <!-- javascript for datatables -->
 {% block datatables %}
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.js"></script>
 {% endblock %}
 
 <!-- HTML body in maintemplate -->

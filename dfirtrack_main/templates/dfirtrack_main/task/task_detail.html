@@ -138,46 +138,20 @@
     <!-- status information row -->
     </div>
 
-    <!-- system / user row -->
+    <!-- user row -->
     <div class="row">
 
-        <!-- system -->
-        <div class="col-3">
-            <div class="font-weight-bold">
-                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-                Corresponding system:
-            </div>
-            {% if task.system %}
-                <a href="{{ task.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
-                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
-                    {{ task.system.system_name }}
-                </a>
-            {% else %}
-                ---
-            {% endif %}
-        </div>
-
         <!-- assigned user -->
-        <div class="col-3">
+        <div class="col-2">
             <div class="font-weight-bold">
                 <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
                 Assigned to user:
             </div>
             {% if task.task_assigned_to_user_id %}
-                {{ task.task_assigned_to_user_id }}
+                    {% include "dfirtrack_main/includes/username.html" with user=task.task_assigned_to_user_id %}
             {% else %}
                 ---
             {% endif %}
-        </div>
-
-    <!-- system / user row -->
-    </div>
-
-    <!-- button row -->
-    <div class="row top-distance">
-
-        <!-- placeholder -->
-        <div class="col-3">
         </div>
 
         <!-- grab / free user assignment button -->
@@ -201,11 +175,33 @@
         <!-- grab / free user assignment button -->
         </div>
 
-    <!-- button row -->
+    <!-- user row -->
+    </div>
+
+    <!-- system row -->
+    <div class="row top-distance">
+
+        <!-- system -->
+        <div class="col-3">
+            <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Corresponding system:
+            </div>
+            {% if task.system %}
+                <a href="{{ task.system.get_absolute_url }}" type="button" class="btn btn-primary btn-sm top-distance copy-true">
+                    <img src="{% static 'dfirtrack_main/icons/monitor-light.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    {{ task.system.system_name }}
+                </a>
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+    <!-- system row -->
     </div>
 
     <!-- artifact row -->
-    <div class="row">
+    <div class="row top-distance">
 
         <!-- artifact -->
         <div class="col-3">

@@ -18,7 +18,6 @@ class NoteFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_note', password='i6mefWrT8pAMwzZj8VCf'
@@ -84,6 +83,27 @@ class NoteFormTestCase(TestCase):
         form = NoteForm()
         # compare
         self.assertEqual(form.fields['tag'].label, 'Tags')
+
+    def test_note_assigned_to_user_id_form_label(self):
+        """test form label"""
+
+        # get object
+        form = NoteForm()
+        # compare
+        self.assertEqual(
+            form.fields['note_assigned_to_user_id'].label, 'Assigned to user'
+        )
+
+    def test_note_assigned_to_user_id_form_empty_label(self):
+        """test form label"""
+
+        # get object
+        form = NoteForm()
+        # compare
+        self.assertEqual(
+            form.fields['note_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
+        )
 
     def test_note_form_empty(self):
         """test minimum form requirements / INVALID"""
@@ -180,7 +200,7 @@ class NoteFormTestCase(TestCase):
         # get object
         form = NoteForm(
             data={
-                'note_title': 'n' * 250,
+                'note_title': 'n' * 255,
                 'note_content': 'lorem impsum',
                 'notestatus': notestatus_1.notestatus_id,
             }
@@ -196,7 +216,7 @@ class NoteFormTestCase(TestCase):
         # get object
         form = NoteForm(
             data={
-                'note_title': 'n' * 251,
+                'note_title': 'n' * 256,
                 'note_content': 'lorem impsum',
                 'notestatus': notestatus_1.notestatus_id,
             }

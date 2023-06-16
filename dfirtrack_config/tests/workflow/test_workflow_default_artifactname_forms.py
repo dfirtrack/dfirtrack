@@ -11,7 +11,6 @@ class WWorkflowDefaultArtifactAttributesFormSetTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create objects
         Artifacttype.objects.create(artifacttype_name='artifacttype_1')
         Artifactstatus.objects.get(artifactstatus_name='10_needs_analysis')

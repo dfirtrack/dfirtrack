@@ -1,6 +1,7 @@
 import re
 
 from django import forms
+from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy
 
 from dfirtrack_artifacts.models import (
@@ -14,7 +15,6 @@ from dfirtrack_main.widgets import TagWidget
 
 
 class ArtifactForm(forms.ModelForm):
-
     # reorder field choices
     system = forms.ModelChoiceField(
         label=gettext_lazy('System (*)'),
@@ -59,8 +59,15 @@ class ArtifactForm(forms.ModelForm):
         required=False,
     )
 
-    class Meta:
+    # reorder field choices
+    artifact_assigned_to_user_id = forms.ModelChoiceField(
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+        empty_label='Select user (optional)',
+    )
 
+    class Meta:
         # model
         model = Artifact
 
@@ -80,6 +87,7 @@ class ArtifactForm(forms.ModelForm):
             'artifact_note_internal',
             'artifact_note_external',
             'artifact_note_analysisresult',
+            'artifact_assigned_to_user_id',
         ]
 
         # non default form labeling
@@ -228,6 +236,14 @@ class ArtifactCreatorForm(forms.ModelForm):
         required=True,
     )
 
+    # reorder field choices
+    artifact_assigned_to_user_id = forms.ModelChoiceField(
+        empty_label='Select user (optional)',
+        label=gettext_lazy('Assigned to user'),
+        queryset=User.objects.order_by('username'),
+        required=False,
+    )
+
     # show all existing system objects as multiple choice field
     system = forms.ModelMultipleChoiceField(
         queryset=System.objects.order_by('system_name'),
@@ -257,7 +273,6 @@ class ArtifactCreatorForm(forms.ModelForm):
     )
 
     class Meta:
-
         # model
         model = Artifact
 
@@ -265,6 +280,7 @@ class ArtifactCreatorForm(forms.ModelForm):
         fields = (
             'artifactpriority',
             'artifactstatus',
+            'artifact_assigned_to_user_id',
             'artifact_note_analysisresult',
             'artifact_note_external',
             'artifact_note_internal',
@@ -331,7 +347,6 @@ class ArtifactCreatorForm(forms.ModelForm):
 
 class ArtifacttypeForm(forms.ModelForm):
     class Meta:
-
         # model
         model = Artifacttype
 

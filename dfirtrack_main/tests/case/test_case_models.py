@@ -9,7 +9,6 @@ class CaseModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_case', password='ubtMz0kJgkeBqBKNlNUG'
@@ -200,6 +199,16 @@ class CaseModelTestCase(TestCase):
         # compare
         self.assertEqual(field_label, 'tag')
 
+    def test_case_assigned_to_user_id_attribute_label(self):
+        """test attribute label"""
+
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # get label
+        field_label = case_1._meta.get_field('case_assigned_to_user_id').verbose_name
+        # compare
+        self.assertEqual(field_label, 'case assigned to user id')
+
     def test_case_name_length(self):
         """test for max length"""
 
@@ -208,7 +217,7 @@ class CaseModelTestCase(TestCase):
         # get max length
         max_length = case_1._meta.get_field('case_name').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)
 
     def test_case_id_external_length(self):
         """test for max length"""
@@ -218,4 +227,22 @@ class CaseModelTestCase(TestCase):
         # get max length
         max_length = case_1._meta.get_field('case_id_external').max_length
         # compare
-        self.assertEqual(max_length, 50)
+        self.assertEqual(max_length, 255)
+
+    def test_case_get_set_user_url(self):
+        """test URL method"""
+
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # compare
+        self.assertEqual(case_1.get_set_user_url(), f'/case/{case_1.case_id}/set_user/')
+
+    def test_case_get_unset_user_url(self):
+        """test URL method"""
+
+        # get object
+        case_1 = Case.objects.get(case_name='case_1')
+        # compare
+        self.assertEqual(
+            case_1.get_unset_user_url(), f'/case/{case_1.case_id}/unset_user/'
+        )

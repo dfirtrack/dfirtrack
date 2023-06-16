@@ -9,7 +9,6 @@ class DomainuserFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Domain.objects.create(
             domain_name='domain_1',
@@ -92,7 +91,7 @@ class DomainuserFormTestCase(TestCase):
         # get object
         form = DomainuserForm(
             data={
-                'domainuser_name': 'd' * 50,
+                'domainuser_name': 'd' * 255,
                 'domain': domain_id,
             }
         )
@@ -107,7 +106,7 @@ class DomainuserFormTestCase(TestCase):
         # get object
         form = DomainuserForm(
             data={
-                'domainuser_name': 'd' * 51,
+                'domainuser_name': 'd' * 256,
                 'domain': domain_id,
             }
         )

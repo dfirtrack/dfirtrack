@@ -9,7 +9,6 @@ class DFIRTrackOpenAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_openapi_api_1', password='ZxMzUqYU6mrDzO9q'

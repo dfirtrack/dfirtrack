@@ -28,7 +28,6 @@ class StatushistoryViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         User.objects.create_user(
             username='testuser_statushistory', password='SXHemnLqF6chIcem5ABs'
@@ -209,7 +208,6 @@ class StatushistoryViewTestCase(TestCase):
         # mock timezone.now()
         t_1 = datetime(2020, 5, 4, 3, 2, 1, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
-
             # login testuser
             self.client.login(
                 username='testuser_statushistory', password='SXHemnLqF6chIcem5ABs'
@@ -329,11 +327,9 @@ class StatushistoryViewTestCase(TestCase):
                 self.assertEqual(taskstatus.statushistoryentry_model_value, 0)
 
     def test_statushistory_save_cron_view_complete(self):
-
         # mock timezone.now()
         t_2 = datetime(2020, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
-
             # save statushistory without GET
             statushistory_save_cron()
 

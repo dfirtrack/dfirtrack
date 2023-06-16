@@ -11,7 +11,6 @@ class EntryFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_entry', password='z2B7MofdZ4suAn6AYGSo'
@@ -43,7 +42,7 @@ class EntryFormTestCase(TestCase):
         # compare
         self.assertEqual(
             form.fields['entry_time'].label,
-            'Entry time (for sorting) (YYYY-MM-DD HH:MM:SS) (*)',
+            'Entry time (YYYY-MM-DD HH:MM:SS) (*)',
         )
 
     def test_system_form_label(self):
@@ -55,21 +54,13 @@ class EntryFormTestCase(TestCase):
         self.assertEqual(form.fields['system'].label, 'System (*)')
         self.assertEqual(form.fields['system'].empty_label, 'Select system')
 
-    def test_entry_sha1_form_label(self):
-        """test form label"""
-
-        # get object
-        form = EntryForm()
-        # compare
-        self.assertEqual(form.fields['entry_sha1'].label, 'Entry sha1')
-
     def test_entry_type_form_label(self):
         """test form label"""
 
         # get object
         form = EntryForm()
         # compare
-        self.assertEqual(form.fields['entry_type'].label, 'Entry type')
+        self.assertEqual(form.fields['entry_type'].label, 'Type')
 
     def test_entry_content_form_label(self):
         """test form label"""
@@ -77,7 +68,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEqual(form.fields['entry_content'].label, 'Entry content')
+        self.assertEqual(form.fields['entry_content'].label, 'Content')
 
     def test_entry_note_form_label(self):
         """test form label"""
@@ -85,7 +76,7 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryForm()
         # compare
-        self.assertEqual(form.fields['entry_note'].label, 'Entry note')
+        self.assertEqual(form.fields['entry_note'].label, 'Note')
 
     def test_case_form_label(self):
         """test form label"""
@@ -134,22 +125,6 @@ class EntryFormTestCase(TestCase):
             data={
                 'entry_time': '2009-08-07 12:34:56',
                 'system': system_id,
-            }
-        )
-        # compare
-        self.assertTrue(form.is_valid())
-
-    def test_entry_sha1_form_filled(self):
-        """test additional form content"""
-
-        # get foreign key object id
-        system_id = System.objects.get(system_name='system_1').system_id
-        # get object
-        form = EntryForm(
-            data={
-                'entry_time': '2009-08-07 12:34:56',
-                'system': system_id,
-                'entry_sha1': 'da39a3ee5e6b4b0d3255bfef95601890afd80709',
             }
         )
         # compare
@@ -221,42 +196,6 @@ class EntryFormTestCase(TestCase):
         # compare
         self.assertTrue(form.is_valid())
 
-    def test_entry_sha1_proper_chars(self):
-        """test for max length"""
-
-        # define datetime string
-        entry_time_string = '2009-08-07 12:34:56'
-        # get foreign key object id
-        system_id = System.objects.get(system_name='system_1').system_id
-        # get object
-        form = EntryForm(
-            data={
-                'entry_time': entry_time_string,
-                'system': system_id,
-                'entry_sha1': 's' * 40,
-            }
-        )
-        # compare
-        self.assertTrue(form.is_valid())
-
-    def test_entry_sha1_too_many_chars(self):
-        """test for max length"""
-
-        # define datetime string
-        entry_time_string = '2009-08-07 12:34:56'
-        # get foreign key object id
-        system_id = System.objects.get(system_name='system_1').system_id
-        # get object
-        form = EntryForm(
-            data={
-                'entry_time': entry_time_string,
-                'system': system_id,
-                'entry_sha1': 's' * 41,
-            }
-        )
-        # compare
-        self.assertFalse(form.is_valid())
-
     def test_entry_type_proper_chars(self):
         """test for max length"""
 
@@ -269,7 +208,7 @@ class EntryFormTestCase(TestCase):
             data={
                 'entry_time': entry_time_string,
                 'system': system_id,
-                'entry_type': 't' * 30,
+                'entry_type': 't' * 255,
             }
         )
         # compare
@@ -287,7 +226,7 @@ class EntryFormTestCase(TestCase):
             data={
                 'entry_time': entry_time_string,
                 'system': system_id,
-                'entry_type': 't' * 31,
+                'entry_type': 't' * 256,
             }
         )
         # compare
@@ -326,6 +265,24 @@ class EntryFormTestCase(TestCase):
         self.assertEqual(form.fields['entryfile'].label, 'CSV file (*)')
         self.assertEqual(form.fields['entryfile'].widget.attrs['class'], 'form-control')
 
+    def test_entry_file_import_delimiter_form_label(self):
+        """test form label"""
+
+        # get object
+        form = EntryFileImport()
+        # compare
+        self.assertEqual(form.fields['delimiter'].label, 'Delimiter (*)')
+        self.assertEqual(form.fields['delimiter'].widget.attrs['class'], 'form-control')
+
+    def test_entry_file_import_quotechar_form_label(self):
+        """test form label"""
+
+        # get object
+        form = EntryFileImport()
+        # compare
+        self.assertEqual(form.fields['quotechar'].label, 'Quotechar (*)')
+        self.assertEqual(form.fields['quotechar'].widget.attrs['class'], 'form-control')
+
     def test_entry_file_import_form_filled(self):
         """test additional form content"""
 
@@ -337,11 +294,33 @@ class EntryFormTestCase(TestCase):
         )
         # get object
         form = EntryFileImport(
-            {'system': system_id},
+            {'system': system_id, 'delimiter': ',', 'quotechar': '"'},
             {'entryfile': csv_file},
         )
         # compare
         self.assertTrue(form.is_valid())
+
+    def test_entry_file_import_invalid_content_type(self):
+        """test additional form content"""
+
+        # get foreign key object id
+        system_id = System.objects.get(system_name='system_1').system_id
+        # mock csv file
+        csv_file = SimpleUploadedFile(
+            "test.csv",
+            b"datetime,timestamp_desc,message",
+            content_type="invalid/content",
+        )
+        # get object
+        form = EntryFileImport(
+            {'system': system_id, 'delimiter': ',', 'quotechar': '"'},
+            {'entryfile': csv_file},
+        )
+        # compare
+        self.assertFalse(form.is_valid())
+        self.assertInHTML(
+            'Uploaded file is not a CSV file.', form.errors['entryfile'][0]
+        )
 
     '''
          EntryFileImportFields Form Tests
@@ -380,9 +359,18 @@ class EntryFormTestCase(TestCase):
         # get object
         form = EntryFileImportFields([])
 
-        self.assertEqual(form.fields['entry_time'].choices, [(-1, '--')])
-        self.assertEqual(form.fields['entry_type'].choices, [(-1, '--')])
-        self.assertEqual(form.fields['entry_content'].choices, [(-1, '--')])
+        self.assertEqual(
+            form.fields['entry_time'].choices, [(-1, 'Select datetime field')]
+        )
+        self.assertEqual(
+            form.fields['entry_type'].choices, [(-1, 'Select entry type field')]
+        )
+        self.assertEqual(
+            form.fields['entry_content'].choices, [(-1, 'Select entry content field')]
+        )
+        self.assertEqual(
+            form.fields['entry_tag'].choices, [(-1, 'Select tag field (field)')]
+        )
 
     def test_entry_file_import_fileds_mock_choices(self):
         """ " test dynamic choices"""
@@ -392,7 +380,7 @@ class EntryFormTestCase(TestCase):
 
         # expected choices
         result = [
-            (-1, '--'),
+            (-1, 'Select datetime field'),
             (0, 'c_0'),
             (1, 'c_1'),
             (2, 'c_2'),
@@ -400,8 +388,11 @@ class EntryFormTestCase(TestCase):
 
         # check
         self.assertEqual(form.fields['entry_time'].choices, result)
+        result[0] = (-1, 'Select entry type field')
         self.assertEqual(form.fields['entry_type'].choices, result)
+        result[0] = (-1, 'Select entry content field')
         self.assertEqual(form.fields['entry_content'].choices, result)
+        result[0] = (-1, 'Select tag field (field)')
         self.assertEqual(form.fields['entry_tag'].choices, result)
 
     def test_entry_file_import_fileds_form_filled(self):

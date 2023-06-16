@@ -1,0 +1,62 @@
+name: Generate DFIRTrack Go Client
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  generate-go-client:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+      branch: ${{ steps.extract_branch.outputs.branch }}
+    name: dfirtrack-api-client-go
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: Retrieve DFIRTrack Version and set env with version number
+        run: echo "::set-output name=version::$(curl https://raw.githubusercontent.com/dfirtrack/dfirtrack/${{ steps.extract_branch.outputs.branch }}/dfirtrack_main/templatetags/dfirtrack_main_tags.py | grep "versionnumber =" | cut -d "'" -f2 | cut -d "v" -f2)"
+        id: get_version
+
+      - name: Debug Variables
+        run: echo "${{ steps.extract_branch.outputs.branch }} - ${{ steps.get_version.outputs.version }}"
+
+      - name: Set API Version in go.yml
+        run: |
+             sed -i -e 's/  packageVersion: VERSION/  packageVersion: ${{ steps.get_version.outputs.version }}/g' dfirtrack_api/openapi/generator-config/go.yml
+
+      - name: Generate DFIRTrack Go Client
+        uses: openapi-generators/openapitools-generator-action@v1
+        with:
+          generator: go
+          generator-tag: latest-release
+          config-file: dfirtrack_api/openapi/generator-config/go.yml
+          openapi-url: https://raw.githubusercontent.com/dfirtrack/dfirtrack/${{ steps.extract_branch.outputs.branch }}/dfirtrack_api/openapi/openapi_dfirtrack.yml
+          command-args: --git-repo-id "dfirtrackapi" --git-user-id "dfirtrack"
+
+      - name: Pushes the go client to the githup repo
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB_API_CLIENTS }}
+        with:
+          source_file: 'go-client/'
+          destination_repo: 'dfirtrack/dfirtrackapi'
+          user_name: 'Sven Ulke'
+          user_email: 'spueschel89@gmail.com'
+          commit_message: 'Update dfirtrackapi to version ${{ steps.get_version.outputs.version }}'
+          use_rsync: 'true'
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB_API_CLIENTS }}
+          body: "Release of dfirtrackapi version ${{ steps.get_version.outputs.version }}"
+          repository: dfirtrack/dfirtrackapi

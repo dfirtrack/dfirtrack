@@ -23,7 +23,6 @@ class ArtifactViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF'
@@ -160,7 +159,7 @@ class ArtifactViewTestCase(TestCase):
         response = self.client.get('/artifacts/artifact/closed/')
         # compare
         self.assertTemplateUsed(
-            response, 'dfirtrack_artifacts/artifact/artifact_closed.html'
+            response, 'dfirtrack_artifacts/artifact/artifact_list.html'
         )
 
     def test_artifact_closed_get_user_context(self):
@@ -220,7 +219,7 @@ class ArtifactViewTestCase(TestCase):
         response = self.client.get('/artifacts/artifact/all/')
         # compare
         self.assertTemplateUsed(
-            response, 'dfirtrack_artifacts/artifact/artifact_all.html'
+            response, 'dfirtrack_artifacts/artifact/artifact_list.html'
         )
 
     def test_artifact_all_get_user_context(self):
@@ -435,7 +434,6 @@ class ArtifactViewTestCase(TestCase):
         # mock timezone.now()
         t1_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t1_now):
-
             # TODO: fix times
 
             # login testuser
@@ -949,7 +947,6 @@ class ArtifactViewTestCase(TestCase):
         # mock timezone.now()
         t2_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t2_now):
-
             # get response
             self.client.post('/artifacts/artifact/create/', data_dict)
 
@@ -1004,7 +1001,6 @@ class ArtifactViewTestCase(TestCase):
         # mock timezone.now()
         t3_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t3_now):
-
             # get response
             self.client.post('/artifacts/artifact/create/', data_dict)
 
@@ -1087,7 +1083,6 @@ class ArtifactViewTestCase(TestCase):
         # mock timezone.now()
         t4_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t4_now):
-
             # get response
             self.client.post(
                 '/artifacts/artifact/update/'
@@ -1173,7 +1168,6 @@ class ArtifactViewTestCase(TestCase):
         # mock timezone.now()
         t5_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t5_now):
-
             # get response
             self.client.post(
                 '/artifacts/artifact/update/'
@@ -1231,7 +1225,6 @@ class ArtifactViewTestCase(TestCase):
         # mock timezone.now()
         t6_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t6_now):
-
             # get response
             self.client.post('/artifacts/artifact/create/', data_dict)
 
@@ -1270,7 +1263,6 @@ class ArtifactViewTestCase(TestCase):
         # mock timezone.now()
         t7_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t7_now):
-
             # get response
             self.client.post(
                 '/artifacts/artifact/update/'
@@ -1328,7 +1320,6 @@ class ArtifactViewTestCase(TestCase):
         # mock timezone.now()
         t8_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t8_now):
-
             # get response
             self.client.post('/artifacts/artifact/create/', data_dict)
 
@@ -1368,7 +1359,6 @@ class ArtifactViewTestCase(TestCase):
         # mock timezone.now()
         t9_now = timezone.now()
         with patch.object(timezone, 'now', return_value=t9_now):
-
             # get response
             self.client.post(
                 '/artifacts/artifact/update/'
@@ -1387,3 +1377,128 @@ class ArtifactViewTestCase(TestCase):
             artifact_update_post_retain_acquisition_time.artifact_acquisition_time,
             t8_now,
         )
+
+    def test_artifact_set_user_redirect(self):
+        """test artifact set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # create url
+        destination = urllib.parse.quote(
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe='/'
+        )
+        # get response
+        response = self.client.get(
+            '/artifacts/artifact/' + str(artifact_1.artifact_id) + '/set_user/',
+            follow=True,
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_artifact_set_user_user(self):
+        """test artifact set_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get user
+        test_user = User.objects.get(username='testuser_artifact')
+        # get object
+        artifactpriority_1 = Artifactpriority.objects.get(
+            artifactpriority_name='artifactpriority_1'
+        )
+        # get object
+        artifactstatus_1 = Artifactstatus.objects.get(
+            artifactstatus_name='artifactstatus_1'
+        )
+        # get object
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create object
+        artifact_set_user = Artifact.objects.create(
+            artifact_name='artifact_unassigned',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_1,
+            artifacttype=artifacttype_1,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
+            system=system_1,
+        )
+        # compare
+        self.assertEqual(None, artifact_set_user.artifact_assigned_to_user_id)
+        # get response
+        self.client.get(
+            '/artifacts/artifact/' + str(artifact_set_user.artifact_id) + '/set_user/'
+        )
+        # refresh object
+        artifact_set_user.refresh_from_db()
+        # compare
+        self.assertEqual(test_user, artifact_set_user.artifact_assigned_to_user_id)
+
+    def test_artifact_unset_user_redirect(self):
+        """test artifact unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get object
+        artifact_1 = Artifact.objects.get(artifact_name='artifact_1')
+        # create url
+        destination = urllib.parse.quote(
+            '/artifacts/artifact/detail/' + str(artifact_1.artifact_id) + '/', safe='/'
+        )
+        # get response
+        response = self.client.get(
+            '/artifacts/artifact/' + str(artifact_1.artifact_id) + '/unset_user/',
+            follow=True,
+        )
+        # compare
+        self.assertRedirects(
+            response, destination, status_code=302, target_status_code=200
+        )
+
+    def test_artifact_unset_user_user(self):
+        """test artifact unset_user view"""
+
+        # login testuser
+        self.client.login(username='testuser_artifact', password='frUsVT2ukTjWNDjVMBlF')
+        # get user
+        test_user = User.objects.get(username='testuser_artifact')
+        # get object
+        artifactpriority_1 = Artifactpriority.objects.get(
+            artifactpriority_name='artifactpriority_1'
+        )
+        # get object
+        artifactstatus_1 = Artifactstatus.objects.get(
+            artifactstatus_name='artifactstatus_1'
+        )
+        # get object
+        artifacttype_1 = Artifacttype.objects.get(artifacttype_name='artifacttype_1')
+        # get object
+        system_1 = System.objects.get(system_name='system_1')
+        # create object
+        artifact_unset_user = Artifact.objects.create(
+            artifact_name='artifact_assigned',
+            artifactpriority=artifactpriority_1,
+            artifactstatus=artifactstatus_1,
+            artifacttype=artifacttype_1,
+            artifact_created_by_user_id=test_user,
+            artifact_modified_by_user_id=test_user,
+            artifact_assigned_to_user_id=test_user,
+            system=system_1,
+        )
+        # compare
+        self.assertEqual(test_user, artifact_unset_user.artifact_assigned_to_user_id)
+        # get response
+        self.client.get(
+            '/artifacts/artifact/'
+            + str(artifact_unset_user.artifact_id)
+            + '/unset_user/'
+        )
+        # refresh object
+        artifact_unset_user.refresh_from_db()
+        # compare
+        self.assertEqual(None, artifact_unset_user.artifact_assigned_to_user_id)

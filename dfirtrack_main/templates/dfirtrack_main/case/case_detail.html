@@ -10,10 +10,11 @@
 </title>
 
 {% load static %}
+{% load dfirtrack_main_tags %}
 
 <!-- javascript and CSS for datatables -->
-<link rel="stylesheet" type="text/css" href="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.css' %}"/>
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.css"/>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.js"></script>
 
 <!-- HTML head in maintemplate -->
 {% endblock %}
@@ -160,8 +161,48 @@
     <!-- case information row -->
     </div>
 
+    <!-- user row -->
+    <div class="row">
+
+        <!-- assigned user -->
+        <div class="col-2">
+            <div class="font-weight-bold">
+                <img src="{% static 'dfirtrack_main/icons/person-light.svg' %}" class="icon right-distance copy-false" alt="icon">
+                Assigned to user:
+            </div>
+            {% if case.case_assigned_to_user_id %}
+                {% include "dfirtrack_main/includes/username.html" with user=case.case_assigned_to_user_id%}
+            {% else %}
+                ---
+            {% endif %}
+        </div>
+
+        <!-- grab / free user assignment button -->
+        <div class="col-3">
+
+            <!-- grab button -->
+            {% if not case.case_assigned_to_user_id %}
+                <a href="{{ case.get_set_user_url }}" type="button" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/person.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Grab
+                </a>
+
+            <!-- free button -->
+            {% else %}
+                <a href="{{ case.get_unset_user_url }}" type="button" class="btn btn-sm btn-light copy-false">
+                    <img src="{% static 'dfirtrack_main/icons/delete.svg' %}" class="icon-sm right-distance copy-false" alt="icon">
+                    Free
+                </a>
+            {% endif %}
+
+        <!-- grab / free user assignment button -->
+        </div>
+
+    <!-- user row -->
+    </div>
+
     <!-- case information row -->
-    <div class="row bottom-distance">
+    <div class="row top-distance bottom-distance">
 
         <!-- casetype -->
         <div class="col-3">
@@ -447,9 +488,6 @@
         <!-- datatable system -->
         </table>
 
-        <!-- javascript for datatables -->
-        <script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
-
     <!-- no systems -->
     {% else %}
         <div class="row top-distance">
@@ -477,46 +515,30 @@
     <div class="col-3">
         <h5>
             <img src="{% static 'dfirtrack_main/icons/bug-light.svg' %}" class="icon right-distance copy-false" alt="icon">
-            Artifacts associated with this case{% if artifacts %} ({{ artifacts|length }}){% endif %}
+            Artifacts associated with this case{% if artifact_number %} ({{ artifact_number }}){% endif %}
         </h5>
     </div>
 </div>
 
 <!-- artifacts -->
-{% if artifacts %}
 
-    <!-- datatable artifact -->
-    <table id="table_artifact" class="display" width="100%">
+<!-- datatable artifact -->
+<table id="table_artifact_details" class="display" width="100%">
 
-        <!-- table head -->
-        <thead>
-            {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
-        </thead>
+    <!-- table head -->
+    <thead>
+        {% include "dfirtrack_artifacts/includes/datatable_thead_table_artifact.html" %}
+    </thead>
 
-        <!-- table body -->
-        <tbody>
-            <!-- iterate over rows -->
-            {% for i in artifacts %}
-                {% include "dfirtrack_artifacts/includes/datatable_tbody_table_artifact.html" %}
-            {% endfor %}
-        </tbody>
+    <!-- table body -->
+    <tbody>
+    </tbody>
 
-    <!-- datatable artifact -->
-    </table>
-
-    <!-- javascript for datatables -->
-    <script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
-
-<!-- no artifacts -->
-{% else %}
-    <div class="row top-distance">
-        <div class="col-3">
-            ---
-        </div>
-    </div>
+<!-- datatable artifact -->
+</table>
 
 <!-- artifacts -->
-{% endif %}
+
 
 <!-- artifact block -->
 </div>
@@ -525,11 +547,6 @@
 {% endif %}
 
 <!-- ############################################ -->
-
-<!-- javascript for datatables -->
-{% block datatables %}
-<script src="{% static 'dfirtrack_main/datatables-1.10.16/datatables.min.js' %}"></script>
-{% endblock %}
 
 <!-- button row -->
 <div class="row top-distance">
@@ -554,4 +571,11 @@
 </div>
 
 <!-- HTML body in maintemplate -->
+{% endblock %}
+
+<!-- javascript for datatables -->
+{% block datatables %}
+<script src="{% static 'dfirtrack_main/dfirtrack/datatables_dfirtrack.js' %}"></script>
+<script src="{% static 'dfirtrack_artifacts/datatables_artifacts.js' %}"></script>
+<script src="{% get_static_prefix %}dfirtrack_main/{% dep_datatables_version %}/datatables.min.js"></script>
 {% endblock %}

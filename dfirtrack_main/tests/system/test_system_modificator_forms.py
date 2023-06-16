@@ -20,7 +20,6 @@ class SystemModificatorFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         systemstatus_1 = Systemstatus.objects.create(systemstatus_name='systemstatus_1')
 
@@ -214,6 +213,31 @@ class SystemModificatorFormTestCase(TestCase):
             form.fields['contact_delete'].label, 'How to deal with contacts'
         )
 
+    def test_system_modificator_system_assigned_to_user_id_form_label(self):
+        """test form label"""
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(
+            form.fields['system_assigned_to_user_id'].label, 'Assigned to user'
+        )
+        self.assertEqual(
+            form.fields['system_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
+        )
+
+    def test_system_modificator_assigned_to_user_id_delete_form_label(self):
+        """test form label"""
+
+        # get object
+        form = SystemModificatorForm()
+        # compare
+        self.assertEqual(
+            form.fields['assigned_to_user_id_delete'].label,
+            'How to deal with assigned users',
+        )
+
     def test_system_modificator_form_empty(self):
         """test minimum form requirements / INVALID"""
 
@@ -247,6 +271,7 @@ class SystemModificatorFormTestCase(TestCase):
                 ],
                 'systemstatus_choice': 'keep_status',
                 'analysisstatus_choice': 'keep_status',
+                'assigned_to_user_id_delete': 'keep_existing',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -275,6 +300,7 @@ class SystemModificatorFormTestCase(TestCase):
                 'systemstatus': systemstatus_id,
                 'systemstatus_choice': 'keep_status',
                 'analysisstatus_choice': 'keep_status',
+                'assigned_to_user_id_delete': 'keep_existing',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -310,6 +336,7 @@ class SystemModificatorFormTestCase(TestCase):
                 'analysisstatus_choice': 'keep_status',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
+                'assigned_to_user_id_delete': 'keep_existing',
                 'contact_delete': 'keep_existing',
                 'location_delete': 'keep_existing',
                 'serviceprovider_delete': 'keep_existing',
@@ -340,6 +367,7 @@ class SystemModificatorFormTestCase(TestCase):
                 'systemstatus_choice': 'keep_status',
                 'analysisstatus_choice': 'keep_status',
                 'tag': [tag_1_id, tag_2_id],
+                'assigned_to_user_id_delete': 'keep_existing',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -371,6 +399,7 @@ class SystemModificatorFormTestCase(TestCase):
                 'systemstatus_choice': 'keep_status',
                 'analysisstatus_choice': 'keep_status',
                 'company': [company_id],
+                'assigned_to_user_id_delete': 'keep_existing',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -402,6 +431,7 @@ class SystemModificatorFormTestCase(TestCase):
                 'systemstatus_choice': 'keep_status',
                 'analysisstatus_choice': 'keep_status',
                 'location': location_id,
+                'assigned_to_user_id_delete': 'keep_existing',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -435,6 +465,7 @@ class SystemModificatorFormTestCase(TestCase):
                 'systemstatus_choice': 'keep_status',
                 'analysisstatus_choice': 'keep_status',
                 'serviceprovider': serviceprovider_id,
+                'assigned_to_user_id_delete': 'keep_existing',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -466,6 +497,7 @@ class SystemModificatorFormTestCase(TestCase):
                 'systemstatus_choice': 'keep_status',
                 'analysisstatus_choice': 'keep_status',
                 'contact': contact_id,
+                'assigned_to_user_id_delete': 'keep_existing',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',
@@ -496,6 +528,7 @@ class SystemModificatorFormTestCase(TestCase):
                 'systemstatus': systemstatus_id,
                 'systemstatus_choice': 'keep_status',
                 'analysisstatus_choice': 'keep_status',
+                'assigned_to_user_id_delete': 'keep_existing',
                 'company_delete': 'keep_not_add',
                 'tag_delete': 'keep_not_add',
                 'contact_delete': 'keep_existing',

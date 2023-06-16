@@ -350,7 +350,6 @@ class SystemImporterFileCsvCompleteAttributesDatabaseViewTestCase(TestCase):
         # mock timezone.now()
         t_3 = datetime(2021, 3, 8, 18, 15, tzinfo=timezone.utc)
         with patch.object(timezone, 'now', return_value=t_3):
-
             # execute cron job / scheduled task
             system_cron()
 

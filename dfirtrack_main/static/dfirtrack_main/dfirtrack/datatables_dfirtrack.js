@@ -10,9 +10,9 @@ $(document).ready( function () {
         "order": [[ 0, "asc" ]]
     } );
     $('#table_entry').DataTable( {
-        "pageLength": 30,
+        "pageLength": 25,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        "order": [[ 3, "asc" ]]
+        "order": [[ 1, "asc" ], [ 2, "asc" ]]
     } );
     $('#table_reportitem').DataTable( {
         "pageLength": 25,
@@ -35,8 +35,9 @@ $(document).ready( function () {
         "processing":true,
         "serverSide":true,
         "ajax": {
-            "type" : "GET",
-            "url": window.location.protocol+"//"+window.location.hostname+(window.location.port ? ':'+location.port: '')+"/system/json/"
+            "type" : "POST",
+            "url": "/filter/system/?" + window.location.pathname.split('/')[1] + "=" + ((window.location.pathname.split('/')[2]) ? window.location.pathname.split('/')[2] : 'all') ,
+            "headers": {'X-CSRFToken': csrftoken}
         },
         "bStateSave": true,
         "columns": [
@@ -46,6 +47,23 @@ $(document).ready( function () {
             { "data": "analysisstatus" },
             { "data": "system_create_time" },
             { "data": "system_modify_time" }
+        ]
+    } );
+    $('#table_tag').DataTable( {
+        "pageLength": 25,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "order": [[ 0, "asc" ]],
+        "columnDefs": [
+            { "width": "3%", "targets": 0 },
+            { "width": "27%", "targets": 1 },
+            { "width": "5%", "targets": 2 },
+            { "width": "5%", "targets": 3 },
+            { "width": "5%", "targets": 4 },
+            { "width": "5%", "targets": 5 },
+            { "width": "5%", "targets": 6 },
+            { "width": "5%", "targets": 7 },
+            { "width": "20%", "targets": 8 },
+            { "width": "10%", "targets": 9 },
         ]
     } );
     $('#table_task_reduced_closed').DataTable( {
@@ -89,9 +107,9 @@ $(document).ready( function () {
         "order": [[ 0, "asc" ]]
     } );
     $('#table_timeline').DataTable( {
-        "pageLength": 30,
+        "pageLength": 25,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        "order": [[ 1, "asc" ]]
+        "order": [[ 1, "asc" ], [ 2, "asc" ]]
     } );
     $('#table_note').DataTable( {
         "pageLength": 25,

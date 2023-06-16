@@ -101,7 +101,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm(
             data={
-                'contact_name': 'c' * 100,
+                'contact_name': 'c' * 255,
                 'contact_email': 'contact_1@example.org',
             }
         )
@@ -114,7 +114,7 @@ class ContactFormTestCase(TestCase):
         # get object
         form = ContactForm(
             data={
-                'contact_name': 'c' * 101,
+                'contact_name': 'c' * 256,
                 'contact_email': 'contact_1@example.org',
             }
         )
@@ -128,7 +128,7 @@ class ContactFormTestCase(TestCase):
         form = ContactForm(
             data={
                 'contact_name': 'contact_1',
-                'contact_phone': 'c' * 50,
+                'contact_phone': 'c' * 255,
                 'contact_email': 'contact_1@example.org',
             }
         )
@@ -142,7 +142,7 @@ class ContactFormTestCase(TestCase):
         form = ContactForm(
             data={
                 'contact_name': 'contact_1',
-                'contact_phone': 'c' * 51,
+                'contact_phone': 'c' * 256,
                 'contact_email': 'contact_1@example.org',
             }
         )
@@ -156,7 +156,7 @@ class ContactFormTestCase(TestCase):
         form = ContactForm(
             data={
                 'contact_name': 'contact_1',
-                'contact_email': 'c' * 100,
+                'contact_email': 'c' * 255,
             }
         )
         # compare
@@ -169,7 +169,7 @@ class ContactFormTestCase(TestCase):
         form = ContactForm(
             data={
                 'contact_name': 'contact_1',
-                'contact_email': 'c' * 101,
+                'contact_email': 'c' * 256,
             }
         )
         # compare

@@ -10,7 +10,6 @@ class ReportitemFormTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create user
         test_user = User.objects.create_user(
             username='testuser_reportitem', password='6vrj2phUKrw6cjbbtN9V'
@@ -87,6 +86,27 @@ class ReportitemFormTestCase(TestCase):
         form = ReportitemForm()
         # compare
         self.assertEqual(form.fields['reportitem_note'].label, 'Note (*)')
+
+    def test_reportitem_assigned_to_user_id_form_label(self):
+        """test form label"""
+
+        # get object
+        form = ReportitemForm()
+        # compare
+        self.assertEqual(
+            form.fields['reportitem_assigned_to_user_id'].label, 'Assigned to user'
+        )
+
+    def test_reportitem_assigned_to_user_id_form_empty_label(self):
+        """test form label"""
+
+        # get object
+        form = ReportitemForm()
+        # compare
+        self.assertEqual(
+            form.fields['reportitem_assigned_to_user_id'].empty_label,
+            'Select user (optional)',
+        )
 
     def test_reportitem_form_empty(self):
         """test minimum form requirements / INVALID"""
@@ -203,7 +223,7 @@ class ReportitemFormTestCase(TestCase):
                 'headline': headline_id,
                 'notestatus': notestatus_id,
                 'system': system_id,
-                'reportitem_subheadline': 's' * 100,
+                'reportitem_subheadline': 's' * 255,
             }
         )
         # compare
@@ -225,7 +245,7 @@ class ReportitemFormTestCase(TestCase):
                 'headline': headline_id,
                 'notestatus': notestatus_id,
                 'system': system_id,
-                'reportitem_subheadline': 's' * 101,
+                'reportitem_subheadline': 's' * 256,
             }
         )
         # compare

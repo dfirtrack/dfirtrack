@@ -11,7 +11,6 @@ class LocationAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
         # create object
         Location.objects.create(location_name='location_api_1')
         # create user
