@@ -6,8 +6,10 @@ These settings extend the default dfirtrack.settings.
 
 SECRET_KEY = '{{ secret_key }}'
 
+# change to 'True' if no static files are shown using the development server, DON'T DO IN PRODUCTION
 DEBUG = False
 
+# change to 'False' if no login is possible using the development server, DON'T DO IN PRODUCTION
 SESSION_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = ['{{ fqdn }}', 'localhost']
