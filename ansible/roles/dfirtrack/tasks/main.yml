@@ -111,18 +111,19 @@
   become_method: ansible.builtin.sudo
   block:
 
-    - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql (Ubuntu 20)
+    - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql
       ansible.builtin.apt:
         name: 'python3-psycopg2'
 
-    - name: POSTGRESQL | Install acl to make user switching work (Ubuntu 20)
+    - name: POSTGRESQL | Install acl to make user switching work (Ubuntu > 20)
       ansible.builtin.apt:
         name: 'acl'
       when: >
         (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or
         (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10') or
         (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10') or
-        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04')
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.10')
 
     - name: POSTGRESQL | Install postgresql
       ansible.builtin.apt:
@@ -166,7 +167,7 @@
         postgresql_config: '/etc/postgresql/10/main/pg_hba.conf'
       when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
 
-    - name: POSTGRESQL | Set path of config (Ubuntu 20)
+    - name: POSTGRESQL | Set path of config (Ubuntu 20.xx)
       ansible.builtin.set_fact:
         postgresql_config: '/etc/postgresql/12/main/pg_hba.conf'
       when: >
@@ -178,10 +179,12 @@
         postgresql_config: '/etc/postgresql/13/main/pg_hba.conf'
       when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10'
 
-    - name: POSTGRESQL | Set path of config (Ubuntu 22.04)
+    - name: POSTGRESQL | Set path of config (Ubuntu 22.xx)
       ansible.builtin.set_fact:
         postgresql_config: '/etc/postgresql/14/main/pg_hba.conf'
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04'
+      when: >
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.10')
 
     - name: POSTGRESQL | Edit config for backup
       ansible.builtin.replace:
