@@ -3,7 +3,7 @@
   ansible.builtin.apt:
     name: 'git'
     state: present
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
 
 - name: DFIRTRACK
@@ -34,7 +34,7 @@
           - 'python3-pip'
           - 'virtualenv'
         state: present
-      become: yes
+      become: true
       become_method: ansible.builtin.sudo
 
     - name: DJANGO | Create subdirectory for virtual environment
@@ -55,7 +55,7 @@
     owner: '{{ ansible_user }}'
     group: '{{ ansible_user }}'
     mode: '0755'
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
 
 - name: MARKDOWN
@@ -72,7 +72,7 @@
       ansible.builtin.apt:
         name: 'mkdocs'
         state: present
-      become: yes
+      become: true
       become_method: ansible.builtin.sudo
 
     - name: MARKDOWN | Create initial directory
@@ -107,18 +107,23 @@
         mode: '0644'
 
 - name: POSTGRESQL
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
   block:
 
-    - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql (Ubuntu 20)
+    - name: POSTGRESQL | Install psycopg2 to make ansible talk with postgresql
       ansible.builtin.apt:
         name: 'python3-psycopg2'
 
-    - name: POSTGRESQL | Install acl to make user switching work (Ubuntu 20)
+    - name: POSTGRESQL | Install acl to make user switching work (Ubuntu > 20)
       ansible.builtin.apt:
         name: 'acl'
-      when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04')
+      when: >
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.10')
 
     - name: POSTGRESQL | Install postgresql
       ansible.builtin.apt:
@@ -128,7 +133,7 @@
       community.general.postgresql_user:
         name: 'postgres'
         password: '{{ postgresql_postgres_password }}'
-        encrypted: yes
+        encrypted: true
       become_user: 'postgres'
       ignore_errors: '{{ ansible_check_mode }}'
 
@@ -137,7 +142,7 @@
       community.general.postgresql_user:
         name: '{{ postgresql_user }}'
         password: '{{ postgresql_user_password }}'
-        encrypted: yes
+        encrypted: true
         role_attr_flags: CREATEDB
       become_user: 'postgres'
       ignore_errors: '{{ ansible_check_mode }}'
@@ -162,20 +167,24 @@
         postgresql_config: '/etc/postgresql/10/main/pg_hba.conf'
       when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
 
-    - name: POSTGRESQL | Set path of config (Ubuntu 20)
+    - name: POSTGRESQL | Set path of config (Ubuntu 20.xx)
       ansible.builtin.set_fact:
         postgresql_config: '/etc/postgresql/12/main/pg_hba.conf'
-      when: (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
+      when: >
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
 
     - name: POSTGRESQL | Set path of config (Ubuntu 21.10)
       ansible.builtin.set_fact:
         postgresql_config: '/etc/postgresql/13/main/pg_hba.conf'
       when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10'
 
-    - name: POSTGRESQL | Set path of config (Ubuntu 22.04)
+    - name: POSTGRESQL | Set path of config (Ubuntu 22.xx)
       ansible.builtin.set_fact:
         postgresql_config: '/etc/postgresql/14/main/pg_hba.conf'
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04'
+      when: >
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04') or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.10')
 
     - name: POSTGRESQL | Edit config for backup
       ansible.builtin.replace:
@@ -199,7 +208,7 @@
     dow: '*'
 
 - name: NGINX
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
   block:
 
@@ -275,8 +284,8 @@
     name: '{{ www_dir }}'
     owner: 'www-data'
     group: 'www-data'
-    recurse: yes
-  become: yes
+    recurse: true
+  become: true
   become_method: ansible.builtin.sudo
 
 - name: SERVICES
@@ -284,7 +293,7 @@
     ansible.builtin.template:
       owner: 'root'
       group: 'root'
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
   block:
 
@@ -302,24 +311,24 @@
 
     - name: SYSTEMCTL | Reload systemctl daemon
       ansible.builtin.systemd:
-        daemon-reload: yes
+        daemon-reload: true
 
     - name: GUNICORN | Enable and start service
       ansible.builtin.systemd:
         name: 'gunicorn'
-        enabled: yes
+        enabled: true
         state: started
       ignore_errors: '{{ ansible_check_mode }}'
 
     - name: QCLUSTER | Enable and start service
       ansible.builtin.systemd:
         name: 'qcluster'
-        enabled: yes
+        enabled: true
         state: started
       ignore_errors: '{{ ansible_check_mode }}'
 
 - name: UFW
-  become: yes
+  become: true
   become_method: ansible.builtin.sudo
   block:
 
