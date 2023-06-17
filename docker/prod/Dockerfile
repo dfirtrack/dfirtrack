@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.11
 
 # create dfirtrack dir, copy repo to it and install requirements
 WORKDIR /dfirtrack
