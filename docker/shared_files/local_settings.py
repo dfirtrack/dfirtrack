@@ -12,6 +12,7 @@ DEBUG = False
 SESSION_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = [os.getenv('FQDN'), 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://'+os.getenv('FQDN'), 'http://'+os.getenv('FQDN')]
 
 DATABASES = {
     'default': {
