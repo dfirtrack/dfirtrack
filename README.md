@@ -63,10 +63,10 @@ The following functions are implemented for now:
 DFIRTrack is developed for deploying on **Ubuntu**.
 Other distributions may work as well but are not tested and are not supported.
 
-For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role were written (available in `ansible`).
-For information about deployment with Ansible look at the  [Wiki - Ansible](https://github.com/stuhli/dfirtrack/wiki/Ansible).
+For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role were written (available in `ansible/`).
+For information about deployment with Ansible look at the [Wiki - Ansible](https://github.com/stuhli/dfirtrack/wiki/Ansible).
 
-For development and production two docker environments were prepared as well as pre-build docker images on [docker hub](https://hub.docker.com/r/dfirtrack/dfirtrack) (see [Wiki - Docker](https://github.com/stuhli/dfirtrack/wiki/Docker).
+For development and production two docker environments were prepared as well as pre-build docker images on [docker hub](https://hub.docker.com/r/dfirtrack/dfirtrack) (see [Wiki - Docker](https://github.com/stuhli/dfirtrack/wiki/Docker)).
 
 For installation with your own setup or for quick testing look at the [Wiki - Installation](https://github.com/stuhli/dfirtrack/wiki/Installation).
 
