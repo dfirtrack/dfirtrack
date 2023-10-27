@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
       - run: pip install --upgrade pip setuptools
       - run: pip install -r lint_requirements.txt
       - run: bandit --recursive --tests B106 --exclude tests .  # hardcoded_password_funcarg
