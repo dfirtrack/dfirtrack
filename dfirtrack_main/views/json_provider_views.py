@@ -101,10 +101,10 @@ def _filter(model, queryset, simple_filter_params, filter_params, request_user):
     length = (
         int(filter_params['length'])
         if int(filter_params['length']) != -1
-        else len(filter_params)
+        else len(filter_results)
     )
 
-    return list(filter_results)[start : (start + length)]
+    return list(filter_results), start, start + length
 
 
 @login_required(login_url="/login")
@@ -119,7 +119,9 @@ def filter_system(request):
         queryset = queryset.filter(tag=request.GET['tag'])
 
     # build results (html code) for starting point to how many records to show
-    filter_results = _filter(model, queryset, request.GET, request.POST, request.user)
+    filter_results, start, end = _filter(
+        model, queryset, request.GET, request.POST, request.user
+    )
     results = list()
     for obj in filter_results:
         results.append(
@@ -154,7 +156,7 @@ def filter_system(request):
         'draw': request.POST.get('draw') if request.POST.get('draw') else 1,
         'recordsTotal': queryset.all().count(),
         'recordsFiltered': len(filter_results),
-        'data': results,
+        'data': results[start:end],
     }
     return JsonResponse(json_dict, safe=False)
 
@@ -191,7 +193,9 @@ def filter_artifacts(request):
         queryset = queryset.filter(tag=request.GET['tag'])
 
     # build results (html code) for starting point to how many records to show
-    filter_results = _filter(model, queryset, request.GET, request.POST, request.user)
+    filter_results, start, end = _filter(
+        model, queryset, request.GET, request.POST, request.user
+    )
     results = list()
     for obj in filter_results:
         results.append(
@@ -234,6 +238,6 @@ def filter_artifacts(request):
         'draw': request.POST.get('draw') if request.POST.get('draw') else 1,
         'recordsTotal': queryset.all().count(),
         'recordsFiltered': len(filter_results),
-        'data': results,
+        'data': results[start:end],
     }
     return JsonResponse(json_dict, safe=False)

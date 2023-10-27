@@ -266,3 +266,10 @@ try:
 
 except ImportError:  # coverage: ignore branch
     DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+
+# CSRF_TRUSTED_ORIGINS
+try:
+    from .local_settings import CSRF_TRUSTED_ORIGINS
+
+except ImportError:  # coverage: ignore branch
+    CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
