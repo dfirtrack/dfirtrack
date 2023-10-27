@@ -11,7 +11,7 @@ on:
     - develop
 
 jobs:
-  build:
+  django-tests:
 
     runs-on: ubuntu-latest
     strategy:

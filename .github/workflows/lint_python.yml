@@ -3,7 +3,7 @@ name: Lint Python
 on: [pull_request, push]
 
 jobs:
-  lint_python:
+  lint-python:
 
     runs-on: ubuntu-latest
     strategy:
