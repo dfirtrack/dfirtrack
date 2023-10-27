@@ -134,6 +134,7 @@
         name: 'postgres'
         password: '{{ postgresql_postgres_password }}'
         encrypted: true
+      become: true
       become_user: 'postgres'
       ignore_errors: '{{ ansible_check_mode }}'
 
@@ -144,6 +145,7 @@
         password: '{{ postgresql_user_password }}'
         encrypted: true
         role_attr_flags: CREATEDB
+      become: true
       become_user: 'postgres'
       ignore_errors: '{{ ansible_check_mode }}'
 
@@ -151,6 +153,7 @@
       community.general.postgresql_db:
         name: '{{ postgresql_database }}'
         owner: '{{ postgresql_user }}'
+      become: true
       become_user: 'postgres'
       ignore_errors: '{{ ansible_check_mode }}'
 

@@ -1,3 +1,5 @@
+ansible
+ansible-lint
 bandit
 black
 codespell
