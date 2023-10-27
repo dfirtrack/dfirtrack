@@ -849,7 +849,7 @@ def check_config_attributes(model, request=None):
         # set stop condition
         stop_system_importer_file_csv = True
 
-    """ check tag pefix and delimiter in combination with CSV and DB """
+    """ check tag prefix and delimiter in combination with CSV and DB """
 
     # tag - CSV chosen and prefix and / or prefix delimiter not set
     if model.csv_choice_tag and (

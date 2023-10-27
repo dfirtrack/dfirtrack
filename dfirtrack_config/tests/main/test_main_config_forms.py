@@ -189,7 +189,7 @@ class MainConfigFormTestCase(TestCase):
     def test_main_config_form_different_artifactstatus(self):
         """test custom field validation"""
 
-        # create obects
+        # create objects
         artifactstatus_1 = Artifactstatus.objects.create(
             artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
@@ -234,7 +234,7 @@ class MainConfigFormTestCase(TestCase):
     def test_main_config_form_same_artifactstatus(self):
         """test custom field validation"""
 
-        # create obects
+        # create objects
         artifactstatus_1 = Artifactstatus.objects.create(
             artifactstatus_name='artifactstatus_1'
         ).artifactstatus_id
@@ -284,7 +284,7 @@ class MainConfigFormTestCase(TestCase):
     def test_main_config_form_different_casestatus(self):
         """test custom field validation"""
 
-        # create obects
+        # create objects
         casestatus_1 = Casestatus.objects.create(
             casestatus_name='casestatus_1'
         ).casestatus_id
@@ -329,7 +329,7 @@ class MainConfigFormTestCase(TestCase):
     def test_main_config_form_same_casestatus(self):
         """test custom field validation"""
 
-        # create obects
+        # create objects
         casestatus_1 = Casestatus.objects.create(
             casestatus_name='casestatus_1'
         ).casestatus_id

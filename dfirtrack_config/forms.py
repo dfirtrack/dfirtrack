@@ -1149,7 +1149,7 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         if self.cleaned_data['csv_column_tag'] and self.cleaned_data['csv_default_tag']:
             validation_errors['csv_choice_tag'] = EITHER_CSV_OR_DATABASE_STRING
 
-        """ check tag pefix and delimiter in combination with CSV and DB """
+        """ check tag prefix and delimiter in combination with CSV and DB """
 
         # tag - CSV chosen and prefix and / or prefix delimiter not set
         if self.cleaned_data['csv_choice_tag'] and (

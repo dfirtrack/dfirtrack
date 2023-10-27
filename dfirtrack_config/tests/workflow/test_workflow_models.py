@@ -180,7 +180,7 @@ class WorkflowModelTestCase(TestCase):
         system = System.objects.get(system_name='system_1')
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
 
-        # create obects
+        # create objects
         taskname_1 = Taskname.objects.create(taskname_name='taskname_2')
         taskstatus_1 = Taskstatus.objects.get(taskstatus_name='20_working')
         taskpriority_1 = Taskpriority.objects.get(taskpriority_name='20_medium')
@@ -238,7 +238,7 @@ class WorkflowModelTestCase(TestCase):
         system = System.objects.get(system_name='system_1')
         workflow_1 = Workflow.objects.get(workflow_name='workflow_1')
 
-        # create obects
+        # create objects
         artifacttype_1 = Artifacttype.objects.create(artifacttype_name='artifacttype_2')
         artfactstatus_1 = Artifactstatus.objects.get(artifactstatus_name='20_requested')
         artfactpriority_1 = Artifactpriority.objects.get(
