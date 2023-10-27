@@ -4,6 +4,7 @@ codespell
 flake8
 isort
 mypy
+pyflakes
 pytest
 pyupgrade
 safety
