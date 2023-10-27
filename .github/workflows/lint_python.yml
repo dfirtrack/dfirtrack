@@ -6,10 +6,17 @@ jobs:
   lint_python:
 
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 2
+      matrix:
+        python-version: [3.8, 3.9]
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
       - run: pip install --upgrade pip setuptools
       - run: pip install -r lint_requirements.txt
       - run: bandit --recursive --tests B106 --exclude tests .  # hardcoded_password_funcarg
