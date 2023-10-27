@@ -11,6 +11,14 @@
     </p>
 </div>
 
+<div>
+    <p align="center">
+        <a href><img src="https://github.com/dfirtrack/dfirtrack/workflows/Lint%20Python/badge.svg?branch=master" alt="Test badge"></a>
+        <a href><img src="https://github.com/dfirtrack/dfirtrack/workflows/Lint%20Ansible/badge.svg?branch=master" alt="Test badge"></a>
+        <a href><img src="https://github.com/dfirtrack/dfirtrack/workflows/Docker%20publish/badge.svg?branch=master" alt="Test badge"></a>
+    </p>
+</div>
+
 DFIRTrack (Digital Forensics and Incident Response Tracking application) is an open source web application mainly based on [Django](https://www.djangoproject.com/) using a [PostgreSQL](https://www.postgresql.org/) database back end.
 
 In contrast to other great incident response tools, which are mainly case-based and support the work of CERTs, SOCs etc. in their daily business, DFIRTrack is focused on handling one or more major incidents with a lot of affected systems as it is often observed in APT cases.
@@ -58,7 +66,7 @@ Other distributions may work as well but are not tested and are not supported.
 For fast and uncomplicated installation on a dedicated server including all dependencies an [Ansible](https://docs.ansible.com/ansible/latest/) playbook and role were written (available in `ansible`).
 For information about deployment with Ansible look at the  [Wiki - Ansible](https://github.com/stuhli/dfirtrack/wiki/Ansible).
 
-For development and production two docker environments were prepared as well as pre-build docker images on docker hub (see [Wiki - Docker](https://github.com/stuhli/dfirtrack/wiki/Docker).
+For development and production two docker environments were prepared as well as pre-build docker images on [docker hub](https://hub.docker.com/r/dfirtrack/dfirtrack) (see [Wiki - Docker](https://github.com/stuhli/dfirtrack/wiki/Docker).
 
 For installation with your own setup or for quick testing look at the [Wiki - Installation](https://github.com/stuhli/dfirtrack/wiki/Installation).
 
