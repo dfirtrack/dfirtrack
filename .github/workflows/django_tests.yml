@@ -57,17 +57,17 @@ jobs:
       with:
         file: ./.coverage.xml
     - name: Save JSON report for debugging
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage_json
         path: .coverage.json
     - name: Save SQLite report for debugging
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage_sqlite
         path: .coverage
     - name: Save XML report for debugging
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage_xml
         path: .coverage.xml
