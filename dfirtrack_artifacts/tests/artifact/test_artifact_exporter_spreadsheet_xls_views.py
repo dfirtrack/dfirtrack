@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 import xlrd
@@ -95,7 +96,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         """ create artifacts """
 
         # mock timezone.now()
-        t_1 = datetime(2012, 11, 10, 12, 34, tzinfo=timezone.utc)
+        t_1 = datetime(2012, 11, 10, 12, 34, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
             # create object with maximum attributes
             artifact_1 = Artifact.objects.create(
@@ -120,7 +121,7 @@ class ArtifactExporterSpreadsheetXlsViewTestCase(TestCase):
         artifact_1.tag.add(tag_2)
 
         # mock timezone.now()
-        t_2 = datetime(2009, 8, 7, 23, 45, tzinfo=timezone.utc)
+        t_2 = datetime(2009, 8, 7, 23, 45, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
             # create object with minimum attributes
             Artifact.objects.create(

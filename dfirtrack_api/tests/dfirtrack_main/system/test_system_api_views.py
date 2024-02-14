@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -249,11 +250,11 @@ class SystemAPIViewTestCase(TestCase):
         self.assertTrue(system_api_3.tag.filter(tag_name='tag_1').exists())
         self.assertEqual(
             system_api_3.system_lastbooted_time,
-            datetime(2021, 5, 10, 21, 15, tzinfo=timezone.utc),
+            datetime(2021, 5, 10, 21, 15, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
             system_api_3.system_deprecated_time,
-            datetime(2021, 5, 10, 21, 25, tzinfo=timezone.utc),
+            datetime(2021, 5, 10, 21, 25, tzinfo=dttimezone.utc),
         )
         self.assertTrue(system_api_3.system_is_vm)
         self.assertFalse(system_api_3.system_export_markdown)
@@ -489,11 +490,11 @@ class SystemAPIViewTestCase(TestCase):
         self.assertTrue(new_system_api_1.tag.filter(tag_name='tag_1').exists())
         self.assertEqual(
             new_system_api_1.system_lastbooted_time,
-            datetime(2021, 5, 10, 21, 35, tzinfo=timezone.utc),
+            datetime(2021, 5, 10, 21, 35, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
             new_system_api_1.system_deprecated_time,
-            datetime(2021, 5, 10, 21, 45, tzinfo=timezone.utc),
+            datetime(2021, 5, 10, 21, 45, tzinfo=dttimezone.utc),
         )
         self.assertTrue(new_system_api_1.system_is_vm)
         self.assertFalse(new_system_api_1.system_export_markdown)

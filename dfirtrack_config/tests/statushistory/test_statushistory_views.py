@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -206,7 +207,7 @@ class StatushistoryViewTestCase(TestCase):
         """test view"""
 
         # mock timezone.now()
-        t_1 = datetime(2020, 5, 4, 3, 2, 1, tzinfo=timezone.utc)
+        t_1 = datetime(2020, 5, 4, 3, 2, 1, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
             # login testuser
             self.client.login(
@@ -328,7 +329,7 @@ class StatushistoryViewTestCase(TestCase):
 
     def test_statushistory_save_cron_view_complete(self):
         # mock timezone.now()
-        t_2 = datetime(2020, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
+        t_2 = datetime(2020, 1, 2, 3, 4, 5, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
             # save statushistory without GET
             statushistory_save_cron()

@@ -1,6 +1,7 @@
 import os
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -386,7 +387,7 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
         set_config_tag_remove_all()
 
         # mock timezone.now()
-        t_1 = datetime(2021, 3, 26, 18, 35, tzinfo=timezone.utc)
+        t_1 = datetime(2021, 3, 26, 18, 35, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
             # execute cron job / scheduled task
             system_cron()
@@ -501,7 +502,7 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
         set_config_tag_remove_prefix()
 
         # mock timezone.now()
-        t_2 = datetime(2021, 3, 26, 18, 40, tzinfo=timezone.utc)
+        t_2 = datetime(2021, 3, 26, 18, 40, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
             # execute cron job / scheduled task
             system_cron()
@@ -616,7 +617,7 @@ class SystemImporterFileCsvTagRemovalViewTestCase(TestCase):
         set_config_tag_remove_none()
 
         # mock timezone.now()
-        t_3 = datetime(2021, 3, 26, 18, 45, tzinfo=timezone.utc)
+        t_3 = datetime(2021, 3, 26, 18, 45, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_3):
             # execute cron job / scheduled task
             system_cron()

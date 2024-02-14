@@ -1,4 +1,5 @@
 from datetime import datetime, time, timedelta
+from datetime import timezone as dttimezone
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
@@ -39,11 +40,11 @@ def get_status_objects(context):
     yesterday = today - timedelta(1)
     two_days_ago = today - timedelta(2)
     three_days_ago = today - timedelta(3)
-    today_start = datetime.combine(today, time(), tzinfo=timezone.utc)
-    today_end = datetime.combine(tomorrow, time(), tzinfo=timezone.utc)
-    yesterday_start = datetime.combine(yesterday, time(), tzinfo=timezone.utc)
-    two_days_ago_start = datetime.combine(two_days_ago, time(), tzinfo=timezone.utc)
-    three_days_ago_start = datetime.combine(three_days_ago, time(), tzinfo=timezone.utc)
+    today_start = datetime.combine(today, time(), tzinfo=dttimezone.utc)
+    today_end = datetime.combine(tomorrow, time(), tzinfo=dttimezone.utc)
+    yesterday_start = datetime.combine(yesterday, time(), tzinfo=dttimezone.utc)
+    two_days_ago_start = datetime.combine(two_days_ago, time(), tzinfo=dttimezone.utc)
+    three_days_ago_start = datetime.combine(three_days_ago, time(), tzinfo=dttimezone.utc)
 
     # get numbers
     context['artifacts_number'] = Artifact.objects.all().count()

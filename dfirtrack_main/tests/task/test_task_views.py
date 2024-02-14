@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -653,7 +654,7 @@ class TaskViewTestCase(TestCase):
         """test add view"""
 
         # mock timezone.now()
-        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        dt = datetime(2020, 1, 2, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -693,7 +694,7 @@ class TaskViewTestCase(TestCase):
         """test add view"""
 
         # mock timezone.now()
-        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        dt = datetime(2020, 1, 2, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -1065,7 +1066,7 @@ class TaskViewTestCase(TestCase):
         """test edit view"""
 
         # mock timezone.now()
-        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        dt = datetime(2020, 1, 2, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -1108,7 +1109,7 @@ class TaskViewTestCase(TestCase):
         """test edit view"""
 
         # mock timezone.now()
-        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        dt = datetime(2020, 1, 2, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -1267,7 +1268,7 @@ class TaskViewTestCase(TestCase):
         """test task start view"""
 
         # mock timezone.now()
-        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        dt = datetime(2020, 1, 2, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')
@@ -1417,7 +1418,7 @@ class TaskViewTestCase(TestCase):
         """test task finish view"""
 
         # mock timezone.now()
-        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        dt = datetime(2020, 1, 2, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
             # login testuser
             self.client.login(username='testuser_task', password='8dR7ilC8cnCr8U2aq14V')

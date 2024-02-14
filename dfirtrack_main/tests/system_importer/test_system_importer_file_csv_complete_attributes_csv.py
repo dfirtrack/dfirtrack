@@ -1,6 +1,7 @@
 import os
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -243,7 +244,7 @@ class SystemImporterFileCsvCompleteAttributesCsvViewTestCase(TestCase):
         set_config_complete_attributes_csv()
 
         # mock timezone.now()
-        t_4 = datetime(2021, 3, 6, 18, 14, tzinfo=timezone.utc)
+        t_4 = datetime(2021, 3, 6, 18, 14, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_4):
             # execute cron job / scheduled task
             system_cron()

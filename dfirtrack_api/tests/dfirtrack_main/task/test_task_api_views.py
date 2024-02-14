@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -248,16 +249,16 @@ class TaskAPIViewTestCase(TestCase):
         self.assertEqual(task_3.taskstatus, taskstatus_1)
         self.assertEqual(
             task_3.task_scheduled_time,
-            datetime(2021, 5, 9, 12, 15, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 12, 15, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
-            task_3.task_started_time, datetime(2021, 5, 9, 12, 25, tzinfo=timezone.utc)
+            task_3.task_started_time, datetime(2021, 5, 9, 12, 25, tzinfo=dttimezone.utc)
         )
         self.assertEqual(
-            task_3.task_finished_time, datetime(2021, 5, 9, 12, 35, tzinfo=timezone.utc)
+            task_3.task_finished_time, datetime(2021, 5, 9, 12, 35, tzinfo=dttimezone.utc)
         )
         self.assertEqual(
-            task_3.task_due_time, datetime(2021, 5, 9, 12, 45, tzinfo=timezone.utc)
+            task_3.task_due_time, datetime(2021, 5, 9, 12, 45, tzinfo=dttimezone.utc)
         )
         self.assertEqual(task_3.artifact, artifact_1)
         self.assertEqual(task_3.case, case_1)
@@ -424,18 +425,18 @@ class TaskAPIViewTestCase(TestCase):
         self.assertEqual(task_api_1.taskstatus, taskstatus_3)
         self.assertEqual(
             task_api_1.task_scheduled_time,
-            datetime(2021, 5, 9, 13, 15, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 13, 15, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
             task_api_1.task_started_time,
-            datetime(2021, 5, 9, 13, 25, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 13, 25, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
             task_api_1.task_finished_time,
-            datetime(2021, 5, 9, 13, 35, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 13, 35, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
-            task_api_1.task_due_time, datetime(2021, 5, 9, 13, 45, tzinfo=timezone.utc)
+            task_api_1.task_due_time, datetime(2021, 5, 9, 13, 45, tzinfo=dttimezone.utc)
         )
         self.assertEqual(task_api_1.artifact, artifact_1)
         self.assertEqual(task_api_1.case, case_1)
