@@ -1,6 +1,6 @@
 coverage
 django
-django_q
+django-q2
 djangorestframework
 gitpython
 gunicorn
