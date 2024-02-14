@@ -44,7 +44,9 @@ def get_status_objects(context):
     today_end = datetime.combine(tomorrow, time(), tzinfo=dttimezone.utc)
     yesterday_start = datetime.combine(yesterday, time(), tzinfo=dttimezone.utc)
     two_days_ago_start = datetime.combine(two_days_ago, time(), tzinfo=dttimezone.utc)
-    three_days_ago_start = datetime.combine(three_days_ago, time(), tzinfo=dttimezone.utc)
+    three_days_ago_start = datetime.combine(
+        three_days_ago, time(), tzinfo=dttimezone.utc
+    )
 
     # get numbers
     context['artifacts_number'] = Artifact.objects.all().count()

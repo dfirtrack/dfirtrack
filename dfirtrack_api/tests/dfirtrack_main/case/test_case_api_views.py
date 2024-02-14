@@ -155,7 +155,8 @@ class CaseAPIViewTestCase(TestCase):
             datetime(2021, 5, 9, 11, 15, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
-            case_api_3.case_end_time, datetime(2021, 5, 9, 11, 25, tzinfo=dttimezone.utc)
+            case_api_3.case_end_time,
+            datetime(2021, 5, 9, 11, 25, tzinfo=dttimezone.utc),
         )
 
     def test_case_list_api_redirect(self):

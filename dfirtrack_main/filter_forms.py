@@ -68,9 +68,9 @@ class DocumentationFilterForm(GeneralFilterForm):
         user_config = kwargs.get('instance')
         super().__init__(*args, **kwargs)
         if user_config and user_config.filter_list_status:
-            self.initial[
-                'filter_list_status'
-            ] = user_config.filter_list_status.notestatus_id
+            self.initial['filter_list_status'] = (
+                user_config.filter_list_status.notestatus_id
+            )
 
     # save status value from cleaned data
     def save(self, *args, **kwargs):

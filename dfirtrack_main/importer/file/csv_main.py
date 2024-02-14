@@ -170,7 +170,7 @@ def system_handler(request=None, uploadfile=False):
 
         # get all systems
         systemquery = System.objects.filter(
-            system_name__iexact = system_name.strip(),
+            system_name__iexact=system_name.strip(),
         )
 
         """ check how many systems were returned """

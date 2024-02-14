@@ -962,9 +962,9 @@ def check_config_attributes(model, request=None):
     if model.csv_column_recommendation:
         all_columns_dict['csv_column_recommendation'] = model.csv_column_recommendation
     if model.csv_column_serviceprovider:
-        all_columns_dict[
-            'csv_column_serviceprovider'
-        ] = model.csv_column_serviceprovider
+        all_columns_dict['csv_column_serviceprovider'] = (
+            model.csv_column_serviceprovider
+        )
     if model.csv_column_systemtype:
         all_columns_dict['csv_column_systemtype'] = model.csv_column_systemtype
     if model.csv_column_case:

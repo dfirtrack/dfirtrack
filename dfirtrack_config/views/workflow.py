@@ -97,9 +97,9 @@ class WorkflowCreate(LoginRequiredMixin, CreateView):
             not tasknames_formset.has_changed()
             and not artifacttypes_formset.has_changed()
         ):
-            form.errors[
-                'General'
-            ] = ': You need to configure a taskname or artifacttype.'
+            form.errors['General'] = (
+                ': You need to configure a taskname or artifacttype.'
+            )
 
         # check default form and custom artifacttypes_formset
         if (
