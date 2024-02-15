@@ -1,6 +1,7 @@
 import os
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -459,7 +460,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         )
 
         # mock timezone.now()
-        t_1 = datetime(2021, 3, 8, 18, 5, tzinfo=timezone.utc)
+        t_1 = datetime(2021, 3, 8, 18, 5, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
             # execute cron job / scheduled task
             system_cron()
@@ -586,7 +587,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         )
 
         # mock timezone.now()
-        t_2 = datetime(2021, 3, 8, 18, 10, tzinfo=timezone.utc)
+        t_2 = datetime(2021, 3, 8, 18, 10, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
             # execute cron job / scheduled task
             system_cron()
@@ -709,7 +710,7 @@ class SystemImporterFileCsvCheckAttributesViewTestCase(TestCase):
         set_csv_import_filename('system_importer_file_csv_testfile_33_domain_name.csv')
 
         # mock timezone.now()
-        t_4 = datetime(2021, 3, 8, 18, 20, tzinfo=timezone.utc)
+        t_4 = datetime(2021, 3, 8, 18, 20, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_4):
             # execute cron job / scheduled task
             system_cron()

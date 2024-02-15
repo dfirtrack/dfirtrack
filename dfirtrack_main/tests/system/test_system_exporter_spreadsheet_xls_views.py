@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 import xlrd
@@ -107,7 +108,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
         """ create systems """
 
         # mock timezone.now()
-        t_1 = datetime(2001, 2, 3, 4, 5, tzinfo=timezone.utc)
+        t_1 = datetime(2001, 2, 3, 4, 5, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
             # create object with maximum attributes
             system_1 = System.objects.create(
@@ -142,7 +143,7 @@ class SystemExporterSpreadsheetXlsViewTestCase(TestCase):
             system_1.case.add(case_3)
 
         # mock timezone.now()
-        t_2 = datetime(2009, 8, 7, 6, 5, tzinfo=timezone.utc)
+        t_2 = datetime(2009, 8, 7, 6, 5, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
             # create object with minimum attributes
             System.objects.create(

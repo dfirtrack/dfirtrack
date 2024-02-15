@@ -170,7 +170,7 @@ def system_handler(request=None, uploadfile=False):
 
         # get all systems
         systemquery = System.objects.filter(
-            system_name=system_name.strip(),
+            system_name__iexact=system_name.strip(),
         )
 
         """ check how many systems were returned """
@@ -191,9 +191,7 @@ def system_handler(request=None, uploadfile=False):
             # TODO: [logic] e.g. 'csv_identification_dnsname'
 
             # get existing system object
-            system = System.objects.get(
-                system_name=system_name.strip(),
-            )
+            system = systemquery.first()
 
             # change mandatory meta attributes
             system.system_modified_by_user_id = csv_import_user

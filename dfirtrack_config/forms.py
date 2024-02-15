@@ -234,12 +234,12 @@ class MainConfigForm(forms.ModelForm):
 
         # check if there are any artifactstatus in this queryset
         if artifactstatus_shared.count() != 0:
-            validation_errors[
-                'artifactstatus_requested'
-            ] = 'Same artifactstatus were chosen for requested and acquisition time.'
-            validation_errors[
-                'artifactstatus_acquisition'
-            ] = 'Same artifactstatus were chosen for requested and acquisition time.'
+            validation_errors['artifactstatus_requested'] = (
+                'Same artifactstatus were chosen for requested and acquisition time.'
+            )
+            validation_errors['artifactstatus_acquisition'] = (
+                'Same artifactstatus were chosen for requested and acquisition time.'
+            )
 
         """ casestatus multiple selection """
 
@@ -252,12 +252,12 @@ class MainConfigForm(forms.ModelForm):
 
         # check if there are any casestatus in this queryset
         if casestatus_shared.count() != 0:
-            validation_errors[
-                'casestatus_start'
-            ] = 'Same casestatus were chosen for start and end time.'
-            validation_errors[
-                'casestatus_end'
-            ] = 'Same casestatus were chosen for start and end time.'
+            validation_errors['casestatus_start'] = (
+                'Same casestatus were chosen for start and end time.'
+            )
+            validation_errors['casestatus_end'] = (
+                'Same casestatus were chosen for start and end time.'
+            )
 
         """ check file system """
 
@@ -270,9 +270,9 @@ class MainConfigForm(forms.ModelForm):
         else:
             # cron export path is not writeable - stop immediately
             if not os.access(self.cleaned_data['cron_export_path'], os.R_OK):
-                validation_errors[
-                    'cron_export_path'
-                ] = 'No write permission for export path.'
+                validation_errors['cron_export_path'] = (
+                    'No write permission for export path.'
+                )
 
         """ raise error """
 
@@ -330,9 +330,9 @@ class SystemExporterMarkdownConfigForm(forms.ModelForm):
         else:
             # markdown path is not readable - stop immediately
             if not os.access(self.cleaned_data['markdown_path'], os.W_OK):
-                validation_errors[
-                    'markdown_path'
-                ] = 'No write permission for markdown path.'
+                validation_errors['markdown_path'] = (
+                    'No write permission for markdown path.'
+                )
 
         """ raise error """
 
@@ -1014,17 +1014,17 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             self.cleaned_data['csv_choice_recommendation']
             and self.cleaned_data['csv_default_recommendation']
         ):
-            validation_errors[
-                'csv_choice_recommendation'
-            ] = EITHER_CSV_OR_DATABASE_STRING
+            validation_errors['csv_choice_recommendation'] = (
+                EITHER_CSV_OR_DATABASE_STRING
+            )
         # recommendation - CSV column filled out and DB chosen
         if (
             self.cleaned_data['csv_column_recommendation']
             and self.cleaned_data['csv_default_recommendation']
         ):
-            validation_errors[
-                'csv_choice_recommendation'
-            ] = EITHER_CSV_OR_DATABASE_STRING
+            validation_errors['csv_choice_recommendation'] = (
+                EITHER_CSV_OR_DATABASE_STRING
+            )
 
         # serviceprovider - CSV chosen and no CSV column filled out
         if (
@@ -1043,17 +1043,17 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             self.cleaned_data['csv_choice_serviceprovider']
             and self.cleaned_data['csv_default_serviceprovider']
         ):
-            validation_errors[
-                'csv_choice_serviceprovider'
-            ] = EITHER_CSV_OR_DATABASE_STRING
+            validation_errors['csv_choice_serviceprovider'] = (
+                EITHER_CSV_OR_DATABASE_STRING
+            )
         # serviceprovider - CSV column filled out and DB chosen
         if (
             self.cleaned_data['csv_column_serviceprovider']
             and self.cleaned_data['csv_default_serviceprovider']
         ):
-            validation_errors[
-                'csv_choice_serviceprovider'
-            ] = EITHER_CSV_OR_DATABASE_STRING
+            validation_errors['csv_choice_serviceprovider'] = (
+                EITHER_CSV_OR_DATABASE_STRING
+            )
 
         # systemtype - CSV chosen and no CSV column filled out
         if (
@@ -1156,25 +1156,25 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             not self.cleaned_data['csv_tag_prefix']
             or not self.cleaned_data['csv_tag_prefix_delimiter']
         ):
-            validation_errors[
-                'csv_tag_prefix'
-            ] = 'Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.'
+            validation_errors['csv_tag_prefix'] = (
+                'Choose prefix and delimiter for tag import from CSV to distinguish between manual set tags.'
+            )
         # tag - DB chosen and prefix and / or prefix delimiter chosen (overwrites error above)
         if self.cleaned_data['csv_default_tag'] and (
             self.cleaned_data['csv_tag_prefix']
             or self.cleaned_data['csv_tag_prefix_delimiter']
         ):
-            validation_errors[
-                'csv_tag_prefix'
-            ] = 'Prefix and delimiter are not available when setting tags from database.'
+            validation_errors['csv_tag_prefix'] = (
+                'Prefix and delimiter are not available when setting tags from database.'
+            )
         # tag - DB chosen but special option 'tag_remove_prefix' set
         if (
             self.cleaned_data['csv_remove_tag'] == 'tag_remove_prefix'
             and self.cleaned_data['csv_default_tag']
         ):
-            validation_errors[
-                'csv_remove_tag'
-            ] = 'Removing tags with prefix is only available when setting tags from CSV.'
+            validation_errors['csv_remove_tag'] = (
+                'Removing tags with prefix is only available when setting tags from CSV.'
+            )
 
         """ check tagfree choices (systemstatus / analysisstatus) in combination with tag from CSV """
 
@@ -1183,17 +1183,17 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             self.cleaned_data['csv_choice_tagfree_systemstatus']
             and not self.cleaned_data['csv_choice_tag']
         ):
-            validation_errors[
-                'csv_choice_tagfree_systemstatus'
-            ] = 'Alternative systemstatus only available with tags from CSV.'
+            validation_errors['csv_choice_tagfree_systemstatus'] = (
+                'Alternative systemstatus only available with tags from CSV.'
+            )
         # tag - alternative choice analysisstatus (tagfree) chosen without tag choice from CSV
         if (
             self.cleaned_data['csv_choice_tagfree_analysisstatus']
             and not self.cleaned_data['csv_choice_tag']
         ):
-            validation_errors[
-                'csv_choice_tagfree_analysisstatus'
-            ] = 'Alternative analysisstatus only available with tags from CSV.'
+            validation_errors['csv_choice_tagfree_analysisstatus'] = (
+                'Alternative analysisstatus only available with tags from CSV.'
+            )
 
         """ check if the column fields are different """
 
@@ -1267,9 +1267,9 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             self.cleaned_data['csv_skip_existing_system']
             and self.cleaned_data['csv_remove_analysisstatus']
         ):
-            validation_errors[
-                'csv_remove_analysisstatus'
-            ] = EITHER_SKIP_OR_REMOVE_STRING
+            validation_errors['csv_remove_analysisstatus'] = (
+                EITHER_SKIP_OR_REMOVE_STRING
+            )
         # remove ip
         if (
             self.cleaned_data['csv_skip_existing_system']
@@ -1311,17 +1311,17 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
             self.cleaned_data['csv_skip_existing_system']
             and self.cleaned_data['csv_remove_recommendation']
         ):
-            validation_errors[
-                'csv_remove_recommendation'
-            ] = EITHER_SKIP_OR_REMOVE_STRING
+            validation_errors['csv_remove_recommendation'] = (
+                EITHER_SKIP_OR_REMOVE_STRING
+            )
         # remove serviceprovider
         if (
             self.cleaned_data['csv_skip_existing_system']
             and self.cleaned_data['csv_remove_serviceprovider']
         ):
-            validation_errors[
-                'csv_remove_serviceprovider'
-            ] = EITHER_SKIP_OR_REMOVE_STRING
+            validation_errors['csv_remove_serviceprovider'] = (
+                EITHER_SKIP_OR_REMOVE_STRING
+            )
         # remove systemtype
         if (
             self.cleaned_data['csv_skip_existing_system']
@@ -1461,15 +1461,15 @@ class SystemImporterFileCsvConfigForm(forms.ModelForm):
         else:
             # CSV import path is not readable - stop immediately
             if not os.access(self.cleaned_data['csv_import_path'], os.R_OK):
-                validation_errors[
-                    'csv_import_path'
-                ] = 'No read permission for CSV import path.'
+                validation_errors['csv_import_path'] = (
+                    'No read permission for CSV import path.'
+                )
             else:
                 # CSV import file does exist but is not readable - stop immediately
                 if os.path.isfile(csv_path) and not os.access(csv_path, os.R_OK):
-                    validation_errors[
-                        'csv_import_filename'
-                    ] = 'No read permission for CSV import file.'
+                    validation_errors['csv_import_filename'] = (
+                        'No read permission for CSV import file.'
+                    )
 
         """ raise error """
 

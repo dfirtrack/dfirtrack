@@ -332,9 +332,9 @@ class ArtifactCreatorForm(forms.ModelForm):
         if (alternative_artifact_name and not alternative_artifact_name_choice) or (
             alternative_artifact_name_choice and not alternative_artifact_name
         ):
-            validation_errors[
-                'alternative_artifact_name'
-            ] = 'Either both or neither of the fields is required.'
+            validation_errors['alternative_artifact_name'] = (
+                'Either both or neither of the fields is required.'
+            )
 
         """ raise error """
 

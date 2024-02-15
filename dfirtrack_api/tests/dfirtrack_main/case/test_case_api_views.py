@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -151,10 +152,11 @@ class CaseAPIViewTestCase(TestCase):
         self.assertTrue(case_api_3.tag.filter(tag_name='tag_1').exists())
         self.assertEqual(
             case_api_3.case_start_time,
-            datetime(2021, 5, 9, 11, 15, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 11, 15, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
-            case_api_3.case_end_time, datetime(2021, 5, 9, 11, 25, tzinfo=timezone.utc)
+            case_api_3.case_end_time,
+            datetime(2021, 5, 9, 11, 25, tzinfo=dttimezone.utc),
         )
 
     def test_case_list_api_redirect(self):
@@ -297,11 +299,11 @@ class CaseAPIViewTestCase(TestCase):
         self.assertTrue(new_case_api_2.tag.filter(tag_name='tag_1').exists())
         self.assertEqual(
             new_case_api_2.case_start_time,
-            datetime(2021, 5, 9, 11, 35, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 11, 35, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
             new_case_api_2.case_end_time,
-            datetime(2021, 5, 9, 11, 45, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 11, 45, tzinfo=dttimezone.utc),
         )
 
     def test_case_detail_api_redirect(self):

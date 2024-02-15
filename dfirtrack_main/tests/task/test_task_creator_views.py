@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -200,7 +201,7 @@ class TaskCreatorViewTestCase(TestCase):
         """test creator view"""
 
         # mock timezone.now()
-        dt = datetime(2020, 1, 2, tzinfo=timezone.utc)
+        dt = datetime(2020, 1, 2, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
             # login testuser
             self.client.login(
@@ -241,7 +242,7 @@ class TaskCreatorViewTestCase(TestCase):
         """test creator view"""
 
         # mock timezone.now()
-        dt = datetime(2020, 3, 4, tzinfo=timezone.utc)
+        dt = datetime(2020, 3, 4, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt):
             # login testuser
             self.client.login(

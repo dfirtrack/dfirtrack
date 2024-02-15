@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -344,7 +345,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, None)
 
         # mock timezone.now()
-        dt_1 = datetime(2021, 10, 8, 13, 1, tzinfo=timezone.utc)
+        dt_1 = datetime(2021, 10, 8, 13, 1, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_1):
             # update object
             task_times.taskstatus = taskstatus_working
@@ -355,7 +356,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, None)
 
         # mock timezone.now()
-        dt_2 = datetime(2021, 10, 8, 13, 2, tzinfo=timezone.utc)
+        dt_2 = datetime(2021, 10, 8, 13, 2, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_2):
             # update object
             task_times.save()
@@ -365,7 +366,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, None)
 
         # mock timezone.now()
-        dt_3 = datetime(2021, 10, 8, 13, 3, tzinfo=timezone.utc)
+        dt_3 = datetime(2021, 10, 8, 13, 3, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_3):
             # update object
             task_times.taskstatus = taskstatus_done
@@ -376,7 +377,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, dt_3)
 
         # mock timezone.now()
-        dt_4 = datetime(2021, 10, 8, 13, 4, tzinfo=timezone.utc)
+        dt_4 = datetime(2021, 10, 8, 13, 4, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_4):
             # update object
             task_times.save()
@@ -386,7 +387,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, dt_3)
 
         # mock timezone.now()
-        dt_5 = datetime(2021, 10, 8, 13, 5, tzinfo=timezone.utc)
+        dt_5 = datetime(2021, 10, 8, 13, 5, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_5):
             # update object
             task_times.taskstatus = taskstatus_working
@@ -397,7 +398,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, None)
 
         # mock timezone.now()
-        dt_6 = datetime(2021, 10, 8, 13, 6, tzinfo=timezone.utc)
+        dt_6 = datetime(2021, 10, 8, 13, 6, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_6):
             # update object
             task_times.taskstatus = taskstatus_pending
@@ -408,7 +409,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, None)
 
         # mock timezone.now()
-        dt_7 = datetime(2021, 10, 8, 13, 7, tzinfo=timezone.utc)
+        dt_7 = datetime(2021, 10, 8, 13, 7, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_7):
             # update object
             task_times.taskstatus = taskstatus_done
@@ -419,7 +420,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, dt_7)
 
         # mock timezone.now()
-        dt_8 = datetime(2021, 10, 8, 13, 8, tzinfo=timezone.utc)
+        dt_8 = datetime(2021, 10, 8, 13, 8, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_8):
             # update object
             task_times.taskstatus = taskstatus_blocked
@@ -430,7 +431,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, None)
 
         # mock timezone.now()
-        dt_9 = datetime(2021, 10, 8, 13, 9, tzinfo=timezone.utc)
+        dt_9 = datetime(2021, 10, 8, 13, 9, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_9):
             # update object
             task_times.taskstatus = taskstatus_done
@@ -441,7 +442,7 @@ class TaskModelTestCase(TestCase):
         self.assertEqual(task_times.task_finished_time, dt_9)
 
         # mock timezone.now()
-        dt_10 = datetime(2021, 10, 8, 13, 10, tzinfo=timezone.utc)
+        dt_10 = datetime(2021, 10, 8, 13, 10, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=dt_10):
             # update object
             task_times.taskstatus = taskstatus_skipped

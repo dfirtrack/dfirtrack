@@ -1,6 +1,7 @@
 import os
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -322,7 +323,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         )
 
         # mock timezone.now()
-        t_1 = datetime(2021, 3, 6, 17, 28, tzinfo=timezone.utc)
+        t_1 = datetime(2021, 3, 6, 17, 28, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
             # execute cron job / scheduled task
             system_cron()
@@ -439,7 +440,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_single_quotation()
 
         # mock timezone.now()
-        t_2 = datetime(2021, 3, 6, 17, 55, tzinfo=timezone.utc)
+        t_2 = datetime(2021, 3, 6, 17, 55, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
             # execute cron job / scheduled task
             system_cron()
@@ -561,7 +562,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_headline()
 
         # mock timezone.now()
-        t_3 = datetime(2021, 3, 6, 18, 7, tzinfo=timezone.utc)
+        t_3 = datetime(2021, 3, 6, 18, 7, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_3):
             # execute cron job / scheduled task
             system_cron()
@@ -683,7 +684,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_field_delimiter_comma()
 
         # mock timezone.now()
-        t_5 = datetime(2021, 3, 7, 21, 12, tzinfo=timezone.utc)
+        t_5 = datetime(2021, 3, 7, 21, 12, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_5):
             # execute cron job / scheduled task
             system_cron()
@@ -811,7 +812,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_field_delimiter_semicolon()
 
         # mock timezone.now()
-        t_6 = datetime(2021, 3, 7, 21, 17, tzinfo=timezone.utc)
+        t_6 = datetime(2021, 3, 7, 21, 17, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_6):
             # execute cron job / scheduled task
             system_cron()
@@ -939,7 +940,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_ip_delimiter_comma()
 
         # mock timezone.now()
-        t_7 = datetime(2021, 3, 21, 19, 35, tzinfo=timezone.utc)
+        t_7 = datetime(2021, 3, 21, 19, 35, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_7):
             # execute cron job / scheduled task
             system_cron()
@@ -1067,7 +1068,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_ip_delimiter_semicolon()
 
         # mock timezone.now()
-        t_8 = datetime(2021, 3, 21, 19, 40, tzinfo=timezone.utc)
+        t_8 = datetime(2021, 3, 21, 19, 40, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_8):
             # execute cron job / scheduled task
             system_cron()
@@ -1195,7 +1196,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_ip_delimiter_space()
 
         # mock timezone.now()
-        t_9 = datetime(2021, 3, 21, 19, 45, tzinfo=timezone.utc)
+        t_9 = datetime(2021, 3, 21, 19, 45, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_9):
             # execute cron job / scheduled task
             system_cron()
@@ -1323,7 +1324,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_tag_delimiter_comma()
 
         # mock timezone.now()
-        t_10 = datetime(2021, 3, 22, 18, 35, tzinfo=timezone.utc)
+        t_10 = datetime(2021, 3, 22, 18, 35, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_10):
             # execute cron job / scheduled task
             system_cron()
@@ -1451,7 +1452,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_tag_delimiter_semicolon()
 
         # mock timezone.now()
-        t_8 = datetime(2021, 3, 22, 18, 40, tzinfo=timezone.utc)
+        t_8 = datetime(2021, 3, 22, 18, 40, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_8):
             # execute cron job / scheduled task
             system_cron()
@@ -1579,7 +1580,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_tag_delimiter_space()
 
         # mock timezone.now()
-        t_9 = datetime(2021, 3, 22, 18, 45, tzinfo=timezone.utc)
+        t_9 = datetime(2021, 3, 22, 18, 45, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_9):
             # execute cron job / scheduled task
             system_cron()
@@ -1707,7 +1708,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_tag_prefix_delimiter_underscore()
 
         # mock timezone.now()
-        t_10 = datetime(2021, 3, 22, 19, 10, tzinfo=timezone.utc)
+        t_10 = datetime(2021, 3, 22, 19, 10, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_10):
             # execute cron job / scheduled task
             system_cron()
@@ -1835,7 +1836,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_tag_prefix_delimiter_hyphen()
 
         # mock timezone.now()
-        t_8 = datetime(2021, 3, 22, 19, 15, tzinfo=timezone.utc)
+        t_8 = datetime(2021, 3, 22, 19, 15, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_8):
             # execute cron job / scheduled task
             system_cron()
@@ -1963,7 +1964,7 @@ class SystemImporterFileCsvMinimalViewTestCase(TestCase):
         set_config_tag_prefix_delimiter_period()
 
         # mock timezone.now()
-        t_9 = datetime(2021, 3, 22, 19, 20, tzinfo=timezone.utc)
+        t_9 = datetime(2021, 3, 22, 19, 20, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_9):
             # execute cron job / scheduled task
             system_cron()

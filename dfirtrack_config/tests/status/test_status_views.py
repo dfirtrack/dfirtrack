@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -142,7 +143,7 @@ class StatusViewTestCase(TestCase):
         )
 
         # mock timezone.now()
-        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
             # create empty object (for simple testing get request for empty detail view this should be sufficient)
             Statushistory.objects.create()
@@ -272,7 +273,7 @@ class StatusViewTestCase(TestCase):
         """test status view"""
 
         # get time
-        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=dttimezone.utc)
         # get object
         statushistory_id = Statushistory.objects.get(
             statushistory_time=t_1
@@ -296,7 +297,7 @@ class StatusViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get time
-        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=dttimezone.utc)
         # get object
         statushistory_id = Statushistory.objects.get(
             statushistory_time=t_1
@@ -312,7 +313,7 @@ class StatusViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get time
-        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=dttimezone.utc)
         # get object
         statushistory_id = Statushistory.objects.get(
             statushistory_time=t_1
@@ -328,7 +329,7 @@ class StatusViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get time
-        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=dttimezone.utc)
         # get object
         statushistory_id = Statushistory.objects.get(
             statushistory_time=t_1
@@ -344,7 +345,7 @@ class StatusViewTestCase(TestCase):
         # login testuser
         self.client.login(username='testuser_status', password='D9lPsoHFXeCNKEzM3IgE')
         # get time
-        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=timezone.utc)
+        t_1 = datetime(2020, 11, 22, 11, 22, 33, tzinfo=dttimezone.utc)
         # get object
         statushistory_id = Statushistory.objects.get(
             statushistory_time=t_1

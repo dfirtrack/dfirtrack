@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import timezone as dttimezone
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
@@ -1109,7 +1110,7 @@ class ConfigModelTestCase(TestCase):
         """test string representation"""
 
         # mock timezone.now()
-        t_1 = datetime(2020, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
+        t_1 = datetime(2020, 1, 2, 3, 4, 5, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_1):
             # create object
             statushistory = Statushistory.objects.create()
@@ -1121,7 +1122,7 @@ class ConfigModelTestCase(TestCase):
         """test absolute URL"""
 
         # mock timezone.now()
-        t_3 = datetime(2021, 12, 31, 1, 2, 3, tzinfo=timezone.utc)
+        t_3 = datetime(2021, 12, 31, 1, 2, 3, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_3):
             # create object
             statushistory = Statushistory.objects.create()
@@ -1136,7 +1137,7 @@ class ConfigModelTestCase(TestCase):
         """test attribute labels"""
 
         # mock timezone.now()
-        t_2 = datetime(2021, 1, 2, 3, 4, 5, tzinfo=timezone.utc)
+        t_2 = datetime(2021, 1, 2, 3, 4, 5, tzinfo=dttimezone.utc)
         with patch.object(timezone, 'now', return_value=t_2):
             # create object
             statushistory = Statushistory.objects.create()

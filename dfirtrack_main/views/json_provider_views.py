@@ -79,9 +79,9 @@ def _filter(model, queryset, simple_filter_params, filter_params, request_user):
         # user config assigmnet - filter assigned user id
         if f'{filter_object.lower()}_assigned_to_user_id' in model.__dict__:
             if user_config.filter_list_assigned_to_user_id:
-                and_filter_kwargs[
-                    f'{filter_object.lower()}_assigned_to_user_id'
-                ] = user_config.filter_list_assigned_to_user_id
+                and_filter_kwargs[f'{filter_object.lower()}_assigned_to_user_id'] = (
+                    user_config.filter_list_assigned_to_user_id
+                )
             elif filter_view == 'assignment':
                 and_filter_kwargs[
                     f'{filter_object.lower()}_assigned_to_user_id__isnull'
@@ -138,15 +138,17 @@ def filter_system(request):
                     'dfirtrack_main/includes/button_systemstatus.html',
                     {'systemstatus': obj.systemstatus},
                 ),
-                "analysisstatus": "<span data-toggle='tooltip' data-placement='auto' title='"
-                + str(obj.analysisstatus.analysisstatus_note or "")
-                + "'><a href='"
-                + obj.analysisstatus.get_absolute_url()
-                + "'>"
-                + str(obj.analysisstatus)
-                + "</a></span>"
-                if obj.analysisstatus is not None
-                else "---",
+                "analysisstatus": (
+                    "<span data-toggle='tooltip' data-placement='auto' title='"
+                    + str(obj.analysisstatus.analysisstatus_note or "")
+                    + "'><a href='"
+                    + obj.analysisstatus.get_absolute_url()
+                    + "'>"
+                    + str(obj.analysisstatus)
+                    + "</a></span>"
+                    if obj.analysisstatus is not None
+                    else "---"
+                ),
                 "system_create_time": obj.system_create_time.strftime("%Y-%m-%d %H:%M"),
                 "system_modify_time": obj.system_modify_time.strftime("%Y-%m-%d %H:%M"),
             }
@@ -214,16 +216,16 @@ def filter_artifacts(request):
                 "artifacttype": f'<a href="{ obj.artifacttype.get_absolute_url() }">{ obj.artifacttype.artifacttype_name }</a>',
                 "system": f'<a href="{obj.system.get_absolute_url()}" type="button" class="btn btn-primary btn-sm copy-true"><img src="{static("dfirtrack_main/icons/monitor-light.svg")}" '
                 + f'class="icon right-distance copy-false" alt="icon">{obj.system.system_name}</a>',
-                "artifact_requested_time": obj.artifact_requested_time.strftime(
-                    "%Y-%m-%d %H:%M"
-                )
-                if obj.artifact_requested_time
-                else '---',
-                "artifact_acquisition_time": obj.artifact_acquisition_time.strftime(
-                    "%Y-%m-%d %H:%M"
-                )
-                if obj.artifact_acquisition_time
-                else '---',
+                "artifact_requested_time": (
+                    obj.artifact_requested_time.strftime("%Y-%m-%d %H:%M")
+                    if obj.artifact_requested_time
+                    else '---'
+                ),
+                "artifact_acquisition_time": (
+                    obj.artifact_acquisition_time.strftime("%Y-%m-%d %H:%M")
+                    if obj.artifact_acquisition_time
+                    else '---'
+                ),
                 "artifact_create_time": obj.artifact_create_time.strftime(
                     "%Y-%m-%d %H:%M"
                 ),

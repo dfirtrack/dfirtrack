@@ -1,5 +1,6 @@
 import urllib.parse
 from datetime import datetime
+from datetime import timezone as dttimezone
 
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -210,11 +211,11 @@ class ArtifactAPIViewTestCase(TestCase):
         )
         self.assertEqual(
             artifact_api_3.artifact_requested_time,
-            datetime(2021, 5, 9, 10, 15, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 10, 15, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
             artifact_api_3.artifact_acquisition_time,
-            datetime(2021, 5, 9, 10, 25, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 10, 25, tzinfo=dttimezone.utc),
         )
         self.assertEqual(artifact_api_3.artifact_source_path, r'C:\Windows')
 
@@ -402,11 +403,11 @@ class ArtifactAPIViewTestCase(TestCase):
         )
         self.assertEqual(
             new_artifact_api_2.artifact_requested_time,
-            datetime(2021, 5, 9, 10, 35, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 10, 35, tzinfo=dttimezone.utc),
         )
         self.assertEqual(
             new_artifact_api_2.artifact_acquisition_time,
-            datetime(2021, 5, 9, 10, 45, tzinfo=timezone.utc),
+            datetime(2021, 5, 9, 10, 45, tzinfo=dttimezone.utc),
         )
         self.assertEqual(new_artifact_api_2.artifact_source_path, r'C:\Windows')
 
