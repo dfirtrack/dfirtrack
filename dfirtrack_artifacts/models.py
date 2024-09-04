@@ -486,4 +486,4 @@ class ArtifactQLSchema(DjangoQLSchema):
             return ['tag_id', 'tag_name']
         if model == User:
             return ['id', 'username']
-        return super(ArtifactQLSchema, self).get_fields(model)
+        return super().get_fields(model)

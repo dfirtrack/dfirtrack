@@ -2080,7 +2080,7 @@ class SystemQLSchema(DjangoQLSchema):
             return ['case_id', 'case_name']
         if model == User:
             return ['id', 'username']
-        return super(SystemQLSchema, self).get_fields(model)
+        return super().get_fields(model)
 
 
 class NoteQLSchema(DjangoQLSchema):
@@ -2106,4 +2106,4 @@ class NoteQLSchema(DjangoQLSchema):
             return ['notestatus_id', 'notestatus_name']
         if model == Note:
             return ['tag', 'case', 'notestatus', 'note_assigned_to_user_id']
-        return super(NoteQLSchema, self).get_fields(model)
+        return super().get_fields(model)
