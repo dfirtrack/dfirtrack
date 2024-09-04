@@ -16,15 +16,15 @@ def set_user_config(test_user, filter_list_case, filter_list_tag):
         user_config_username=test_user, filter_view='system_list'
     )
     # set values
-    user_config.filter_list_case = filter_list_case
+    filter_query = ""
+    if filter_list_case:
+        filter_query += f'case.case_name = "{filter_list_case.case_name}"'
     if filter_list_tag:
-        user_config.filter_list_tag.set(
-            [
-                filter_list_tag,
-            ]
-        )
-    else:
-        user_config.filter_list_tag.clear()
+        if len(filter_query) > 0:
+            filter_query += ' and '
+        filter_query += f'tag.tag_name = "{filter_list_tag.tag_name}"'
+    user_config.filter_query = filter_query
+
     # save config
     user_config.save()
 
@@ -406,8 +406,10 @@ class SystemFilterViewTestCase(TestCase):
             user_config_username=test_user, filter_view='system_list'
         )
         # compare
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(
+            user_config.filter_query,
+            f'case.case_name = "{case_1.case_name}" and tag.tag_name = "{tag_1.tag_name}"',
+        )
 
     def test_system_list_post_empty(self):
         """test list view"""
@@ -438,8 +440,7 @@ class SystemFilterViewTestCase(TestCase):
         user_config.refresh_from_db()
 
         # compare
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
+        self.assertEqual(user_config.filter_query, "")
 
     def test_system_list_post_all(self):
         """test list view"""
@@ -464,10 +465,7 @@ class SystemFilterViewTestCase(TestCase):
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # create post data
         data_dict = {
-            'filter_list_case': case_1.case_id,
-            'filter_list_tag': [
-                tag_1.tag_id,
-            ],
+            'filter_query': f'case.case_id = {case_1.case_id} and tag.tag_id = {tag_1.tag_id}',
             'user_config_id': user_config.user_config_id,
         }
         # get response
@@ -477,8 +475,10 @@ class SystemFilterViewTestCase(TestCase):
         user_config.refresh_from_db()
 
         # compare
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(
+            user_config.filter_query,
+            f'case.case_id = {case_1.case_id} and tag.tag_id = {tag_1.tag_id}',
+        )
 
     def test_system_clear_filter_not_logged_in(self):
         """test clear_filter view"""
@@ -531,8 +531,10 @@ class SystemFilterViewTestCase(TestCase):
         )
 
         # compare - settings before request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(
+            user_config.filter_query,
+            f'case.case_name = "{case_1.case_name}" and tag.tag_name = "{tag_1.tag_name}"',
+        )
 
         # get response, should reset filter config
         self.client.get('/system/clear_filter/')
@@ -540,28 +542,7 @@ class SystemFilterViewTestCase(TestCase):
         # refresh config
         user_config.refresh_from_db()
         # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
-
-        # change config
-        case_1 = Case.objects.get(case_name='case_1')
-        tag_1 = Tag.objects.get(tag_name='tag_1')
-        set_user_config(test_user, case_1, tag_1)
-
-        # refresh config
-        user_config.refresh_from_db()
-        # compare - settings before request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
-
-        # get response, should reset filter config
-        self.client.get('/system/clear_filter/')
-
-        # refresh config
-        user_config.refresh_from_db()
-        # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
+        self.assertEqual(user_config.filter_query, "")
 
     def test_system_list_filter_message(self):
         """test filter warning message"""
@@ -586,3 +567,31 @@ class SystemFilterViewTestCase(TestCase):
         self.assertEqual(
             str(messages[0]), 'Filter is active. Systems might be incomplete.'
         )
+
+    def test_system_list_syntax_error(self):
+        """test filter syntax error"""
+
+        # login testuser
+        self.client.login(
+            username='testuser_system_filter', password='9PUdBmEvJv5WCdFXEYf6'
+        )
+
+        # get user
+        test_user = User.objects.get(username='testuser_system_filter')
+
+        # get config
+        user_config = UserConfigModel.objects.get(
+            user_config_username=test_user, filter_view='system_list'
+        )
+
+        # create post data
+        data_dict = {
+            'filter_query': "syntax = error",
+            'user_config_id': user_config.user_config_id,
+        }
+        # get response
+        response = self.client.post('/system/', data_dict)
+
+        # test for response
+        self.assertContains(response, "Field error(s)")
+        self.assertContains(response, "Syntax error")

@@ -1,4 +1,5 @@
 import ipaddress
+import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,6 +8,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
+from djangoql.serializers import DjangoQLSchemaSerializer
 
 from dfirtrack.settings import INSTALLED_APPS as installed_apps
 from dfirtrack_artifacts.models import Artifact
@@ -18,6 +20,7 @@ from dfirtrack_main.models import (
     Analysisstatus,
     Ip,
     System,
+    SystemQLSchema,
     Systemstatus,
     Task,
     Taskstatus,
@@ -89,6 +92,12 @@ class SystemList(LoginRequiredMixin, FormView):
                 self.request, 'Filter is active. Systems might be incomplete.'
             )
 
+        introspections = DjangoQLSchemaSerializer().serialize(
+            SystemQLSchema(System.objects.model),
+        )
+
+        context['introspections'] = json.dumps(introspections)
+
         # return dictionary with additional values for template
         return context
 
@@ -105,8 +114,10 @@ class SystemList(LoginRequiredMixin, FormView):
             user_config.save()
             form.save_m2m()
 
-        # call view again
-        return redirect(reverse('system_list'))
+            # call view again
+            return redirect(reverse('system_list'))
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 class SystemDetail(LoginRequiredMixin, DetailView):
@@ -386,9 +397,7 @@ def clear_system_list_filter(request):
     )
 
     # clear values
-    user_config.filter_list_case = None
-    user_config.filter_list_assigned_to_user_id = None
-    user_config.filter_list_tag.clear()
+    user_config.filter_query = ""
 
     # save config
     user_config.save()

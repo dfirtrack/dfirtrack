@@ -5,6 +5,7 @@ generic_datatable = {
     "processing":true,
     "serverSide":true,
     "bStateSave": true,
+    "searching": false,
     "columns": [
         { "data": "artifact_id" },
         { "data": "artifact_name" },

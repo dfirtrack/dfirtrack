@@ -15,15 +15,15 @@ def set_user_config(test_user, filter_list_case, filter_list_tag):
         user_config_username=test_user, filter_view='artifact_list'
     )
     # set values
-    user_config.filter_list_case = filter_list_case
-    if filter_list_tag:
-        user_config.filter_list_tag.set(
-            [
-                filter_list_tag,
-            ]
-        )
-    else:
-        user_config.filter_list_tag.clear()
+    filter_query = ""
+    if filter_list_tag and not filter_list_case:
+        filter_query = f'tag.tag_name = "{filter_list_tag.tag_name}"'
+    if filter_list_case and not filter_list_tag:
+        filter_query = f'case.case_name = "{filter_list_case.case_name}"'
+    if filter_list_tag and filter_list_case:
+        filter_query = f'tag.tag_name = "{filter_list_tag.tag_name}" and case.case_name = "{filter_list_case.case_name}"'
+
+    user_config.filter_query = filter_query
     # save config
     user_config.save()
 
@@ -388,13 +388,11 @@ class ArtifactFilterViewTestCase(TestCase):
         )
 
         # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
-        self.assertEqual(user_config.filter_list_assigned_to_user_id, None)
+        self.assertEqual(user_config.filter_query, "")
 
         # post filter settings
         data = {
-            'filter_list_case': case_1.case_id,
+            'filter_query': f'case.case_id = {case_1.case_id}',
             'user_config_id': user_config.user_config_id,
         }
         self.client.post('/artifacts/artifact/', data)
@@ -402,37 +400,7 @@ class ArtifactFilterViewTestCase(TestCase):
         # refresh config
         user_config.refresh_from_db()
         # compare - settings before request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
-        self.assertEqual(user_config.filter_list_assigned_to_user_id, None)
-
-        # post filter settings
-        data = {
-            'filter_list_tag': tag_1.tag_id,
-            'user_config_id': user_config.user_config_id,
-        }
-        self.client.post('/artifacts/artifact/', data)
-
-        # refresh config
-        user_config.refresh_from_db()
-        # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
-        self.assertEqual(user_config.filter_list_assigned_to_user_id, None)
-
-        # post filter settings
-        data = {
-            'filter_list_assigned_to_user_id': test_user.id,
-            'user_config_id': user_config.user_config_id,
-        }
-        self.client.post('/artifacts/artifact/', data)
-
-        # refresh config
-        user_config.refresh_from_db()
-        # compare - settings after request
-        self.assertEqual(user_config.filter_list_assigned_to_user_id, test_user)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
-        self.assertEqual(user_config.filter_list_case, None)
+        self.assertEqual(user_config.filter_query, f'case.case_id = {case_1.case_id}')
 
     def test_artifact_clear_filter_config(self):
         """reset filter settings via URL"""
@@ -455,8 +423,10 @@ class ArtifactFilterViewTestCase(TestCase):
         )
 
         # compare - settings before request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(
+            user_config.filter_query,
+            f'tag.tag_name = "{tag_1.tag_name}" and case.case_name = "{case_1.case_name}"',
+        )
 
         # get response, should reset filter config
         self.client.get('/artifacts/artifact/clear_filter/')
@@ -464,28 +434,7 @@ class ArtifactFilterViewTestCase(TestCase):
         # refresh config
         user_config.refresh_from_db()
         # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
-
-        # change config
-        case_1 = Case.objects.get(case_name='case_1')
-        tag_1 = Tag.objects.get(tag_name='tag_1')
-        set_user_config(test_user, case_1, tag_1)
-
-        # refresh config
-        user_config.refresh_from_db()
-        # compare - settings before request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
-
-        # get response, should reset filter config
-        self.client.get('/artifacts/artifact/clear_filter/')
-
-        # refresh config
-        user_config.refresh_from_db()
-        # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
+        self.assertEqual(user_config.filter_query, "")
 
     def test_artifact_list_filter_message(self):
         """test filter warning message"""

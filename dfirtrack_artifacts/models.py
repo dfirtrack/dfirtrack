@@ -8,9 +8,12 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from djangoql.queryset import DjangoQLQuerySet
+from djangoql.schema import DjangoQLSchema
 
 from dfirtrack.config import EVIDENCE_PATH
 from dfirtrack_config.models import MainConfigModel
+from dfirtrack_main.models import Case, System, Tag
 
 # initialize logger
 stdlogger = logging.getLogger(__name__)
@@ -83,6 +86,9 @@ class Artifact(models.Model):
     artifact_modified_by_user_id = models.ForeignKey(
         User, on_delete=models.PROTECT, related_name='artifact_modified_by'
     )
+
+    # DjangoQL Object
+    objects = DjangoQLQuerySet.as_manager()
 
     # set the ordering criteria
     class Meta:
@@ -442,3 +448,42 @@ class Artifacttype(models.Model):
 
 # TODO: signals for DjangoQ receiver that creates the hash sums
 # def artifact_created()
+
+
+class ArtifactQLSchema(DjangoQLSchema):
+    include = (
+        Artifact,
+        Artifactstatus,
+        Artifactpriority,
+        Artifacttype,
+        System,
+        Case,
+        Tag,
+        User,
+    )
+
+    # fields for autocomplete suggestions
+    suggest_options = {
+        Artifactstatus: ['artifactstatus_name'],
+        Artifactpriority: ['artifactpriority_name'],
+        Artifacttype: ['artifacttype_name'],
+        Case: ['case_name'],
+        Tag: ['tag_name'],
+        User: ['username'],
+    }
+
+    # return fields for foreign objects
+    def get_fields(self, model):
+        if model == Artifactstatus:
+            return ['artifactstatus_id', 'artifactstatus_name']
+        if model == Artifactpriority:
+            return ['artifactpriority_id', 'artifactpriority_name']
+        if model == Artifacttype:
+            return ['artifacttype_id', 'artifacttype_name']
+        if model == Case:
+            return ['case_id', 'case_name']
+        if model == Tag:
+            return ['tag_id', 'tag_name']
+        if model == User:
+            return ['id', 'username']
+        return super(ArtifactQLSchema, self).get_fields(model)

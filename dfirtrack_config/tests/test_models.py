@@ -1228,18 +1228,8 @@ class ConfigModelTestCase(TestCase):
             'filter view show',
         )
         self.assertEqual(
-            user_config_model._meta.get_field('filter_list_case').verbose_name,
-            'filter list case',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field('filter_list_tag').verbose_name,
-            'filter list tag',
-        )
-        self.assertEqual(
-            user_config_model._meta.get_field(
-                'filter_list_assigned_to_user_id'
-            ).verbose_name,
-            'filter list assigned to user id',
+            user_config_model._meta.get_field('filter_query').verbose_name,
+            'filter query',
         )
 
     def test_workflow_model_string(self):

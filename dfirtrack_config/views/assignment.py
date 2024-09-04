@@ -1,15 +1,34 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic.edit import FormView
+from djangoql.queryset import apply_search
+from djangoql.schema import DjangoQLSchema
+from djangoql.serializers import DjangoQLSchemaSerializer
 
 from dfirtrack_artifacts.models import Artifact
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.filter_forms import GeneralFilterForm
 from dfirtrack_main.logger.default_logger import debug_logger
 from dfirtrack_main.models import Case, Note, Reportitem, System, Tag, Task
+
+
+class AssignmentQLSchema(DjangoQLSchema):
+    include = (User,)
+
+    # fields for autocomplete suggestions
+    suggest_options = {
+        User: ['username'],
+    }
+
+    # return fields for foreign objects
+    def get_fields(self, model):
+        return ['id', 'username']
 
 
 class AssignmentView(LoginRequiredMixin, FormView):
@@ -40,15 +59,11 @@ class AssignmentView(LoginRequiredMixin, FormView):
 
         filter_kwargs = dict()
 
-        # get case from config and add to initial form value
-        if user_config.filter_list_case:
-            # queryset kwargs
-            filter_kwargs['case'] = user_config.filter_list_case
+        introspections = DjangoQLSchemaSerializer().serialize(
+            AssignmentQLSchema(User.objects.model)
+        )
 
-        # get tag from config and add to initial form value
-        if user_config.filter_list_tag.count() > 0:
-            # queryset kwargs
-            filter_kwargs['tag__in'] = user_config.filter_list_tag.all()
+        context['introspections'] = json.dumps(introspections)
 
         """
         filter
@@ -57,72 +72,71 @@ class AssignmentView(LoginRequiredMixin, FormView):
         it is currently required for the template 'assignment.html'
         """
 
-        # get queryset with all entities
-        artifact_queryset = Artifact.objects.all().filter(**filter_kwargs)
-        case = filter_kwargs.pop('case', None)
-        if case:
-            case_queryset = (
-                Case.objects.all().filter(**filter_kwargs).filter(case_id=case.case_id)
+        # filter user
+        user_queryset = User.objects.all()
+        if user_config.filter_query != "":
+            user_queryset = apply_search(
+                User.objects.all(), user_config.filter_query, schema=AssignmentQLSchema
             )
-            filter_kwargs['case'] = case
-        else:
-            case_queryset = Case.objects.all().filter(**filter_kwargs)
-        note_queryset = Note.objects.all().filter(**filter_kwargs)
-        reportitem_queryset = Reportitem.objects.all().filter(**filter_kwargs)
-        system_queryset = System.objects.all().filter(**filter_kwargs)
-        task_queryset = Task.objects.all().filter(**filter_kwargs)
-        tags = filter_kwargs.pop('tag__in', Tag.objects.all())
-        tag_queryset = Tag.objects.all().filter(**filter_kwargs).filter(tag_id__in=tags)
 
-        # filter queryset to user
-        if user_config.filter_list_assigned_to_user_id:
-            artifact_queryset = artifact_queryset.filter(
-                artifact_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
+            # get queryset with all entities
+            case_queryset = Case.objects.filter(
+                case_assigned_to_user_id__in=user_queryset
             )
-            case_queryset = case_queryset.filter(
-                case_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
+            note_queryset = Note.objects.filter(
+                note_assigned_to_user_id__in=user_queryset
             )
-            note_queryset = note_queryset.filter(
-                note_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
+            reportitem_queryset = Reportitem.objects.filter(
+                reportitem_assigned_to_user_id__in=user_queryset
             )
-            reportitem_queryset = reportitem_queryset.filter(
-                reportitem_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
+            task_queryset = Task.objects.filter(
+                task_assigned_to_user_id__in=user_queryset
             )
-            system_queryset = system_queryset.filter(
-                system_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
-            )
-            tag_queryset = tag_queryset.filter(
-                tag_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
-            )
-            task_queryset = task_queryset.filter(
-                task_assigned_to_user_id=user_config.filter_list_assigned_to_user_id
-            )
-            # add username to context used for template
-            context['assignment_user'] = user_config.filter_list_assigned_to_user_id
-        # show unassigned entities otherwise
+            tag_queryset = Tag.objects.filter(tag_assigned_to_user_id__in=user_queryset)
+
+            artifact_count = Artifact.objects.filter(
+                artifact_assigned_to_user_id__in=user_queryset
+            ).count()
+            system_count = System.objects.filter(
+                system_assigned_to_user_id__in=user_queryset
+            ).count()
         else:
-            artifact_queryset = artifact_queryset.filter(
-                artifact_assigned_to_user_id=None
+            # get queryset with all entities
+            case_queryset = Case.objects.exclude(
+                case_assigned_to_user_id__in=user_queryset
             )
-            case_queryset = case_queryset.filter(case_assigned_to_user_id=None)
-            note_queryset = note_queryset.filter(note_assigned_to_user_id=None)
-            reportitem_queryset = reportitem_queryset.filter(
-                reportitem_assigned_to_user_id=None
+            note_queryset = Note.objects.exclude(
+                note_assigned_to_user_id__in=user_queryset
             )
-            system_queryset = system_queryset.filter(system_assigned_to_user_id=None)
-            tag_queryset = tag_queryset.filter(tag_assigned_to_user_id=None)
-            task_queryset = task_queryset.filter(task_assigned_to_user_id=None)
-            # add username to context used for template
-            context['assignment_user'] = None
+            reportitem_queryset = Reportitem.objects.exclude(
+                reportitem_assigned_to_user_id__in=user_queryset
+            )
+            task_queryset = Task.objects.exclude(
+                task_assigned_to_user_id__in=user_queryset
+            )
+            tag_queryset = Tag.objects.exclude(
+                tag_assigned_to_user_id__in=user_queryset
+            )
+
+            artifact_count = Artifact.objects.exclude(
+                artifact_assigned_to_user_id__in=user_queryset
+            ).count()
+            system_count = System.objects.exclude(
+                system_assigned_to_user_id__in=user_queryset
+            ).count()
+
+        if user_config.filter_query != "":
+            context['assignment_user'] = user_queryset
 
         # add querysets to context
-        context['artifact_number'] = artifact_queryset.count()
         context['case'] = case_queryset
         context['note'] = note_queryset
         context['reportitem'] = reportitem_queryset
-        context['system_number'] = system_queryset.count()
         context['tag'] = tag_queryset
         context['task'] = task_queryset
+
+        context['system_number'] = system_count
+        context['artifact_number'] = artifact_count
 
         """visibility"""
 
@@ -167,8 +181,10 @@ class AssignmentView(LoginRequiredMixin, FormView):
             user_config.save()
             form.save_m2m()
 
-        # call view again
-        return redirect(reverse('assignment'))
+            # call view again
+            return redirect(reverse('assignment'))
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 def toggle_user_config(user, key):
@@ -191,9 +207,7 @@ def clear_assignment_view_filter(request):
     )
 
     # clear values
-    user_config.filter_list_case = None
-    user_config.filter_list_tag.clear()
-    user_config.filter_list_assigned_to_user_id = None
+    user_config.filter_query = ""
 
     # save config
     user_config.save()

@@ -575,28 +575,8 @@ class UserConfigModel(models.Model):
     # filter setting - shows
     filter_view_show = models.JSONField(blank=True, null=True)
 
-    # filter settings - list views
-    filter_list_case = models.ForeignKey(
-        'dfirtrack_main.Case',
-        related_name='filter_list_case',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-
-    # filter settings - list views
-    filter_list_tag = models.ManyToManyField(
-        'dfirtrack_main.Tag', related_name='filter_list_tag', blank=True
-    )
-
-    # filter settings - list views
-    filter_list_assigned_to_user_id = models.ForeignKey(
-        User,
-        related_name='filter_list_assigned_to_user_id',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
+    # filter query djangoql
+    filter_query = models.TextField(blank=True)
 
     # filter settings - list views generic status
     content_type = models.ForeignKey(
@@ -604,11 +584,6 @@ class UserConfigModel(models.Model):
     )
 
     object_id = models.PositiveIntegerField(blank=True, null=True)
-
-    filter_list_status = GenericForeignKey(
-        'content_type',
-        'object_id',
-    )
 
     # meta information
     class Meta:
@@ -625,13 +600,7 @@ class UserConfigModel(models.Model):
 
     # check if filter is active
     def is_filter_active(self):
-        if self.filter_list_case:
-            return True
-        if self.filter_list_status:
-            return True
-        if self.filter_list_tag.count() > 0:
-            return True
-        if self.filter_list_assigned_to_user_id:
+        if self.filter_query:
             return True
         return False
 

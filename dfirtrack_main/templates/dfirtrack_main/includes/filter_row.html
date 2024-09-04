@@ -1,3 +1,6 @@
+{% load static %}
+<script src="{% static 'djangoql/js/completion.js' %}"></script>
+
 <div class="row bottom-distance">
     <form method="POST" class="post-form">
         {% csrf_token %}
@@ -8,7 +11,6 @@
 
         <!-- filter row -->
         <div class="row top-distance bottom-distance">
-
             <!-- form fields -->
             {% for field in form %}
                 {% if field != form.user_config_id %}
@@ -17,8 +19,7 @@
                         {{ field }}
                     </div>
                 {% endif %}
-            {% endfor %}
-
+            {% endfor %}            
         <!-- filter row -->
         </div>
 
@@ -38,3 +39,28 @@
     <!-- filter form -->
     </form>
 </div>
+
+<script>
+    DjangoQL.DOMReady(function () {
+      new DjangoQL({
+        // either JS object with a result of DjangoQLSchema(MyModel).as_dict(),
+        // or an URL from which this information could be loaded asynchronously
+        introspections: {{ introspections|safe }},
+
+        // css selector for query input or HTMLElement object.
+        // It should be a textarea
+        selector: 'textarea[name=filter_query]',
+
+        // optional, you can provide URL for Syntax Help link here.
+        // If not specified, Syntax Help link will be hidden.
+        syntaxHelp: null,
+
+        // optional, enable textarea auto-resize feature. If enabled,
+        // textarea will automatically grow its height when entered text
+        // doesn't fit, and shrink back when text is removed. The purpose
+        // of this is to see full search query without scrolling, could be
+        // helpful for really long queries.
+        autoResize: true
+      });
+    });
+</script>

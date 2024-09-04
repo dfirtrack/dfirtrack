@@ -8,6 +8,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from djangoql.queryset import DjangoQLQuerySet
+from djangoql.schema import DjangoQLSchema
 
 from dfirtrack_config.models import MainConfigModel
 
@@ -1267,6 +1269,9 @@ class System(models.Model):
     system_export_markdown = models.BooleanField(default=True)
     system_export_spreadsheet = models.BooleanField(default=True)
 
+    # DjangoQL Object
+    objects = DjangoQLQuerySet.as_manager()
+
     # define unique together
     class Meta:
         unique_together = ('system_name', 'domain', 'system_install_time')
@@ -2049,3 +2054,56 @@ class Taskstatus(models.Model):
 
     def get_absolute_url(self):
         return reverse('taskstatus_detail', args=(self.pk,))
+
+
+class SystemQLSchema(DjangoQLSchema):
+    include = (System, Systemstatus, Analysisstatus, Tag, Case, User)
+
+    # fields for autocomplete suggestions
+    suggest_options = {
+        Systemstatus: ['systemstatus_name'],
+        Analysisstatus: ['analysisstatus_name'],
+        Tag: ['tag_name'],
+        Case: ['case_name'],
+        User: ['username'],
+    }
+
+    # return fields for foreign objects
+    def get_fields(self, model):
+        if model == Systemstatus:
+            return ['systemstatus_id', 'systemstatus_name']
+        if model == Analysisstatus:
+            return ['analysisstatus_id', 'analysisstatus_name']
+        if model == Tag:
+            return ['tag_id', 'tag_name']
+        if model == Case:
+            return ['case_id', 'case_name']
+        if model == User:
+            return ['id', 'username']
+        return super(SystemQLSchema, self).get_fields(model)
+
+
+class NoteQLSchema(DjangoQLSchema):
+    include = (Note, Notestatus, Reportitem, Tag, Case, User)
+
+    # fields for autocomplete suggestions
+    suggest_options = {
+        Tag: ['tag_name'],
+        Case: ['case_name'],
+        User: ['username'],
+        Notestatus: ['notestatus_name'],
+    }
+
+    # return fields for foreign objects
+    def get_fields(self, model):
+        if model == Tag:
+            return ['tag_id', 'tag_name']
+        if model == Case:
+            return ['case_id', 'case_name']
+        if model == User:
+            return ['id', 'username']
+        if model == Notestatus:
+            return ['notestatus_id', 'notestatus_name']
+        if model == Note:
+            return ['tag', 'case', 'notestatus', 'note_assigned_to_user_id']
+        return super(NoteQLSchema, self).get_fields(model)

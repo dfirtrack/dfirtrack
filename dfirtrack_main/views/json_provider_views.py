@@ -1,19 +1,64 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.db.models import ForeignKey, Q
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.templatetags.static import static
+from djangoql.exceptions import DjangoQLParserError
+from djangoql.queryset import apply_search
 
-from dfirtrack_artifacts.models import Artifact
+from dfirtrack_artifacts.models import Artifact, ArtifactQLSchema
 from dfirtrack_config.models import MainConfigModel, UserConfigModel
-from dfirtrack_main.models import System
+from dfirtrack_config.views.assignment import AssignmentQLSchema
+from dfirtrack_main.models import System, SystemQLSchema
 
 
-def _filter(model, queryset, simple_filter_params, filter_params, request_user):
+def _filter(
+    model, queryset, simple_filter_params, filter_params, request_user, dqlschema
+):
     '''post request filter everything'''
 
-    # filter object name
-    filter_object = model.__name__.lower()
+    # define filter kwargs for or, and filters
+    and_filter_kwargs = dict()
+    or_filter_kwargs = dict()
+    exclude_filter_kwargs = dict()
+
+    # get user config filter for model list view and config views
+    if (
+        'config' in simple_filter_params
+        or model.__name__.lower() in simple_filter_params
+    ):
+        # set filter view for user config model
+        filter_view = simple_filter_params.get(
+            'config', f'{model.__name__.lower()}_list'
+        )
+
+        # get config
+        user_config, created = UserConfigModel.objects.get_or_create(
+            user_config_username=request_user, filter_view=filter_view
+        )
+
+        # apply dql filter to queryset
+        if user_config.filter_query:
+            # filter for user query
+            if filter_view == 'assignment':
+                user_queryset = apply_search(
+                    User.objects.all(),
+                    user_config.filter_query,
+                    schema=AssignmentQLSchema,
+                )
+                for value in model.__dict__:
+                    if 'assigned_to_user_id' in value:
+                        and_filter_kwargs[f'{value}__in'] = user_queryset
+            else:
+                queryset = apply_search(
+                    queryset, user_config.filter_query, schema=dqlschema
+                )
+        elif filter_view == 'assignment':
+            user_queryset = User.objects.all()
+            for value in model.__dict__:
+                if 'assigned_to_user_id' in value:
+                    exclude_filter_kwargs[f'{value}__in'] = user_queryset
 
     # get search value
     search_value = filter_params.get('search[value]')
@@ -27,10 +72,6 @@ def _filter(model, queryset, simple_filter_params, filter_params, request_user):
     # check in model if field is foreign key
     if isinstance(model._meta.get_field(order_column_name), ForeignKey):
         order_column_name = f'{order_column_name}__{order_column_name}_name'
-
-    # define filter kwargs for or, and filters
-    and_filter_kwargs = dict()
-    or_filter_kwargs = dict()
 
     # create search filter for every column of the model
     if search_value != '':
@@ -55,42 +96,11 @@ def _filter(model, queryset, simple_filter_params, filter_params, request_user):
             if not isinstance(value, list):
                 and_filter_kwargs[f'{filter}'] = value
 
-    # get user config filter for model list view and config views
-    if 'config' in simple_filter_params or filter_object in simple_filter_params:
-        # set filter view for user config model
-        filter_view = simple_filter_params.get('config', f'{filter_object}_list')
-
-        # get config
-        user_config, created = UserConfigModel.objects.get_or_create(
-            user_config_username=request_user, filter_view=filter_view
-        )
-
-        # user config assigmnet - filter tags
-        if 'tag' in model.__dict__:
-            if user_config.filter_list_tag.count() > 0:
-                # filter for multiple tags (tag1 or tag2)
-                or_filter_kwargs['tag__in'] = user_config.filter_list_tag.all()
-
-        # user config assigmnet - filter case
-        if 'case' in model.__dict__:
-            if user_config.filter_list_case:
-                and_filter_kwargs['case'] = user_config.filter_list_case
-
-        # user config assigmnet - filter assigned user id
-        if f'{filter_object.lower()}_assigned_to_user_id' in model.__dict__:
-            if user_config.filter_list_assigned_to_user_id:
-                and_filter_kwargs[f'{filter_object.lower()}_assigned_to_user_id'] = (
-                    user_config.filter_list_assigned_to_user_id
-                )
-            elif filter_view == 'assignment':
-                and_filter_kwargs[
-                    f'{filter_object.lower()}_assigned_to_user_id__isnull'
-                ] = True
-
     # filter queryset using Q for or_kwargs and filter and_kwargs in seconed step
     filter_results = (
         queryset.filter(Q(**or_filter_kwargs, _connector=Q.OR))
         .filter(**and_filter_kwargs)
+        .exclude(**exclude_filter_kwargs)
         .distinct()
         .order_by(order_dir + order_column_name)
     )
@@ -120,7 +130,7 @@ def filter_system(request):
 
     # build results (html code) for starting point to how many records to show
     filter_results, start, end = _filter(
-        model, queryset, request.GET, request.POST, request.user
+        model, queryset, request.GET, request.POST, request.user, SystemQLSchema
     )
     results = list()
     for obj in filter_results:
@@ -196,7 +206,7 @@ def filter_artifacts(request):
 
     # build results (html code) for starting point to how many records to show
     filter_results, start, end = _filter(
-        model, queryset, request.GET, request.POST, request.user
+        model, queryset, request.GET, request.POST, request.user, ArtifactQLSchema
     )
     results = list()
     for obj in filter_results:

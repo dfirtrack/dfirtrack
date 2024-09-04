@@ -1,12 +1,20 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import resolve, reverse
 from django.views.generic import CreateView, DetailView, FormView, UpdateView
+from djangoql.serializers import DjangoQLSchemaSerializer
 
 from dfirtrack_artifacts.forms import ArtifactForm
-from dfirtrack_artifacts.models import Artifact, Artifactpriority, Artifactstatus
+from dfirtrack_artifacts.models import (
+    Artifact,
+    Artifactpriority,
+    ArtifactQLSchema,
+    Artifactstatus,
+)
 from dfirtrack_config.models import UserConfigModel
 from dfirtrack_main.filter_forms import GeneralFilterForm
 from dfirtrack_main.logger.default_logger import debug_logger
@@ -51,6 +59,13 @@ class ArtifactListView(LoginRequiredMixin, FormView):
             # call logger
             debug_logger(str(self.request.user), ' ARTIFACT_ALL_ENTERED')
             context['artifact_site'] = 'all'
+
+        introspections = DjangoQLSchemaSerializer().serialize(
+            ArtifactQLSchema(Artifact.objects.model),
+        )
+
+        context['introspections'] = json.dumps(introspections)
+
         return context
 
     def post(self, request, *args, **kwargs):
@@ -66,9 +81,11 @@ class ArtifactListView(LoginRequiredMixin, FormView):
             user_config.save()
             form.save_m2m()
 
-        # call view again
-        request.get_full_path()
-        return redirect(request.get_full_path())
+            # call view again
+            request.get_full_path()
+            return redirect(request.get_full_path())
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 class ArtifactDetailView(LoginRequiredMixin, DetailView):
@@ -214,10 +231,7 @@ def clear_artifact_list_filter(request):
     )
 
     # clear values
-    user_config.filter_list_case = None
-    user_config.filter_list_assigned_to_user_id = None
-    user_config.filter_list_tag.clear()
-
+    user_config.filter_query = ""
     # save config
     user_config.save()
 

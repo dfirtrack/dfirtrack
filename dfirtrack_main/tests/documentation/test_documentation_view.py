@@ -31,10 +31,21 @@ def set_user_config(
         user_config_username=test_user, filter_view="documentation"
     )
     # set values
-    user_config.filter_list_case = filter_documentation_list_case
-    user_config.filter_list_status = filter_documentation_list_notestatus
+    filter_query = ""
+    if filter_documentation_list_case:
+        filter_query += f'case.case_name = "{filter_documentation_list_case.case_name}"'
+
+    if filter_documentation_list_notestatus:
+        if len(filter_query) > 0:
+            filter_query += " and "
+        filter_query += f'notestatus.notestatus_name = "{filter_documentation_list_notestatus.notestatus_name}"'
+
     if filter_documentation_list_tag:
-        user_config.filter_list_tag.set((filter_documentation_list_tag.tag_id,))
+        if len(filter_query) > 0:
+            filter_query += " and "
+        filter_query += f'tag.tag_id = {filter_documentation_list_tag.tag_id}'
+
+    user_config.filter_query = filter_query
     # save config
     user_config.save()
 
@@ -448,10 +459,8 @@ class DocumentationViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_documentation')
 
         # change config
-        case_1 = Case.objects.get(case_name='case_1')
         notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
-        tag_1 = Tag.objects.get(tag_name='tag_1')
-        set_user_config(test_user, case_1, notestatus_1, tag_1)
+        set_user_config(test_user, None, notestatus_1, None)
 
         # get config
         user_config = UserConfigModel.objects.get(
@@ -459,9 +468,10 @@ class DocumentationViewTestCase(TestCase):
         )
 
         # compare - settings before request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_status, notestatus_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(
+            user_config.filter_query,
+            f'notestatus.notestatus_name = "{notestatus_1.notestatus_name}"',
+        )
 
         # get response, should keep filter config
         self.client.get('/documentation/')
@@ -469,9 +479,10 @@ class DocumentationViewTestCase(TestCase):
         # refresh config
         user_config.refresh_from_db()
         # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_status, notestatus_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(
+            user_config.filter_query,
+            f'notestatus.notestatus_name = "{notestatus_1.notestatus_name}"',
+        )
 
     def test_documentation_list_reset_filter(self):
         """reset filter settings via config setting"""
@@ -502,9 +513,10 @@ class DocumentationViewTestCase(TestCase):
         )
 
         # compare - settings before request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_status, notestatus_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(
+            user_config.filter_query,
+            f'case.case_name = "{case_1.case_name}" and notestatus.notestatus_name = "{notestatus_1.notestatus_name}" and tag.tag_id = {tag_1.tag_id}',
+        )
 
         # get response, should reset filter config
         response = self.client.get('/documentation/clear_filter/')
@@ -512,9 +524,7 @@ class DocumentationViewTestCase(TestCase):
         # refresh config
         user_config.refresh_from_db()
         # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_status, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
+        self.assertEqual(user_config.filter_query, '')
 
         # get response again, filter should not be active any more
         response = self.client.get('/documentation/')
@@ -537,9 +547,7 @@ class DocumentationViewTestCase(TestCase):
         test_user = User.objects.get(username='testuser_documentation')
         # create post data, empty string has to be provided to avoid MultiValueDictKeyError because these fields are not part of ModelForm
         data_dict = {
-            'case': '',
-            'notestatus': '',
-            'tag': '',
+            'filter_query': '',
         }
 
         # get response
@@ -550,9 +558,7 @@ class DocumentationViewTestCase(TestCase):
             user_config_username=test_user, filter_view="documentation"
         )
         # compare
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_status, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
+        self.assertEqual(user_config.filter_query, '')
 
     def test_documentation_list_post_all(self):
         """test list view"""
@@ -567,9 +573,7 @@ class DocumentationViewTestCase(TestCase):
         tag_1 = Tag.objects.get(tag_name='tag_1')
         # create post data
         data_dict = {
-            'filter_list_case': case_1.case_id,
-            'filter_list_status': notestatus_1.notestatus_id,
-            'filter_list_tag': tag_1.tag_id,
+            'filter_query': f'notestatus.notestatus_id = {notestatus_1.notestatus_id}',
             'user_config_id': test_user.id,
         }
 
@@ -581,9 +585,10 @@ class DocumentationViewTestCase(TestCase):
             user_config_username=test_user, filter_view="documentation"
         )
         # compare
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_status, notestatus_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(
+            user_config.filter_query,
+            f'notestatus.notestatus_id = {notestatus_1.notestatus_id}',
+        )
 
     def test_documentation_clear_filter_not_logged_in(self):
         """test clear_filter view"""
@@ -623,9 +628,7 @@ class DocumentationViewTestCase(TestCase):
 
         # change config
         case_1 = Case.objects.get(case_name='case_1')
-        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
-        tag_1 = Tag.objects.get(tag_name='tag_1')
-        set_user_config(test_user, case_1, notestatus_1, tag_1)
+        set_user_config(test_user, case_1, None, None)
 
         # get config
         user_config = UserConfigModel.objects.get(
@@ -633,9 +636,9 @@ class DocumentationViewTestCase(TestCase):
         )
 
         # compare - settings before request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_status, notestatus_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
+        self.assertEqual(
+            user_config.filter_query, f'case.case_name = "{case_1.case_name}"'
+        )
 
         # get response, should clear filter config, but keep 'filter_documentation_list_keep'
         self.client.get('/documentation/clear_filter/')
@@ -643,34 +646,7 @@ class DocumentationViewTestCase(TestCase):
         # refresh config
         user_config.refresh_from_db()
         # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_status, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
-
-        # change config
-        case_1 = Case.objects.get(case_name='case_1')
-        notestatus_1 = Notestatus.objects.get(notestatus_name='notestatus_1')
-        tag_1 = Tag.objects.get(tag_name='tag_1')
-        set_user_config(test_user, case_1, notestatus_1, tag_1)
-
-        # refresh config not working because of generic foreign keyno
-        user_config = UserConfigModel.objects.get(
-            user_config_username=test_user, filter_view="documentation"
-        )
-        # compare - settings before request
-        self.assertEqual(user_config.filter_list_case, case_1)
-        self.assertEqual(user_config.filter_list_status, notestatus_1)
-        self.assertEqual(user_config.filter_list_tag.first(), tag_1)
-
-        # get response, should reset filter config, but keep 'filter_documentation_list_keep'
-        self.client.get('/documentation/clear_filter/')
-
-        # refresh config
-        user_config.refresh_from_db()
-        # compare - settings after request
-        self.assertEqual(user_config.filter_list_case, None)
-        self.assertEqual(user_config.filter_list_status, None)
-        self.assertEqual(user_config.filter_list_tag.first(), None)
+        self.assertEqual(user_config.filter_query, "")
 
     def test_documentation_list_filter_message(self):
         """test filter warning message"""
