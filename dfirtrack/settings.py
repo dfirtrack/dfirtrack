@@ -57,10 +57,10 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
             ],
         },
     },
@@ -273,3 +273,50 @@ try:
 
 except ImportError:  # coverage: ignore branch
     CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
+
+# Single switch for OIDC authentication
+OIDC_ENABLED = os.getenv("OIDC_ENABLED", "False") == "True"
+
+if OIDC_ENABLED:
+    AUTHENTICATION_BACKENDS = (
+        "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
+        "django.contrib.auth.backends.ModelBackend",   # keep for admin/superuser fallback if desired
+    )
+
+    # Ensure all required OIDC variables are set
+    from django.core.exceptions import ImproperlyConfigured
+
+    OIDC_RP_CLIENT_ID = os.getenv("OIDC_RP_CLIENT_ID", "")
+    OIDC_RP_CLIENT_SECRET = os.getenv("OIDC_RP_CLIENT_SECRET", "")
+    OIDC_OP_AUTHORIZATION_ENDPOINT = os.getenv("OIDC_OP_AUTHORIZATION_ENDPOINT", "")
+    OIDC_OP_TOKEN_ENDPOINT = os.getenv("OIDC_OP_TOKEN_ENDPOINT", "")
+    OIDC_OP_USER_ENDPOINT = os.getenv("OIDC_OP_USER_ENDPOINT", "")
+    OIDC_OP_JWKS_ENDPOINT = os.getenv("OIDC_OP_JWKS_ENDPOINT", "")
+    OIDC_RP_SIGN_ALGO = os.getenv("OIDC_RP_SIGN_ALGO", "")
+    SITE_URL = os.getenv("SITE_URL", "")
+
+    OIDC_CREATE_USER = False
+
+    required_vars = [
+        ("OIDC_RP_CLIENT_ID", OIDC_RP_CLIENT_ID),
+        ("OIDC_RP_CLIENT_SECRET", OIDC_RP_CLIENT_SECRET),
+        ("OIDC_OP_AUTHORIZATION_ENDPOINT", OIDC_OP_AUTHORIZATION_ENDPOINT),
+        ("OIDC_OP_TOKEN_ENDPOINT", OIDC_OP_TOKEN_ENDPOINT),
+        ("OIDC_OP_USER_ENDPOINT", OIDC_OP_USER_ENDPOINT),
+        ("OIDC_OP_JWKS_ENDPOINT", OIDC_OP_JWKS_ENDPOINT),
+        ("OIDC_RP_SIGN_ALGO", OIDC_RP_SIGN_ALGO),
+        ("SITE_URL", SITE_URL),
+    ]
+    missing = [name for name, value in required_vars if not value]
+    if missing:
+        raise ImproperlyConfigured(
+            f"OIDC_ENABLED is True, but the following OIDC settings are missing: {', '.join(missing)}"
+        )
+else:
+    AUTHENTICATION_BACKENDS = (
+        "django.contrib.auth.backends.ModelBackend",
+    )
+
+# Needed if DFIRTrack is run behind a proxy to get correct scheme
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

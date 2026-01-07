@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import include, path, re_path
+from dfirtrack_main.views_login import CustomLoginView
 
 from dfirtrack import views
 
@@ -12,7 +13,7 @@ urlpatterns = [
     re_path(r'^', include('dfirtrack_main.urls')),
     re_path(r'^artifacts/', include('dfirtrack_artifacts.urls')),
     re_path(r'^config/', include('dfirtrack_config.urls')),
-    re_path(r'^login/', LoginView.as_view(template_name='dfirtrack_main/login.html')),
+    re_path(r'^login/', CustomLoginView.as_view(template_name='dfirtrack_main/login.html')),
     re_path(
         r'^logout/', LogoutView.as_view(template_name='dfirtrack_main/logout.html')
     ),
@@ -27,3 +28,9 @@ if 'dfirtrack_api' in settings.INSTALLED_APPS:
 urlpatterns += [
     path('main_overview/', views.main_overview_redirect, name='main_overview'),
 ]
+
+from django.conf import settings
+if getattr(settings, "OIDC_ENABLED", False):
+    urlpatterns += [
+        path("oidc/", include("mozilla_django_oidc.urls")),
+    ]

@@ -14,3 +14,4 @@ xlrd
 xlwt
 uritemplate
 martor
+mozilla-django-oidc
