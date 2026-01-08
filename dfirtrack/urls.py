@@ -13,7 +13,9 @@ urlpatterns = [
     re_path(r'^', include('dfirtrack_main.urls')),
     re_path(r'^artifacts/', include('dfirtrack_artifacts.urls')),
     re_path(r'^config/', include('dfirtrack_config.urls')),
-    re_path(r'^login/', CustomLoginView.as_view(template_name='dfirtrack_main/login.html')),
+    re_path(
+        r'^login/', CustomLoginView.as_view(template_name='dfirtrack_main/login.html')
+    ),
     re_path(
         r'^logout/', LogoutView.as_view(template_name='dfirtrack_main/logout.html')
     ),
@@ -30,6 +32,7 @@ urlpatterns += [
 ]
 
 from django.conf import settings
+
 if getattr(settings, "OIDC_ENABLED", False):
     urlpatterns += [
         path("oidc/", include("mozilla_django_oidc.urls")),

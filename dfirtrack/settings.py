@@ -57,10 +57,10 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-            'django.template.context_processors.debug',
-            'django.template.context_processors.request',
-            'django.contrib.auth.context_processors.auth',
-            'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
@@ -280,7 +280,7 @@ OIDC_ENABLED = os.getenv("OIDC_ENABLED", "False") == "True"
 if OIDC_ENABLED:
     AUTHENTICATION_BACKENDS = (
         "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
-        "django.contrib.auth.backends.ModelBackend",   # keep for admin/superuser fallback if desired
+        "django.contrib.auth.backends.ModelBackend",  # keep for admin/superuser fallback if desired
     )
 
     # Ensure all required OIDC variables are set
@@ -313,9 +313,7 @@ if OIDC_ENABLED:
             f"OIDC_ENABLED is True, but the following OIDC settings are missing: {', '.join(missing)}"
         )
 else:
-    AUTHENTICATION_BACKENDS = (
-        "django.contrib.auth.backends.ModelBackend",
-    )
+    AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 
 # Needed if DFIRTrack is run behind a proxy to get correct scheme
 USE_X_FORWARDED_HOST = True
