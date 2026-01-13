@@ -291,15 +291,15 @@ if OIDC_ENABLED:
 
     try:
         from .local_settings import (
-            OIDC_RP_CLIENT_ID,
-            OIDC_RP_CLIENT_SECRET,
+            OIDC_CREATE_USER,
             OIDC_OP_AUTHORIZATION_ENDPOINT,
+            OIDC_OP_JWKS_ENDPOINT,
             OIDC_OP_TOKEN_ENDPOINT,
             OIDC_OP_USER_ENDPOINT,
-            OIDC_OP_JWKS_ENDPOINT,
+            OIDC_RP_CLIENT_ID,
+            OIDC_RP_CLIENT_SECRET,
             OIDC_RP_SIGN_ALGO,
             SITE_URL,
-            OIDC_CREATE_USER,
         )
     except ImportError:
         OIDC_RP_CLIENT_ID = os.getenv("OIDC_RP_CLIENT_ID", "")

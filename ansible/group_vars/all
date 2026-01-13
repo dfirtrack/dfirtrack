@@ -1,2 +1,13 @@
 ---
+# OIDC authentication variables for DFIRTrack
+oidc_enabled: "False"  # Set to "True" to enable OIDC authentication
+oidc_rp_client_id: ""  # OIDC client ID
+oidc_rp_client_secret: ""  # OIDC client secret
+oidc_op_authorization_endpoint: ""  # OIDC authorization endpoint
+oidc_op_token_endpoint: ""  # OIDC token endpoint
+oidc_op_user_endpoint: ""  # OIDC userinfo endpoint
+oidc_op_jwks_endpoint: ""  # OIDC JWKS endpoint
+oidc_rp_sign_algo: ""  # OIDC signing algorithm (e.g., RS256)
+site_url: ""  # Public URL of your DFIRTrack instance
+
 ansible_ssh_user: "forensics"

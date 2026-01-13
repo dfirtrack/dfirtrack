@@ -7,6 +7,17 @@ PIDFile=/run/gunicorn/pid
 User={{ ansible_user }}
 Group={{ ansible_user }}
 WorkingDirectory={{ dfirtrack_dir }}
+
+Environment="OIDC_ENABLED={{ oidc_enabled | default('False') }}"
+Environment="OIDC_RP_CLIENT_ID={{ oidc_rp_client_id | default('') }}"
+Environment="OIDC_RP_CLIENT_SECRET={{ oidc_rp_client_secret | default('') }}"
+Environment="OIDC_OP_AUTHORIZATION_ENDPOINT={{ oidc_op_authorization_endpoint | default('') }}"
+Environment="OIDC_OP_TOKEN_ENDPOINT={{ oidc_op_token_endpoint | default('') }}"
+Environment="OIDC_OP_USER_ENDPOINT={{ oidc_op_user_endpoint | default('') }}"
+Environment="OIDC_OP_JWKS_ENDPOINT={{ oidc_op_jwks_endpoint | default('') }}"
+Environment="OIDC_RP_SIGN_ALGO={{ oidc_rp_sign_algo | default('') }}"
+Environment="SITE_URL={{ site_url | default('') }}"
+
 ExecStart={{ venv_dir }}/bin/gunicorn --log-file={{ log_dir }}/gunicorn.log --workers 4 --bind localhost:5000 dfirtrack.wsgi
 Restart=always
 TimeoutStartSec=10
