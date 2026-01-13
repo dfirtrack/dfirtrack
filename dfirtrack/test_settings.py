@@ -13,3 +13,5 @@ if len(sys.argv) > 1 and sys.argv[1] == 'test':
 
 # enable synchronous execution for django-q, async_task() won't work otherwise
 Q_CLUSTER['sync'] = True
+
+OIDC_ENABLED = True
