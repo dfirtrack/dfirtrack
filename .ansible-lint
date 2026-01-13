@@ -1,2 +1,3 @@
 warn_list:
   - no-changed-when
+  - var-naming

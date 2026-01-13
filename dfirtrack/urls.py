@@ -3,9 +3,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import include, path, re_path
-from dfirtrack_main.views_login import CustomLoginView
 
 from dfirtrack import views
+from dfirtrack_main.views_login import CustomLoginView
 
 urlpatterns = [
     re_path(r'^$', views.login_redirect, name='login_redirect'),
