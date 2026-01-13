@@ -93,6 +93,7 @@
       environment:
         LC_ALL: 'C.UTF-8'
       when: not markdown_exists.stat.exists
+      changed_when: true
 
     - name: MARKDOWN | Create subdirectory for systems
       ansible.builtin.file:
@@ -236,6 +237,7 @@
     - name: NGINX | Create self signed certificates for SSL
       ansible.builtin.command: 'openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/O={{ openssl_o }}/CN={{ fqdn }}/OU={{ openssl_ou }}" -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt'
       when: not certificate_exists.stat.exists
+      changed_when: true
 
     - name: NGINX | Remove server tokens
       ansible.builtin.replace:
