@@ -18,7 +18,15 @@ services:
             - FQDN=${fqdn}
             - SECRET_KEY=${django_secret_key}
             - DISABLE_HTTPS=false
-
+            - OIDC_ENABLED=${OIDC_ENABLED}
+            - OIDC_RP_CLIENT_ID=${OIDC_RP_CLIENT_ID}
+            - OIDC_RP_CLIENT_SECRET=${OIDC_RP_CLIENT_SECRET}
+            - OIDC_OP_AUTHORIZATION_ENDPOINT=${OIDC_OP_AUTHORIZATION_ENDPOINT}
+            - OIDC_OP_TOKEN_ENDPOINT=${OIDC_OP_TOKEN_ENDPOINT}
+            - OIDC_OP_USER_ENDPOINT=${OIDC_OP_USER_ENDPOINT}
+            - OIDC_OP_JWKS_ENDPOINT=${OIDC_OP_JWKS_ENDPOINT}
+            - OIDC_RP_SIGN_ALGO=${OIDC_RP_SIGN_ALGO}
+            - SITE_URL=${SITE_URL}
         ports:
             - 80:80
             - 443:443

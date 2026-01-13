@@ -88,5 +88,4 @@ class DocumentationFilterForm(GeneralFilterForm):
             'filter_list_tag',
             'filter_list_assigned_to_user_id',
             'user_config_id',
-            'filter_list_status',
         )

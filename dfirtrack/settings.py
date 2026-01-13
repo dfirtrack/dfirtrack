@@ -273,3 +273,32 @@ try:
 
 except ImportError:  # coverage: ignore branch
     CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
+
+# OIDC_ENABLED
+try:
+    from .local_settings import OIDC_ENABLED
+except ImportError:
+    OIDC_ENABLED = False
+
+if OIDC_ENABLED:
+    AUTHENTICATION_BACKENDS = (
+        "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
+        "django.contrib.auth.backends.ModelBackend",  # keep for admin/superuser fallback if desired
+    )
+    from .local_settings import (
+        OIDC_CREATE_USER,
+        OIDC_OP_AUTHORIZATION_ENDPOINT,
+        OIDC_OP_JWKS_ENDPOINT,
+        OIDC_OP_TOKEN_ENDPOINT,
+        OIDC_OP_USER_ENDPOINT,
+        OIDC_RP_CLIENT_ID,
+        OIDC_RP_CLIENT_SECRET,
+        OIDC_RP_SIGN_ALGO,
+        SITE_URL,
+    )
+else:
+    AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
+
+# Needed if DFIRTrack is run behind a proxy to get correct scheme
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

@@ -38,6 +38,16 @@
         Login
     </button>
 
+    {% if OIDC_ENABLED %}
+    <!-- OIDC login button -->
+    <div class="top-distance">
+        <a href="/oidc/authenticate/" class="btn btn-primary">
+            <img src="{% static 'dfirtrack_main/icons/account-login.svg' %}" class="icon right-distance copy-false" alt="icon">
+            Use OIDC Login
+        </a>
+    </div>
+    {% endif %}
+
 <!-- form -->
 </form>
 

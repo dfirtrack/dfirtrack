@@ -76,7 +76,7 @@ class DocumentationFilterFormTestCase(TestCase):
         # get notestatus
         notestatus = Notestatus.objects.get(notestatus_name='test_filter_forms_status')
 
-        # get object beofre assignment
+        # get object before assignment
         form_wo_notestatus = DocumentationFilterForm(
             data={'user_config_id': user_config.user_config_id}, instance=user_config
         )

@@ -4,13 +4,16 @@ django-q2
 djangorestframework
 gitpython
 gunicorn
+inflection
 mock
 mkdocs
 psycopg2
 psycopg2-binary
+pytz
 PyYAML
 requests
 xlrd
 xlwt
 uritemplate
 martor
+mozilla-django-oidc
