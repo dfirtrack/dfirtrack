@@ -275,7 +275,10 @@ except ImportError:  # coverage: ignore branch
     CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
 
 # Single switch for OIDC authentication
-OIDC_ENABLED = os.getenv("OIDC_ENABLED", "False") == "True"
+try:
+    from .local_settings import OIDC_ENABLED
+except ImportError:
+    OIDC_ENABLED = False
 
 if OIDC_ENABLED:
     AUTHENTICATION_BACKENDS = (
@@ -286,16 +289,28 @@ if OIDC_ENABLED:
     # Ensure all required OIDC variables are set
     from django.core.exceptions import ImproperlyConfigured
 
-    OIDC_RP_CLIENT_ID = os.getenv("OIDC_RP_CLIENT_ID", "")
-    OIDC_RP_CLIENT_SECRET = os.getenv("OIDC_RP_CLIENT_SECRET", "")
-    OIDC_OP_AUTHORIZATION_ENDPOINT = os.getenv("OIDC_OP_AUTHORIZATION_ENDPOINT", "")
-    OIDC_OP_TOKEN_ENDPOINT = os.getenv("OIDC_OP_TOKEN_ENDPOINT", "")
-    OIDC_OP_USER_ENDPOINT = os.getenv("OIDC_OP_USER_ENDPOINT", "")
-    OIDC_OP_JWKS_ENDPOINT = os.getenv("OIDC_OP_JWKS_ENDPOINT", "")
-    OIDC_RP_SIGN_ALGO = os.getenv("OIDC_RP_SIGN_ALGO", "")
-    SITE_URL = os.getenv("SITE_URL", "")
-
-    OIDC_CREATE_USER = False
+    try:
+        from .local_settings import (
+            OIDC_RP_CLIENT_ID,
+            OIDC_RP_CLIENT_SECRET,
+            OIDC_OP_AUTHORIZATION_ENDPOINT,
+            OIDC_OP_TOKEN_ENDPOINT,
+            OIDC_OP_USER_ENDPOINT,
+            OIDC_OP_JWKS_ENDPOINT,
+            OIDC_RP_SIGN_ALGO,
+            SITE_URL,
+            OIDC_CREATE_USER,
+        )
+    except ImportError:
+        OIDC_RP_CLIENT_ID = os.getenv("OIDC_RP_CLIENT_ID", "")
+        OIDC_RP_CLIENT_SECRET = os.getenv("OIDC_RP_CLIENT_SECRET", "")
+        OIDC_OP_AUTHORIZATION_ENDPOINT = os.getenv("OIDC_OP_AUTHORIZATION_ENDPOINT", "")
+        OIDC_OP_TOKEN_ENDPOINT = os.getenv("OIDC_OP_TOKEN_ENDPOINT", "")
+        OIDC_OP_USER_ENDPOINT = os.getenv("OIDC_OP_USER_ENDPOINT", "")
+        OIDC_OP_JWKS_ENDPOINT = os.getenv("OIDC_OP_JWKS_ENDPOINT", "")
+        OIDC_RP_SIGN_ALGO = os.getenv("OIDC_RP_SIGN_ALGO", "")
+        SITE_URL = os.getenv("SITE_URL", "")
+        OIDC_CREATE_USER = False
 
     required_vars = [
         ("OIDC_RP_CLIENT_ID", OIDC_RP_CLIENT_ID),
