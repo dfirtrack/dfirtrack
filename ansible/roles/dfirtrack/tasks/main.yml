@@ -39,14 +39,14 @@
 
     - name: DJANGO | Create subdirectory for virtual environment
       ansible.builtin.set_fact:
-        venv_dir: '{{ dfirtrack_dir }}/venv'
+        dfirtrack_venv_dir: '{{ dfirtrack_dir }}/venv'
 
     - name: DJANGO | Install django and requirements
       ansible.builtin.pip:
         requirements: '{{ dfirtrack_dir }}/requirements.txt'
         virtualenv_python: python3
         state: present
-        virtualenv: '{{ venv_dir }}'
+        virtualenv: '{{ dfirtrack_venv_dir }}'
 
 - name: DFIRTRACK | Create log directory
   ansible.builtin.file:
@@ -84,7 +84,7 @@
     - name: MARKDOWN | Check for existing project
       ansible.builtin.stat:
         path: '{{ markdown_dir }}/{{ markdown_proj }}/'
-      register: markdown_exists
+      register: dfirtrack_markdown_exists
 
     - name: MARKDOWN | Init project
       ansible.builtin.command:
@@ -92,7 +92,7 @@
         cmd: 'mkdocs new {{ markdown_proj }}'
       environment:
         LC_ALL: 'C.UTF-8'
-      when: not markdown_exists.stat.exists
+      when: not dfirtrack_markdown_exists.stat.exists
 
     - name: MARKDOWN | Create subdirectory for systems
       ansible.builtin.file:
@@ -167,31 +167,31 @@
 
     - name: POSTGRESQL | Set path of config (Ubuntu 18.04)
       ansible.builtin.set_fact:
-        postgresql_config: '/etc/postgresql/10/main/pg_hba.conf'
+        dfirtrack_postgresql_config: '/etc/postgresql/10/main/pg_hba.conf'
       when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
 
     - name: POSTGRESQL | Set path of config (Ubuntu 20.xx)
       ansible.builtin.set_fact:
-        postgresql_config: '/etc/postgresql/12/main/pg_hba.conf'
+        dfirtrack_postgresql_config: '/etc/postgresql/12/main/pg_hba.conf'
       when: >
         (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.04') or
         (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '20.10')
 
     - name: POSTGRESQL | Set path of config (Ubuntu 21.10)
       ansible.builtin.set_fact:
-        postgresql_config: '/etc/postgresql/13/main/pg_hba.conf'
+        dfirtrack_postgresql_config: '/etc/postgresql/13/main/pg_hba.conf'
       when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '21.10'
 
     - name: POSTGRESQL | Set path of config (Ubuntu 22.xx)
       ansible.builtin.set_fact:
-        postgresql_config: '/etc/postgresql/14/main/pg_hba.conf'
+        dfirtrack_postgresql_config: '/etc/postgresql/14/main/pg_hba.conf'
       when: >
         (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.04') or
         (ansible_distribution == 'Ubuntu' and ansible_distribution_version == '22.10')
 
     - name: POSTGRESQL | Edit config for backup
       ansible.builtin.replace:
-        name: '{{ postgresql_config }}'
+        name: '{{ dfirtrack_postgresql_config }}'
         regexp: '^local   all             all                                     peer'
         replace: 'local   all             all                                     md5'
       notify:
@@ -231,11 +231,11 @@
     - name: NGINX | Check for existing certificates
       ansible.builtin.stat:
         path: '/etc/nginx/ssl/nginx.crt'
-      register: certificate_exists
+      register: dfirtrack_certificate_exists
 
     - name: NGINX | Create self signed certificates for SSL
       ansible.builtin.command: 'openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/O={{ openssl_o }}/CN={{ fqdn }}/OU={{ openssl_ou }}" -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt'
-      when: not certificate_exists.stat.exists
+      when: not dfirtrack_certificate_exists.stat.exists
 
     - name: NGINX | Remove server tokens
       ansible.builtin.replace:
@@ -265,7 +265,7 @@
 - name: DJANGO
   module_defaults:
     community.general.django_manage:
-      virtualenv: '{{ venv_dir }}'
+      virtualenv: '{{ dfirtrack_venv_dir }}'
   block:
     - name: DJANGO | Migrate
       community.general.django_manage:
